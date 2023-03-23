@@ -46,7 +46,19 @@ h1 {
 }
 
 .div-conhecimentos {
+    height: 500px;
+    overflow-y: auto;
+    overflow-x: auto;
     margin-left: 20px;
+}
+
+.imagem-com-texto {
+    border-radius: 10px;
+    background-color: rgba(255, 228, 196, 0.692);
+}
+
+ul li:hover {
+    font-weight: bold;
 }
 
 h2 {
@@ -89,12 +101,6 @@ body {
     font-family: 'Cairo Play', cursive;
     padding-top: 0.1px;
     display: inline-block;
-}
-
-.div-conhecimentos {
-    height: 500px;
-    overflow-y: auto;
-    overflow-x: auto;
 }
 
 .imagem-com-texto {
