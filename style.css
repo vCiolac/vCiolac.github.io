@@ -1,0 +1,88 @@
+.head-buttons a {
+    text-decoration: none;
+    color: #2E282A;
+}
+
+.head-buttons {
+    background-color: #9CB380;
+    border-radius: 10px;
+    width: 180px;
+    height: 20px;
+    padding: 8px;
+    text-align: center;
+    display: inline-block;
+    font-weight: 900;
+    font-family: 'Cairo Play', cursive;
+    padding-top: 0.1px;
+}
+
+h1 {
+    font-family: 'Noto Serif', serif;
+    text-align: left;
+}
+
+#avatar {
+    border-radius: 75%;
+    width: 280px;
+    float: left;
+    margin-right: 20px;
+    margin-left: 5px;
+    margin-bottom: 20px;
+}
+
+#introducao {
+    font-size: 15px;
+    font-weight: 40px;
+    font-family: monospace;
+}
+
+h2 {
+    font-family: 'Noto Serif', serif;
+}
+
+body {
+    background-image: url(bg.jpg);
+    background-size: 100%;
+}
+
+#sobre {
+    margin-left: 6px;
+}
+
+.s130 {
+    font-size: 130%;
+}
+
+.s125 {
+    font-size: 125%;
+}
+
+.s120 {
+    font-size: 120%;
+}
+
+.s115 {
+    font-size: 115%;
+}
+
+.tail-buttons {
+    background-color: #077187;
+    border-radius: 10px;
+    width: 180px;
+    height: 20px;
+    padding: 8px;
+    text-align: center;
+    font-weight: 900;
+    font-family: 'Cairo Play', cursive;
+    padding-top: 0.1px;
+    display: inline-block;
+}
+.div-conhecimentos {
+    height: 500px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+.imagem-com-texto {
+    height: 280px;
+
+}
