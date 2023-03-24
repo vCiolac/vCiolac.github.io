@@ -1,3 +1,7 @@
+#topbuttons {
+    text-align: center;
+}
+
 .head-buttons a {
     text-decoration: none;
     color: #2E282A;
@@ -18,6 +22,31 @@
 
 .head-buttons:hover {
     background-color: #077187;
+}
+
+body {
+    background: transparent url('./images/background.png');
+    background-attachment: fixed;
+    background-size: 100%;
+    color: white;
+}
+
+.primeira-box {
+    width: 10px;
+    height: 100px;
+    box-sizing: border-box;
+}
+
+#cogu1 {
+    background-image: url("./images/body.png");
+    background-repeat: no-repeat;
+    width: 1860px;
+    height: 1880px;
+}
+
+.title {
+    height: 280px;
+    margin-left: 180px;
 }
 
 h1 {
@@ -42,19 +71,14 @@ h1 {
 
 .div-habilidades {
     clear: both;
-    margin-left: 20px;
+    margin-left: 180px;
 }
 
 .div-conhecimentos {
     height: 500px;
     overflow-y: auto;
     overflow-x: auto;
-    margin-left: 20px;
-}
-
-.imagem-com-texto {
-    border-radius: 10px;
-    background-color: rgba(255, 228, 196, 0.692);
+    margin-left: 180px;
 }
 
 ul li:hover {
@@ -63,11 +87,6 @@ ul li:hover {
 
 h2 {
     font-family: 'Noto Serif', serif;
-}
-
-body {
-    background-image: url(bg.jpg);
-    background-size: 100%;
 }
 
 #sobre {
@@ -101,9 +120,4 @@ body {
     font-family: 'Cairo Play', cursive;
     padding-top: 0.1px;
     display: inline-block;
-}
-
-.imagem-com-texto {
-    height: 280px;
-
 }
