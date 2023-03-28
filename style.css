@@ -1,27 +1,28 @@
 #topbuttons {
     text-align: center;
 }
-
-.head-buttons a {
-    text-decoration: none;
-    color: #2E282A;
-}
-
-.head-buttons {
-    background-color: #9CB380;
-    border-radius: 10px;
-    width: 180px;
-    height: 20px;
-    padding: 8px;
-    text-align: center;
-    display: inline-block;
-    font-weight: 900;
+.button {
+	box-shadow:inset 0px 1px 0px 0px #91b8b3;
+	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
+	background-color:#768d87;
+	border-radius:3px;
+	border:1px solid #566963;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
     font-family: 'Cairo Play', cursive;
-    padding-top: 0.1px;
+	font-size:14px;
+	padding:6px 12px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2b665e;
 }
-
-.head-buttons:hover {
-    background-color: #077187;
+.button:hover {
+	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
+	background-color:#6c7c7c;
+}
+.button:active {
+	position:relative;
+	top:1px;
 }
 
 body {
@@ -37,7 +38,7 @@ body {
     box-sizing: border-box;
 }
 
-#cogu1 {
+.cogu1 {
     background-image: url("./images/body.png");
     background-repeat: no-repeat;
     width: 1860px;
