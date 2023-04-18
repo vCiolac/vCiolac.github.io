@@ -32,14 +32,33 @@ const generateActButtons = (inner1, inner2) => {
 };
 generatePageButtons();
 // generateActButtons('Bater', 'Defender');
-const savePage = () => {
-  const leftContent = lastLeftPage;
-  const rightContent = lastRightPage;
-  localStorage.setItem('pageLeftNumber', leftContent);
-  localStorage.setItem('pageRightNumber', rightContent);
+const prevPage = () => {
+  const leftNumber = JSON.parse(localStorage.getItem('pageLeftNumber'));
+  pageLeft.textContent = pageLeftContent[lastLeftPage-1];
+  localStorage.setItem('pageLeftNumber', leftNumber);
+  const rightNumber = JSON.parse(localStorage.getItem('pageRightNumber'));
+  pageRight.textContent = pageRightContent[lastRightPage-1];
+  localStorage.setItem('pageRightNumber', rightNumber);
 };  
+
+const nextPage = () => {
+  const leftNumber = JSON.parse(localStorage.getItem('pageLeftNumber'));
+  pageLeft.textContent = pageLeftContent[lastLeftPage+1];
+  localStorage.setItem('pageLeftNumber', leftNumber);
+  const rightNumber = JSON.parse(localStorage.getItem('pageRightNumber'));
+  pageRight.textContent = pageRightContent[lastRightPage+1];
+  localStorage.setItem('pageRightNumber', rightNumber);
+};  
+
+// const nextPage = () => {
+//   pageRightContent[+1] ;
+// };
 
 const pageC = document.getElementsByClassName('pageControls');
 for (const button of pageC) {
-  button.addEventListener('click', savePage);
+  if (button === 0) {
+    button.addEventListener('click', prevPage);
+  } else {
+    button.addEventListener('click', nextPage);
+  }
 };

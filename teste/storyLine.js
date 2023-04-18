@@ -13,8 +13,8 @@ const pageRightContent = [
   'jayjay',
   'noventa',
 ];
-const lastLeftPage = parseInt(localStorage.getItem('pageLeftNumber')) || 0;
-const lastRightPage = parseInt(localStorage.getItem('pageRightNumber')) || 0;
+let lastLeftPage = parseInt(localStorage.getItem('pageLeftNumber')) || 0;
+let lastRightPage = parseInt(localStorage.getItem('pageRightNumber')) || 0;
 function loadPage() {
   const leftContent = pageLeftContent[lastLeftPage];
   const rightContent = pageRightContent[lastRightPage] ;
