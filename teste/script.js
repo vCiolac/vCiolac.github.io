@@ -34,31 +34,39 @@ generatePageButtons();
 // generateActButtons('Bater', 'Defender');
 const prevPage = () => {
   const leftNumber = JSON.parse(localStorage.getItem('pageLeftNumber'));
-  pageLeft.textContent = pageLeftContent[lastLeftPage-1];
-  localStorage.setItem('pageLeftNumber', leftNumber);
   const rightNumber = JSON.parse(localStorage.getItem('pageRightNumber'));
+  if (leftNumber <= 0 || rightNumber <= 0) {
+    return alert('Você já está no inicio do livro');
+  }
+  pageLeft.textContent = pageLeftContent[lastLeftPage-1];
+  localStorage.setItem('pageLeftNumber', leftNumber-1);
   pageRight.textContent = pageRightContent[lastRightPage-1];
-  localStorage.setItem('pageRightNumber', rightNumber);
+  localStorage.setItem('pageRightNumber', rightNumber-1);
+  location.reload()
 };  
 
 const nextPage = () => {
   const leftNumber = JSON.parse(localStorage.getItem('pageLeftNumber'));
-  pageLeft.textContent = pageLeftContent[lastLeftPage+1];
-  localStorage.setItem('pageLeftNumber', leftNumber);
   const rightNumber = JSON.parse(localStorage.getItem('pageRightNumber'));
+  if (leftNumber > pageLeftContent.length-2 || rightNumber > pageRightContent.length-2) {
+    return alert('Em construção! Você chegou à ultima pagina atual.');
+  }
+  pageLeft.textContent = pageLeftContent[lastLeftPage+1];
+  localStorage.setItem('pageLeftNumber', leftNumber+1);
   pageRight.textContent = pageRightContent[lastRightPage+1];
-  localStorage.setItem('pageRightNumber', rightNumber);
+  localStorage.setItem('pageRightNumber', rightNumber+1);
+  location.reload()
 };  
 
 // const nextPage = () => {
 //   pageRightContent[+1] ;
 // };
-
-const pageC = document.getElementsByClassName('pageControls');
-for (const button of pageC) {
-  if (button === 0) {
-    button.addEventListener('click', prevPage);
+const pageC = document.getElementsByClassName('pageControls')[0];
+const buttons = pageC.children;
+for (let i = 0; i < buttons.length; i += 1) {
+  if (i === 0) {
+    buttons[i].addEventListener('click', prevPage);
   } else {
-    button.addEventListener('click', nextPage);
+    buttons[i].addEventListener('click', nextPage);
   }
-};
+}
