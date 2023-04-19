@@ -1,0 +1,59 @@
+.color {
+  border: 1px solid black;
+  padding-top: 2px;
+  padding-left: 8px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 55px;
+  width: 60px;
+  color: white;
+}
+
+h1 {
+  text-align: center;
+}
+
+#color-palette {
+  align-items: center;
+  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, 62px);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+#button-random-color {
+  grid-row-start: 2;
+  margin: auto;
+  margin-left: 87.5px;
+}
+
+#clean {
+  display: grid;
+  margin-bottom: 8px;
+  justify-items: center;
+  gap: 10px;
+  grid-template-columns: repeat(2, 80px);
+  justify-content: center;
+  margin-left: 35px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+#pixel-board {
+  border: 3px solid black;
+  padding: 5px;
+  width: fit-content;
+}
+
+.pixel {
+  border: 1px solid black;
+  width: 40px;
+  height: 40px;
+}
