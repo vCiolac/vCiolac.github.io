@@ -5,7 +5,7 @@
 }
 
 .book {
-  background: url("/images/retro-open-book.png") no-repeat scroll 50% 50%;
+  background: url("images/retro-open-book.png") no-repeat scroll 50% 50%;
   width: 826px;
   height: 469px;
   margin: 50px auto;
