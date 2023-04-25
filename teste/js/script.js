@@ -69,8 +69,8 @@ function selectOption(option) {
 const textNodes = [
   {
     id: 1,
-    textLeft: 'Já é noite e você está precisando de uma bebida, a Taverna de Dallas é um lugar bem movimentado e com música alta, normalmente com uma atmosfera alegre. Ao entrar, você senta e se depara com um grupo de exploradores em uma mesa próxima ao bar, discutindo os detalhes de sua próxima missão.',
-    textRight: 'Eles haviam sido contratados para encontrar um objeto místico que estava escondido nas profundezas de uma masmorra, mas ainda não haviam planejado a estratégia para a jornada.',
+    textLeft: 'Já é noite e você está precisando de uma bebida, a Taverna de Dallas é um lugar bem movimentado e com música alta, normalmente uma atmosfera alegre. Ao entrar, você senta e se depara com um grupo de exploradores em uma mesa próxima ao bar, discutindo os detalhes de sua próxima missão.',
+    textRight: 'Eles haviam sido contratados para encontrar um artefato místico que estava escondido nas profundezas de uma masmorra, mas ainda não haviam planejado a estratégia para a jornada.',
     options: [
       {
         text: 'Pegar uma bebida',
@@ -79,7 +79,7 @@ const textNodes = [
       },
       {
         text: 'Juntar-se aos exploradores',
-        nextText: 2
+        nextText: 3.2
       }
     ]
   },
@@ -91,13 +91,11 @@ const textNodes = [
       {
         text: 'Oferecer um brinde aos exploradores',
         requiredState: (currentState) => currentState.beer,
-        setState: { beer: false },
+        setState: { beer: false, dignity: true },
         nextText: 3.1
       },
       {
         text: 'Conversar com Clargoth',
-        requiredState: (currentState) => currentState.beer,
-        setState: { beer: true },
         nextText: 3.2
       },
       {
@@ -108,9 +106,9 @@ const textNodes = [
   },
   {
     id: 3.1,
-    textLeft: `Ao oferecer um brinde para Clargoth e seu grupo, ele ergue a sobrancelha em surpresa, mas logo aceita com um sorriso largo no rosto e diz:
+    textLeft: `Ao oferecer uma bebida para Clargoth e seu grupo, ele ergue a sobrancelha em surpresa, mas logo aceita com um sorriso largo no rosto e diz:
     "Muito obrigado, meu amigo. Nós comemorar nossa vitória juntos!", levantando a caneca de hidromel em um brinde"`,
-    textRight: 'Vejo que você gosta de aventuras, hmmm... Deseja se juntar à nós? exclama Clargoth,',
+    textRight: 'Vejo que você gosta de aventuras, hmmm... Deseja se juntar à nós? exclama Clargoth',
     options: [
       {
         text: 'Sim! Estou sedento por ação',
@@ -128,10 +126,14 @@ const textNodes = [
     textRight: 'Clargoth é um líder orc leal e forte que sempre terá o interesse de seus amigos em primeiro lugar.',
     options: [
       {
-        text: 'Oferecer uma bebida para Clargoth',
+        text: 'Oferecer um brinde aos exploradores',
         requiredState: (currentState) => currentState.beer,
-        setState: { beer: false },
+        setState: { beer: false, dignity: true },
         nextText: 3.1
+      },
+      {
+        text: 'Dizer que deseja ir atrás do artefato também',
+        nextText: 4
       },
       {
         text: 'Nada não.',
@@ -141,12 +143,18 @@ const textNodes = [
   },
   {
     id: 4,
-    textLeft: 'Clargoth bebe a bebida em um gole só, mostrando sua habilidade de consumir grandes quantidades de álcool. Depois de terminar, Clargoth bate na mesa com força e grita "Mais um pro time!" e então ele começa a cantar uma música de sua terra natal. Os outros frequentadores da taverna param para ouvir, enquanto o orc entoa a canção com uma voz potente e rouca.. Você e os outros membros da mesa se juntam a ele na cantoria, criando uma atmosfera animada na taverna. Depois de alguns minutos, a música termina e Clargoth se volta para você, com um olhar de cumplicidade.',
-    textRight: 'Pensando bem... Antes você precisa provar que é digno!',
+    textLeft: 'Clargoth bebe sua bebida em um gole só, mostrando habilidade em consumir grandes quantidades de álcool. Depois de terminar, Clargoth bate na mesa com força e grita "Mais um pro time!" e então ele começa a cantar uma música de sua terra natal. Os outros frequentadores da taverna param para ouvir, enquanto o orc entoa a canção com uma voz potente e rouca..',
+    textRight: `Você e os outros membros da mesa se juntam a ele na cantoria, criando uma atmosfera animada na taverna. Depois de alguns minutos, a música termina e Clargoth se volta para você, com um olhar de cumplicidade, e diz:
+    Pensando bem... Se você quer ser um membro deste grupo, você deve provar seu valor.`,
     options: [
       {
-        text: 'Eu sou digno!',
-        setState: { group: true },
+        text: 'Eu acabei de pagar uma rodada de bebida pra vocês...',
+        requiredState: (currentState) => currentState.dignity,
+        setState: { dignity: false },
+        nextText: 6
+      },
+      {
+        text: 'Sou forte e posso provar à você',
         nextText: 5
       },
       {
@@ -158,30 +166,103 @@ const textNodes = [
   {
     id: 5,
     textLeft: `Ele se vira para você com uma expressão séria, mas ainda amigável.
-    "Eu vou fazer algumas perguntas para testar suas habilidades e determinação. Você está pronto?"`,
-    textRight: 'BARABAM.',
+    "Eu vou fazer algumas perguntas para testar suas habilidades e determinação. Você está pronto?", ele diz, encarando você com um olhar desafiador.`,
+    textRight: 'Você pode sentir a pressão aumentar, mas sabe que é importante provar sua habilidade para ganhar seu respeito',
     options: [
       {
-        text: 'Restart',
+        text: 'Pode mandar',
+        nextText: 5.1
+      },
+    ]
+  },
+  {
+    id: 5.1,
+    textLeft: `Qual é a melhor arma para se usar contra um troll de pedra?`,
+    textRight: 'Pense bem, amigo. Se o troll perceber que estamos planejando atacá-lo, ele pode ficar ainda mais feroz e nos dar um problema ainda maior.',
+    options: [
+      {
+        text: 'Uma arma que possa causar danos por esmagamento, como um martelo de guerra ou uma maça',
+        nextText: 5.2
+      },
+      {
+        text: 'Uma lança ou uma flecha, seria capaz de penetrar na pele dura do troll de pedra',
+        nextText: 5.2
+      },
+      {
+        text: 'Usar um feitiço de congelamento',
+        nextText: 5.4
+      }
+    ]
+  },
+  {
+    id: 5.2,
+    textLeft: `Certo, e como você lidaria com um dragão que cuspe fogo?`,
+    textRight: `Os dragões são extremamente inteligentes e podem antecipar nossos movimentos. Precisamos pensar em algo que possa enganá-lo, algo que ele não espera.`,
+    options: [
+      {
+        text: 'Usar uma arma mágica que cause danos adicionais a criaturas mágicas.',
+        nextText: 5.3
+      },
+      {
+        text: 'Atacar o dragão com uma arma inflamável, para criar uma explosão e causar mais dano',
+        nextText: 5.4
+      },
+      {
+        text: 'Usar um escudo mágico ou feitiço de proteção para se proteger do fogo do dragão',
+        nextText: 5.3
+      }
+    ]
+  },
+  {
+    id: 5.3,
+    textLeft: `Ok. Em uma batalha contra um grupo de goblins, como você faria com sua equipe para obter a vitória?`,
+    textRight: `Ahh os goblins... Nossos inimigos mais frequentes, eles são ágeis e imprevisíveis, e isso pode ser um problema para nós. É necesssário ser astuto e não subestimá-los.`,
+    options: [
+      {
+        text: 'Convencê-los a se renderem em troca de ouro e tesouros, usando o poder da persuasão',
+        nextText: 5.4
+      },
+      {
+        text: 'Manter a equipe unida e criar uma formação defensiva para proteger os membros mais fracos',
+        nextText: 6
+      },
+      {
+        text: 'Dividir a equipe em grupos menores para cobrir mais terreno e atacar os goblins por trás',
+        nextText: 6
+      }
+    ]
+  },
+  {
+    id: 5.4,
+    textLeft: `Sinto muito, meu amigo, mas você não tem o que é preciso para fazer parte do nosso grupo.`,
+    textRight: `Nós precisamos de guerreiros fortes e habilidosos, que possam enfrentar as ameaças que encontrarmos em nossas jornadas. Talvez você precise treinar mais e aprimorar suas habilidades antes de se aventurar em perigos maiores.`,
+    options: [
+      {
+        text: 'Reiniciar',
         nextText: -1
       }
     ]
   },
   {
     id: 6,
-    textLeft: 'You wake up well rested and full of energy ready to explore the nearby castle.',
-    textRight: 'BARABAM.',
+    textLeft: `Muito bem, meu amigo! Você provou ser um guerreiro forte e habilidoso, e estou feliz em ter você em nosso grupo. Mas não se engane, o caminho que temos pela frente é cheio de perigos,monstros que desafiam a lógica e a própria natureza habitam a masmorra em que estamos prestes a entrar.`,
+    textRight: `Nossas habilidades e forças serão testadas além do que podemos suportar, e muitos que começam essa jornada com nós não voltam. Saiba que a morte é um destino certo e horrível que aguarda aqueles que são fracos e imprudentes.`,
     options: [
       {
-        text: 'Explore the castle',
+        text: 'Eu entendo os perigos que nos aguardam e estou aqui para enfrentá-los',
+        nextText: 7
+      },
+      {
+        text: 'Irei lutar até o fim por nosso objetivo',
         nextText: 7
       }
     ]
   },
   {
     id: 7,
-    textLeft: 'While exploring the castle you come across a horrible monster in your path.',
-    textRight: 'BARABAM.',
+    textLeft: `Clargoth olhou fixamente para você. 
+    "Antes de partirmos, preciso saber mais sobre você", disse ele, franzindo os olhos.`,
+    textRight: 'Não consigo ver bem seu rosto com essas roupas e capa. Me diga, o que você é e qual o seu nome?',
     options: [
       {
         text: 'Try to run',
@@ -250,8 +331,8 @@ const textNodes = [
   },
   {
     id: 12,
-    textLeft: 'As horas passam... Os exploradores bebem mais do que deveriam. Garrick, o bardô, cantava canções antigas em voz alta, enquanto Clargoth, batia em sua mesa com a caneca, rindo das piadas sujas que seus outros parceiros contavam.',
-    textRight: 'Você acabou bebendo mais do que aguentava. A última coisa que se lembra é de ter acabado de tomar um grande gole de hidromel e depois tudo ficou escuro.',
+    textLeft: 'As horas passam... Os exploradores beberam mais do que deveriam. Garrick, o bardô, cantava canções antigas em voz alta, enquanto Clargoth, batia em sua mesa com a caneca, rindo das piadas sujas que seus outros parceiros contavam.',
+    textRight: 'Você acabou bebendo mais do que aguentava. A última coisa de que se lembra é de ter acabado de tomar um grande gole de hidromel e depois tudo ficou escuro.',
     options: [
       {
         text: 'Reiniciar',
