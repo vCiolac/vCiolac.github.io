@@ -1,16 +1,30 @@
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  font-family: 'Press Start 2P', cursive;
+  line-height: 1.5em;
 }
 
-.book {
-  background: url("../img/book.png") no-repeat scroll 50% 50%;
-  width: 826px;
-  height: 469px;
+body {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #333;
+}
+
+.book-container {
+  display: flex;
+  max-width: 80%;
+  max-height: 80%;
+  padding: 10px 10px; 
+  border-radius: 5px;
+  background: url("/img/book.png") no-repeat center center fixed;
+  background-size: cover;
   margin: 50px auto;
-  position: relative;
-  background-color: #f2f2f2;
   box-shadow:
   2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
   6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
@@ -19,117 +33,69 @@
   41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
   100px 100px 80px rgba(0, 0, 0, 0.07)
 ;
-  overflow: hidden;
 }
 
-.pageLeft {
-  padding: 65px 45px 75px 128px;
-  overflow: auto;
-  font-size: 20px;
-  line-height: 1.5;
-  text-align: justify;
-  background-size: cover;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 50%;
-  height: 100%;
+#space {
+  margin: 48px;
 }
 
-.pageRight {
-  padding: 65px 130px 65px 45px;
-  overflow: auto;
-  font-size: 20px;
-  line-height: 1.5;
-  text-align: justify;
-  background-size: cover;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 50%;
-  height: 100%;
+.pageLeft, .pageRight  {
+  flex: 1;
+  padding: 5px 10px;
 }
 
-#prevPage {
-  position: absolute;
-  left: 45%;
-  transform: translateX(-45%);
+#pageControls, #actionControls {
+display: grid;
+grid-template-columns: repeat(2, auto);
+gap: 10px;
+margin-top: 20px;
 }
 
-#nextPage {
-  position: absolute;
-  left: 55%;
-  transform: translateX(-55%);
-}
-
-#firstAction {
-  position: absolute;
-  right: 29%;
-  top: 61.5%;
-  transform: translateX(29%);
-}
-
-#secondAction {
-  position: absolute;
-  right: 40%;
-  top: 61.5%;
-  transform: translateX(40%);
-}
-
-.pageButton {
+.btnBackPage, .btnReset {
   display: inline-block;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
   box-sizing: content-box;
   cursor: pointer;
-  padding: 0 20px;
+  padding: 0 15px;
   border: none;
-  -webkit-border-radius: 20px;
   border-radius: 20px;
-  font: normal normal bold 20px/40px "Baumans", Helvetica, sans-serif;
+  font: normal normal bold 15px/25px "Baumans", Helvetica, sans-serif;
   color: black;
-  -o-text-overflow: clip;
   text-overflow: clip;
   background: rgb(221, 221, 221);
-  -webkit-box-shadow: 0 1px 0 0 rgb(119,119,119) , 0 2px 0 0 rgb(119,119,119) , 0 3px 0 0 rgb(119,119,119) , 0 4px 0 0 rgb(119,119,119) , 0 5px 0 0 rgb(119,119,119) , 0 6px 0 0 rgb(119,119,119) , 0 0 5px 0 rgba(0,0,0,0.0980392) , 0 1px 3px 0 rgba(0,0,0,0.298039) , 0 3px 5px 0 rgba(0,0,0,0.2) , 0 5px 10px 0 rgba(0,0,0,0.247059) , 0 10px 10px 0 rgba(0,0,0,0.2) , 0 20px 20px 0 rgba(0,0,0,0.14902) ;
   box-shadow: 0 1px 0 0 rgb(119,119,119) , 0 2px 0 0 rgb(119,119,119) , 0 3px 0 0 rgb(119,119,119) , 0 4px 0 0 rgb(119,119,119) , 0 5px 0 0 rgb(119,119,119) , 0 6px 0 0 rgb(119,119,119) , 0 0 5px 0 rgba(0,0,0,0.0980392) , 0 1px 3px 0 rgba(0,0,0,0.298039) , 0 3px 5px 0 rgba(0,0,0,0.2) , 0 5px 10px 0 rgba(0,0,0,0.247059) , 0 10px 10px 0 rgba(0,0,0,0.2) , 0 20px 20px 0 rgba(0,0,0,0.14902) ;
   text-shadow: 0 1px 0 #FFFFFF ;
 }
 
-.pageButton:hover {
-  background: #FFFFFF;
+.btnBackPage:hover, .btnReset:hover {
+  background: rgb(175, 172, 172);
 }
 
-.pageButton:active {
-  margin: 6px 0 0;
+.btnBackPage:active, .btnReset:active {
+  margin: 2px 0 0;
   background: rgb(221, 221, 221);
-  -webkit-box-shadow: 0 -1px 10px 0 rgba(0,0,0,0.247059) , 0 4px 10px 0 rgba(0,0,0,0.2) , 0 14px 20px 0 rgba(0,0,0,0.14902) ;
   box-shadow: 0 -1px 10px 0 rgba(0,0,0,0.247059) , 0 4px 10px 0 rgba(0,0,0,0.2) , 0 14px 20px 0 rgba(0,0,0,0.14902) ;
 }
 
-.actionButton {
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
+.btnAct {
   box-sizing: content-box;
-  width: 9%;
+  margin: 5px;
   cursor: pointer;
   overflow: hidden;
   border: 1px solid;
   font: normal 19px/1 "Acme", Helvetica, sans-serif;
   color: rgba(0,0,0,1);
   text-align: center;
-  -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
   background: #ffffff;
-  -webkit-box-shadow: 3px 3px 0 0 rgba(0,0,0,0.8) ;
   box-shadow: 3px 3px 0 0 rgba(0,0,0,0.8) ;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
 }
 
-.actionButton:active {
+.btnAct:active {
   margin: 3px 0 0 3px;
-  -webkit-box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.8) ;
   box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.8) ;
+}
+
+.btnAct:hover {
+  background: rgba(226, 79, 79, 0.432);
 }
