@@ -1,27 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
-  <link async href="http://fonts.googleapis.com/css?family=Baumans" data-generated="http://enjoycss.com" rel="stylesheet" type="text/css"/>
-  <link async href="http://fonts.googleapis.com/css?family=Acme" data-generated="http://enjoycss.com" rel="stylesheet" type="text/css"/>
-  <title>Document</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link async href="http://fonts.googleapis.com/css?family=Baumans" data-generated="http://enjoycss.com"
+    rel="stylesheet" type="text/css" />
+  <link async href="http://fonts.googleapis.com/css?family=Acme" data-generated="http://enjoycss.com" rel="stylesheet"
+    type="text/css" />
+  <title>Choices - Story Game</title>
 </head>
+
 <body>
-  <main>
-  <section class="book">
+  <section class="book-container">
     <section class="pageLeft">
-    </section>
-    <section class="pageRight"></section>
+      <div id="textLeft">Text Left</div>
   </section>
-    <section class="pageControls">
-    </section>
-    <section class="actionControls">
-    </section>
-</main>
-<script src="js/script.js"></script>
-<script src="js/storyLine.js"></script>
+  <div id="space"></div>
+  <section class="pageRight">
+    <div id="textRight">Text Right</div>
+  </section>
+  </section>
+  <section id="actionControls">
+    <button class="btnAct">Option 1</button>
+    <button class="btnAct">Option 2</button>
+  </section>
+  <section id="pageControls">
+    <!-- <button class="btnBackPage">Voltar</button> -->
+    <button class="btnReset">Reiniciar</button>
+  </section>
+  <script src="js/script.js"></script>
 </body>
+
 </html>
