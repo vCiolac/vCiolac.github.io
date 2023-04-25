@@ -123,7 +123,7 @@ const textNodes = [
   {
     id: 3.2,
     textLeft: '"Ei, meu amigo. Algum problema? Meu grupo precisa se preparar para a jornada que virá em breve.", diz Clargoth, sorrindo de forma amistosa',
-    textRight: 'Clargoth é um líder orc leal e forte que sempre terá o interesse de seus amigos em primeiro lugar.',
+    textRight: 'Clargoth é um líder Orc. Leal e forte que sempre terá o interesse de seus amigos em primeiro lugar.',
     options: [
       {
         text: 'Oferecer um brinde aos exploradores',
@@ -165,9 +165,10 @@ const textNodes = [
   },
   {
     id: 5,
-    textLeft: `Ele se vira para você com uma expressão séria, mas ainda amigável.
-    "Eu vou fazer algumas perguntas para testar suas habilidades e determinação. Você está pronto?", ele diz, encarando você com um olhar desafiador.`,
-    textRight: 'Você pode sentir a pressão aumentar, mas sabe que é importante provar sua habilidade para ganhar seu respeito',
+    textLeft: `Ele se vira para você com uma expressão séria.
+    "Vou fazer algumas perguntas para testar suas habilidades. Você está pronto?".
+    Clargoth diz, encarando você com um olhar desafiador.`,
+    textRight: 'Você pode sentir a pressão aumentar, mas sabe que é importante provar sua habilidade para ganhar seu respeito.',
     options: [
       {
         text: 'Pode mandar',
@@ -177,8 +178,8 @@ const textNodes = [
   },
   {
     id: 5.1,
-    textLeft: `Qual é a melhor arma para se usar contra um troll de pedra?`,
-    textRight: 'Pense bem, amigo. Se o troll perceber que estamos planejando atacá-lo, ele pode ficar ainda mais feroz e nos dar um problema ainda maior.',
+    textLeft: `"Qual é a melhor arma para se usar contra um troll de pedra?"`,
+    textRight: '"Pense bem, amigo. Se o troll perceber que estamos planejando atacá-lo, ele pode ficar ainda mais feroz e nos dar um problema ainda maior."',
     options: [
       {
         text: 'Uma arma que possa causar danos por esmagamento, como um martelo de guerra ou uma maça',
@@ -196,8 +197,8 @@ const textNodes = [
   },
   {
     id: 5.2,
-    textLeft: `Certo, e como você lidaria com um dragão que cuspe fogo?`,
-    textRight: `Os dragões são extremamente inteligentes e podem antecipar nossos movimentos. Precisamos pensar em algo que possa enganá-lo, algo que ele não espera.`,
+    textLeft: `"Certo, e como você lidaria com um dragão que cospe fogo?"`,
+    textRight: `"Os dragões são extremamente inteligentes e podem antecipar nossos movimentos. Precisamos pensar em algo que possa enganá-lo, algo que ele não espera."`,
     options: [
       {
         text: 'Usar uma arma mágica que cause danos adicionais a criaturas mágicas.',
@@ -208,15 +209,16 @@ const textNodes = [
         nextText: 5.4
       },
       {
-        text: 'Usar um escudo mágico ou feitiço de proteção para se proteger do fogo do dragão',
+        text: `Usar um escudo mágico ou feitiço de proteção para se proteger do fogo do dragão
+        `,
         nextText: 5.3
       }
     ]
   },
   {
     id: 5.3,
-    textLeft: `Ok. Em uma batalha contra um grupo de goblins, como você faria com sua equipe para obter a vitória?`,
-    textRight: `Ahh os goblins... Nossos inimigos mais frequentes, eles são ágeis e imprevisíveis, e isso pode ser um problema para nós. É necesssário ser astuto e não subestimá-los.`,
+    textLeft: `"Ok. Em uma batalha contra um grupo de goblins, como você faria com sua equipe para obter a vitória?"`,
+    textRight: `"Ahh os goblins... Nossos inimigos mais frequentes, eles são ágeis e imprevisíveis, e isso pode ser um problema para nós. É necesssário ser astuto e não subestimá-los."`,
     options: [
       {
         text: 'Convencê-los a se renderem em troca de ouro e tesouros, usando o poder da persuasão',
@@ -234,8 +236,8 @@ const textNodes = [
   },
   {
     id: 5.4,
-    textLeft: `Sinto muito, meu amigo, mas você não tem o que é preciso para fazer parte do nosso grupo.`,
-    textRight: `Nós precisamos de guerreiros fortes e habilidosos, que possam enfrentar as ameaças que encontrarmos em nossas jornadas. Talvez você precise treinar mais e aprimorar suas habilidades antes de se aventurar em perigos maiores.`,
+    textLeft: `"Sinto muito, meu amigo, mas você não tem o que é preciso para fazer parte do nosso grupo."`,
+    textRight: `"Nós precisamos de guerreiros fortes e habilidosos, que possam enfrentar as ameaças que encontrarmos em nossas jornadas. Talvez você precise treinar mais e aprimorar suas habilidades antes de se aventurar em perigos maiores."`,
     options: [
       {
         text: 'Reiniciar',
@@ -245,8 +247,8 @@ const textNodes = [
   },
   {
     id: 6,
-    textLeft: `Muito bem, meu amigo! Você provou ser um guerreiro forte e habilidoso, e estou feliz em ter você em nosso grupo. Mas não se engane, o caminho que temos pela frente é cheio de perigos,monstros que desafiam a lógica e a própria natureza habitam a masmorra em que estamos prestes a entrar.`,
-    textRight: `Nossas habilidades e forças serão testadas além do que podemos suportar, e muitos que começam essa jornada com nós não voltam. Saiba que a morte é um destino certo e horrível que aguarda aqueles que são fracos e imprudentes.`,
+    textLeft: `"Muito bem, meu amigo! Você provou ser um guerreiro forte e habilidoso, e estou feliz em ter você em nosso grupo. Mas não se engane, o caminho que temos pela frente é cheio de perigos, monstros que desafiam a lógica e a própria natureza habitam a masmorra em que estamos prestes a entrar."`,
+    textRight: `"Nossas habilidades e forças serão testadas além do que podemos suportar, e muitos que começam essa jornada com nós não voltam" conclui Clargoth, "Saiba que a morte é um destino certo e horrível que aguarda aqueles que são fracos e imprudentes."`,
     options: [
       {
         text: 'Eu entendo os perigos que nos aguardam e estou aqui para enfrentá-los',
@@ -260,28 +262,24 @@ const textNodes = [
   },
   {
     id: 7,
-    textLeft: `Clargoth olhou fixamente para você. 
-    "Antes de partirmos, preciso saber mais sobre você", disse ele, franzindo os olhos.`,
-    textRight: 'Não consigo ver bem seu rosto com essas roupas e capa. Me diga, o que você é e qual o seu nome?',
+    textLeft: `Clargoth olhou fixamente para você. "Antes de partirmos, preciso saber mais sobre você", disse ele franzindo os olhos em sua direção.`,
+    textRight: `Não consigo ver bem seu rosto com essas roupas e capa escura.
+     Me diga, qual o seu nome? 
+    E qual criatura é você?`,
     options: [
       {
-        text: 'Try to run',
-        nextText: 8
+        text: 'Correr',
+        nextText: 12
       },
       {
-        text: 'Attack it with your sword',
-        requiredState: (currentState) => currentState.sword,
-        nextText: 9
+        text: 'Que tal mais uma caneca de hidromel?',
+        requiredState: (currentState) => currentState.beer,
+        nextText: 8
       },
       {
         text: 'Hide behind your shield',
         requiredState: (currentState) => currentState.shield,
         nextText: 10
-      },
-      {
-        text: 'Throw the blue goo at it',
-        requiredState: (currentState) => currentState.beer,
-        nextText: 11
       }
     ]
   },
