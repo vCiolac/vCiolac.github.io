@@ -7,7 +7,9 @@ const resetBtn = document.getElementsByClassName('btnReset')[0];
 let state = {};
 
 function startGame() {
-  state = {}
+  state = {
+    playerName: '',
+  }
   showTextNode(1)
 }
 
