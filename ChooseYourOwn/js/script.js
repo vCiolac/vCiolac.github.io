@@ -300,7 +300,7 @@ const textNodes = [
   },
   {
     id: 6,
-    textLeft: `"Muito bem, meu amigo! Você provou ser um guerreiro forte e habilidoso, e estou feliz em ter você em nosso grupo. Mas não se engane, o caminho que temos pela frente é cheio de perigos, monstros que desafiam a lógica e a própria natureza habitam a masmorra em que estamos prestes a entrar."`,
+    textLeft: `"Muito bem, meu amigo! Você provou ser um guerreiro habilidoso, e estou feliz em ter você em nosso grupo. Mas não se engane, o caminho que temos pela frente é cheio de perigos, monstros que desafiam a lógica e a própria natureza habitam a masmorra em que estamos prestes a entrar."`,
     textRight: `"Nossas habilidades e forças serão testadas além do que podemos suportar, e muitos que começam essa jornada com nós não voltam" conclui Clargoth, "Saiba que a morte é um destino certo e horrível que aguarda aqueles que são fracos e imprudentes."`,
     options: [
       {
