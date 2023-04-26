@@ -4,17 +4,29 @@ const optionActButtons = document.getElementById('actionControls');
 const resetBtn = document.getElementsByClassName('btnReset')[0];
 // const backPageBtn = document.getElementsByClassName('btnBackPage')[0];
 
-let state = {};
+let state = {}
 
-function startGame() {
-  state = {
-    playerName: '',
-  }
-  showTextNode(1)
+function startGame(num) {
+  state = {}
+  showTextNode(num)
 }
 
+function loadGameState() {
+  const savedState = localStorage.getItem('gameState');
+  const savedPages = localStorage.getItem('gamePage');
+  if (savedState !== null || savedPages !== null ) {
+    state = JSON.parse(savedState);
+    startGame(JSON.parse(savedPages));
+  } else {
+    startGame(1);
+  }
+}
+
+
 function restart() {
-  return startGame()
+  startGame(1)
+  localStorage.clear('gameState');
+  localStorage.clear('gamePage');
 }
 resetBtn.addEventListener('click', restart);
 
@@ -55,6 +67,11 @@ function showTextNode(textNodeIndex) {
       optionActButtons.appendChild(button)
     }
   })
+  function saveGameState() {
+    localStorage.setItem('gameState', JSON.stringify(state));
+    localStorage.setItem('gamePage', JSON.stringify(textNodeIndex));
+  }
+  saveGameState()
 }
 
 function showOption(option) { // Verifica se tem o state requirido para o botão
@@ -64,11 +81,12 @@ function showOption(option) { // Verifica se tem o state requirido para o botão
 function selectOption(option) {
   const nextTextNodeId = option.nextText
   if (nextTextNodeId <= 0) {
-    return startGame()
+    return restart()
   }
   state = Object.assign(state, option.setState) // Pega o state atual e adiciona tudo do setState clicado.
   showTextNode(nextTextNodeId)
 }
+
 
 function addInputName(num) {
   const textNode = textNodes.find(textNode => textNode.id === num)
@@ -78,12 +96,12 @@ function addInputName(num) {
   input.placeholder = 'Escreva seu nome'
   input.id = 'playerName'
 
-  function inputSubimit(event) {
-    let playerName = { playerName: event.target.value }
-    state = Object.assign(state, playerName)
+  function addName() {
+    const playerNameInput = document.getElementById("playerName");
+    state.playerName = playerNameInput.value;
   }
 
-  input.addEventListener('change', inputSubimit)
+  input.addEventListener('change', addName)
   input.setAttribute('required', 'required');
   optionActButtons.appendChild(input)
 
@@ -392,4 +410,4 @@ const textNodes = [
   }
 ]
 
-startGame()
+loadGameState()
