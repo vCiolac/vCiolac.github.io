@@ -16,7 +16,7 @@ function loadGameState() {
   const savedPages = localStorage.getItem('gamePage');
   if (savedState !== null || savedPages !== null ) {
     state = JSON.parse(savedState);
-    startGame(JSON.parse(savedPages));
+    showTextNode(JSON.parse(savedPages));
   } else {
     startGame(1);
   }
