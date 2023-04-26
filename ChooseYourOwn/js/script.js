@@ -6,13 +6,27 @@ const resetBtn = document.getElementsByClassName('btnReset')[0];
 
 let state = {}
 
-function startGame() {
+function startGame(num) {
   state = {}
-  showTextNode(1)
+  showTextNode(num)
 }
 
-function restart () {
-  return startGame()
+function loadGameState() {
+  const savedState = localStorage.getItem('gameState');
+  const savedPages = localStorage.getItem('gamePage');
+  if (savedState !== null || savedPages !== null ) {
+    state = JSON.parse(savedState);
+    showTextNode(JSON.parse(savedPages));
+  } else {
+    startGame(1);
+  }
+}
+
+
+function restart() {
+  startGame(1)
+  localStorage.clear('gameState');
+  localStorage.clear('gamePage');
 }
 resetBtn.addEventListener('click', restart);
 
@@ -35,14 +49,16 @@ resetBtn.addEventListener('click', restart);
 // }
 
 function showTextNode(textNodeIndex) {
-  const textNode = textNodes.find(textNode => textNode.id === textNodeIndex)
+  const textNode = textNodes.find(textNode => textNode.id === textNodeIndex) // Passa por todos os arrays de textnodes, procura o 'id' e faz textNode.id ser igual ao numero atribuido na selectOption.
   textLeftElement.innerText = textNode.textLeft
   textRightElement.innerText = textNode.textRight
   while (optionActButtons.firstChild) {
     optionActButtons.removeChild(optionActButtons.firstChild)
   }
-
-  textNode.options.forEach(option => {
+  if (textNodeIndex === 7) {
+    return addInputName(7)
+  }
+  textNode.options.forEach(option => { // Para cada options dentro do Id cria seus botões com o text.
     if (showOption(option)) {
       const button = document.createElement('button')
       button.innerText = option.text
@@ -51,25 +67,61 @@ function showTextNode(textNodeIndex) {
       optionActButtons.appendChild(button)
     }
   })
+  function saveGameState() {
+    localStorage.setItem('gameState', JSON.stringify(state));
+    localStorage.setItem('gamePage', JSON.stringify(textNodeIndex));
+  }
+  saveGameState()
 }
 
-function showOption(option) {
+function showOption(option) { // Verifica se tem o state requirido para o botão
   return option.requiredState == null || option.requiredState(state)
-}
+} // Se a opção não pedir nada /\     ou se a opção pedir algo /\, executa a função.
 
 function selectOption(option) {
   const nextTextNodeId = option.nextText
   if (nextTextNodeId <= 0) {
-    return startGame()
+    return restart()
   }
-  state = Object.assign(state, option.setState)
+  state = Object.assign(state, option.setState) // Pega o state atual e adiciona tudo do setState clicado.
   showTextNode(nextTextNodeId)
 }
+
+
+function addInputName(num) {
+  const textNode = textNodes.find(textNode => textNode.id === num)
+  const input = document.createElement('input')
+  input.type = 'text'
+  input.name = 'playerName'
+  input.placeholder = 'Escreva seu nome'
+  input.id = 'playerName'
+
+  function addName() {
+    const playerNameInput = document.getElementById("playerName");
+    state.playerName = playerNameInput.value;
+  }
+
+  input.addEventListener('change', addName)
+  input.setAttribute('required', 'required');
+  optionActButtons.appendChild(input)
+
+  textNode.options.forEach(option => {
+    if (showOption(option)) {
+      const button = document.createElement('button')
+      button.innerText = option.text
+      button.name = 'playerName'
+      button.classList.add('btnAct')
+      button.addEventListener('click', () => selectOption(option))
+      optionActButtons.appendChild(button)
+    }
+  })
+}
+
 
 const textNodes = [
   {
     id: 1,
-    textLeft: 'Já é noite e você está precisando de uma bebida, a Taverna de Dallas é um lugar bem movimentado e com música alta, normalmente uma atmosfera alegre. Ao entrar, você senta e se depara com um grupo de exploradores em uma mesa próxima ao bar, discutindo os detalhes de sua próxima missão.',
+    textLeft: 'A noite caiu e você sente sede.. A Taverna de Dallas está sempre agitada, com música alta e um clima animado. Ao entrar, você senta e se depara com um grupo de aventureiros sentados em uma mesa próxima ao bar, discutindo os detalhes de sua próxima expedição.',
     textRight: 'Eles haviam sido contratados para encontrar um artefato místico que estava escondido nas profundezas de uma masmorra, mas ainda não haviam planejado a estratégia para a jornada.',
     options: [
       {
@@ -86,7 +138,8 @@ const textNodes = [
   {
     id: 2,
     textLeft: 'Um guerreiro de aparência imponente ergue sua taça de hidromel e chama a atenção dos outros membros.',
-    textRight: '"Companheiros, nós preparar para a jornada que vir! Mas antes, aproveitar noite e beber em honra do sucesso futuro!", disse Clargoth, o líder orc do grupo, com um sorriso malicioso no rosto.',
+    textRight: `Com um sorriso malicioso no rosto, Clargoth, o líder orc do grupo diz: 
+    "Companheiros, nós preparar para a jornada que vir! Mas antes, aproveitar noite e beber em honra do sucesso futuro!"`,
     options: [
       {
         text: 'Oferecer um brinde aos exploradores',
@@ -268,36 +321,53 @@ const textNodes = [
     E qual criatura é você?`,
     options: [
       {
-        text: 'Correr',
+        text: 'Hmm... Que tal mais uma caneca de hidromel?',
+        requiredState: (currentState) => currentState.beer,
+        setState: { beer: false },
         nextText: 12
       },
       {
-        text: 'Que tal mais uma caneca de hidromel?',
-        requiredState: (currentState) => currentState.beer,
+        text: 'Você não vê? Também sou orc.',
+        setState: { imOrc: true },
         nextText: 8
       },
       {
-        text: 'Hide behind your shield',
-        requiredState: (currentState) => currentState.shield,
-        nextText: 10
+        text: 'Sou um humano',
+        setState: { imHuman: true },
+        nextText: 8
+      },
+      {
+        text: 'Sou um elfo',
+        setState: { imElf: true },
+        nextText: 8
+      },
+      {
+        text: 'Sou um Gnomo',
+        setState: { imGnome: true },
+        nextText: 8
+      },
+      {
+        text: 'Sou um Goblin!',
+        setState: { imGoblin: true },
+        nextText: 8
       }
     ]
   },
   {
     id: 8,
-    textLeft: 'Your attempts to run are in vain and the monster easily catches.',
-    textRight: 'BARABAM.',
+    textLeft: `Parabéns ${state.playerName} você é dez`,
+    textRight: `uuoou  ${state.playerName} `,
     options: [
       {
-        text: 'Restart',
-        nextText: -1
+        text: 'Restart ',
+        nextText: 9
       }
     ]
   },
   {
     id: 9,
-    textLeft: 'You foolishly thought this monster could be slain with a single sword.',
-    textRight: 'BARABAM.',
+    textLeft: `Parabéns ${state} você é dez`,
+    textRight: 'BARABAM.2',
     options: [
       {
         text: 'Restart',
@@ -340,4 +410,4 @@ const textNodes = [
   }
 ]
 
-startGame()
+loadGameState()
