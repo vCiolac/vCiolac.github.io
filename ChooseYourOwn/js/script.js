@@ -78,6 +78,7 @@ function showTextNode(textNodeIndex) {
     hpFirstGrandChild.style.width = 100 + '%';
     mpFirstGrandChild.style.width = 100 + '%';
     xpFirstGrandChild.style.width = 0 + '%';
+    level.innerHTML = 1;
   }
   if (textNodeIndex === 7) {
     return addInputText(7, 'playerName', 'Escreva seu nome');
@@ -226,7 +227,7 @@ const textNodes = [
     options: [
       {
         text: 'Pegar uma bebida',
-        setState: { beer: true },
+        setState: { mead: 1 },
         nextText: 2
       },
       {
@@ -243,8 +244,8 @@ const textNodes = [
     options: [
       {
         text: 'Oferecer um brinde aos exploradores',
-        requiredState: (currentState) => currentState.beer,
-        setState: { beer: false, dignity: true },
+        requiredState: (currentState) => currentState.mead === 1,
+        setState: { mead: false, dignity: true },
         nextText: 3.1
       },
       {
@@ -284,8 +285,8 @@ const textNodes = [
       },
       {
         text: 'Oferecer um brinde aos exploradores',
-        requiredState: (currentState) => currentState.beer,
-        setState: { beer: false, dignity: true },
+        requiredState: (currentState) => currentState.mead === 1,
+        setState: { mead: false, dignity: true },
         nextText: 3.1
       },
       {
@@ -424,8 +425,8 @@ const textNodes = [
     options: [
       {
         text: 'Hmm... Que tal mais uma caneca de hidromel?',
-        requiredState: (currentState) => currentState.beer,
-        setState: { beer: false },
+        requiredState: (currentState) => currentState.mead === 1,
+        setState: { mead: false },
         nextText: 12
       },
       {
@@ -464,7 +465,7 @@ const textNodes = [
   },
   {
     id: 9,
-    textLeft: `Apanha safada`,
+    textLeft: `A`,
     textRight: 'e ganha XP',
     options: [
       {
