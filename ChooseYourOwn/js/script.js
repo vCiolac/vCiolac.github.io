@@ -4,30 +4,30 @@ const optionActButtons = document.getElementById('actionControls');
 const resetBtn = document.getElementsByClassName('btnReset')[0];
 // const backPageBtn = document.getElementsByClassName('btnBackPage')[0];
 
-let state = {}
+let state = {};
 
 function startGame(num) {
-  state = {}
-  showTextNode(num)
-}
+  state = {};
+  showTextNode(num);
+};
 
 function loadGameState() {
   const savedState = localStorage.getItem('gameState');
   const savedPages = localStorage.getItem('gamePage');
-  if (savedState !== null || savedPages !== null ) {
+  if (savedState !== null || savedPages !== null) {
     state = JSON.parse(savedState);
     showTextNode(JSON.parse(savedPages));
   } else {
     startGame(1);
   }
-}
-
+};
 
 function restart() {
-  startGame(1)
   localStorage.clear('gameState');
   localStorage.clear('gamePage');
-}
+  startGame(1);
+};
+
 resetBtn.addEventListener('click', restart);
 
 // function backPage () {
@@ -48,74 +48,87 @@ resetBtn.addEventListener('click', restart);
 //   });
 // }
 
+function createButtons(option, bar, hit) { // bar = "hp" || "mana" || "xp" // hit = 0.1 ~ 1.
+  const button = document.createElement('button');
+  button.innerText = option.text;
+  button.classList.add('btnAct');
+  button.addEventListener('click', () => selectOption(option));
+  optionActButtons.appendChild(button);
+  if (bar || hit) {
+    button.addEventListener('click', () => controlProgress(bar, hit));
+  }
+}
+
 function showTextNode(textNodeIndex) {
-  const textNode = textNodes.find(textNode => textNode.id === textNodeIndex) // Passa por todos os arrays de textnodes, procura o 'id' e faz textNode.id ser igual ao numero atribuido na selectOption.
-  textLeftElement.innerText = textNode.textLeft
-  textRightElement.innerText = textNode.textRight
+  const textNode = textNodes.find(textNode => textNode.id === textNodeIndex); // Passa por todos os arrays de textnodes, procura o 'id' e faz textNode.id ser igual ao numero atribuido na selectOption.
+  textLeftElement.innerText = textNode.textLeft;
+  textRightElement.innerText = textNode.textRight;
   while (optionActButtons.firstChild) {
-    optionActButtons.removeChild(optionActButtons.firstChild)
+    optionActButtons.removeChild(optionActButtons.firstChild);
   }
   if (textNodeIndex === 7) {
-    return addInputName(7)
+    return addInputText(7, 'playerName', 'Escreva seu nome');
   }
   textNode.options.forEach(option => { // Para cada options dentro do Id cria seus botões com o text.
+    if (textNodeIndex === 8) { // tem que por o Id anterior do texto que se quer dar hit.
+      createButtons(option, "hp", 0)
+    }
     if (showOption(option)) {
-      const button = document.createElement('button')
-      button.innerText = option.text
-      button.classList.add('btnAct')
-      button.addEventListener('click', () => selectOption(option))
-      optionActButtons.appendChild(button)
+      createButtons(option)
     }
   })
   function saveGameState() {
     localStorage.setItem('gameState', JSON.stringify(state));
     localStorage.setItem('gamePage', JSON.stringify(textNodeIndex));
   }
-  saveGameState()
-}
+  saveGameState();
+};
 
 function showOption(option) { // Verifica se tem o state requirido para o botão
-  return option.requiredState == null || option.requiredState(state)
+  return option.requiredState == null || option.requiredState(state);
 } // Se a opção não pedir nada /\     ou se a opção pedir algo /\, executa a função.
 
 function selectOption(option) {
-  const nextTextNodeId = option.nextText
+  const nextTextNodeId = option.nextText;
   if (nextTextNodeId <= 0) {
-    return restart()
+    return restart();
   }
-  state = Object.assign(state, option.setState) // Pega o state atual e adiciona tudo do setState clicado.
-  showTextNode(nextTextNodeId)
+  state = Object.assign(state, option.setState); // Pega o state atual e adiciona tudo do setState clicado.
+  showTextNode(nextTextNodeId);
 }
 
 
-function addInputName(num) {
-  const textNode = textNodes.find(textNode => textNode.id === num)
-  const input = document.createElement('input')
-  input.type = 'text'
-  input.name = 'playerName'
-  input.placeholder = 'Escreva seu nome'
-  input.id = 'playerName'
+function addInputText(numID, names, placeholder) { // Id que será add / name&id do input / placeholder
+  const textNode = textNodes.find(textNode => textNode.id === numID);
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.name = names;
+  input.placeholder = placeholder;
+  input.id = names;
 
-  function addName() {
-    const playerNameInput = document.getElementById("playerName");
-    state.playerName = playerNameInput.value;
-  }
+  input.addEventListener('change', () => {
+    const inputName = document.getElementById(names);
+    state[names] = inputName.value;
+    tradePageContent();
+  });
 
-  input.addEventListener('change', addName)
   input.setAttribute('required', 'required');
-  optionActButtons.appendChild(input)
+  optionActButtons.appendChild(input);
 
   textNode.options.forEach(option => {
     if (showOption(option)) {
-      const button = document.createElement('button')
-      button.innerText = option.text
-      button.name = 'playerName'
-      button.classList.add('btnAct')
-      button.addEventListener('click', () => selectOption(option))
-      optionActButtons.appendChild(button)
+      createButtons(option)
     }
   })
 }
+
+function tradePageContent() {
+  const objId8 = textNodes.find((obj) => obj.id === 8);
+  if (objId8) {
+    objId8.textLeft = `Parabéns ${state.playerName}, você é dez!`;
+  }
+};
+
 
 
 const textNodes = [
@@ -300,7 +313,7 @@ const textNodes = [
   },
   {
     id: 6,
-    textLeft: `"Muito bem, meu amigo! Você provou ser um guerreiro habilidoso, e estou feliz em ter você em nosso grupo. Mas não se engane, o caminho que temos pela frente é cheio de perigos, monstros que desafiam a lógica e a própria natureza habitam a masmorra em que estamos prestes a entrar."`,
+    textLeft: `"Muito bem, meu amigo! Você provou ser habilidoso, e estou feliz em ter você em nosso grupo. Mas não se engane, o caminho que temos pela frente é cheio de perigos, monstros que desafiam a lógica e a própria natureza habitam a masmorra em que estamos prestes a entrar."`,
     textRight: `"Nossas habilidades e forças serão testadas além do que podemos suportar, e muitos que começam essa jornada com nós não voltam" conclui Clargoth, "Saiba que a morte é um destino certo e horrível que aguarda aqueles que são fracos e imprudentes."`,
     options: [
       {
@@ -327,17 +340,12 @@ const textNodes = [
         nextText: 12
       },
       {
-        text: 'Você não vê? Também sou orc.',
-        setState: { imOrc: true },
-        nextText: 8
-      },
-      {
-        text: 'Sou um humano',
+        text: 'Sou um Humano',
         setState: { imHuman: true },
         nextText: 8
       },
       {
-        text: 'Sou um elfo',
+        text: 'Sou um Elfo',
         setState: { imElf: true },
         nextText: 8
       },
@@ -355,23 +363,23 @@ const textNodes = [
   },
   {
     id: 8,
-    textLeft: `Parabéns ${state.playerName} você é dez`,
+    textLeft: `Parabéns ${state.playerName}, você é dez!`,
     textRight: `uuoou  ${state.playerName} `,
     options: [
       {
-        text: 'Restart ',
+        text: 'Prox',
         nextText: 9
       }
     ]
   },
   {
     id: 9,
-    textLeft: `Parabéns ${state} você é dez`,
-    textRight: 'BARABAM.2',
+    textLeft: `Apanha safada`,
+    textRight: 'e ganha XP',
     options: [
       {
         text: 'Restart',
-        nextText: -1
+        nextText: 10
       }
     ]
   },
@@ -408,6 +416,14 @@ const textNodes = [
       }
     ]
   }
-]
+];
 
 loadGameState()
+
+function controlProgress(name, hit) {
+  (function (name) {
+    let progress = document.getElementById(name + "-bar");
+    RPGUI.set_value(progress, hit);
+  }
+  )(name);
+};

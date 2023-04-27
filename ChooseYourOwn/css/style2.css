@@ -1,0 +1,104 @@
+body,
+#container {
+  background: #222;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.rpgui-content h1 {
+  font-size: 1.1em
+}
+
+section .rpgui-container {
+  position: relative;
+}
+
+#cont {
+  position: relative;
+}
+
+#flow {
+overflow-y: scroll;
+}
+
+header {
+  padding: 25px;
+}
+
+.pageLeft {
+  width: 49%;
+  height: 300px;
+  display: inline-block;
+  overflow: auto;
+}
+
+.pageRight {
+  width: 49%;
+  height: 300px;
+  display: inline-block;
+  overflow: auto;
+}
+
+.rpgui-content ::-webkit-scrollbar-thumb, .rpgui-content::-webkit-scrollbar-thumb {
+  background-size: 100% 5%;
+}
+
+.btnAct {
+  align-items: center;
+  box-sizing: content-box;
+  margin: 5px;
+  cursor: pointer;
+  overflow: hidden;
+  border: 1px solid;
+  font: normal 19px/1 "Acme", Helvetica, sans-serif;
+  color: rgba(0, 0, 0, 1);
+  text-align: center;
+  text-overflow: ellipsis;
+  background: #ffffff;
+  box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.8);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.btnAct:active {
+  margin: 3px 0 0 3px;
+  box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.8);
+}
+
+.btnAct:hover {
+  background: rgba(226, 79, 79, 0.432);
+}
+
+.btnReset {
+  background-size: 82% 60%;
+  font-size: 0.85em;
+}
+
+#actionControls,
+#pageControls {
+  display: flex;
+  justify-content: center;
+}
+
+#bars {
+  display: flex;
+  flex-shrink: 1;
+  align-items: center;
+  gap: 1em;
+}
+
+@media screen and (max-width: 748px) {
+
+  .pageRight,
+  .pageLeft {
+    width: 100%;
+  }
+
+  #bars {
+  flex-direction: column;
+  }
+
+  #actionControls {
+  flex-direction: column;
+}
+
+}
