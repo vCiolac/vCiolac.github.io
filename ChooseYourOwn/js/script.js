@@ -44,25 +44,14 @@ resetBtn.addEventListener('click', restart);
 // }
 // backPageBtn.addEventListener('click', backPage);
 
-function createButtons(option, bar, hit) { // bar = "hp" || "mana" || "xp" // hit = 0.1 ~ 1.
-  const button = document.createElement('button');
-  button.innerText = option.text;
-  button.classList.add('btnAct');
-  button.addEventListener('click', () => selectOption(option));
-  optionActButtons.appendChild(button);
-  if (bar || hit) {
-    button.addEventListener('click', () => controlProgress(bar, hit));
-  }
-}
-
 function typeWriter(text, element) {
-  const speed = 50;
+  const speed = 25;
   let i = 0;
   element.innerHTML = '';
   function write() {
     if (i < text.length) {
       element.innerHTML += text.charAt(i);
-      i++;
+      i+= 1;
       setTimeout(write, speed);
     }
   }
@@ -80,11 +69,13 @@ function showTextNode(textNodeIndex) {
     return addInputText(7, 'playerName', 'Escreva seu nome');
   }
   textNode.options.forEach(option => { // Para cada options dentro do Id cria seus botões com o text.
-    if (textNodeIndex === 8) { // tem que por o Id anterior do texto que se quer dar hit.
-      createButtons(option, "hp", 10)
-    }
     if (showOption(option)) {
-      createButtons(option)
+      const button = document.createElement('button');
+      button.innerText = option.text;
+      button.classList.add('btnAct');
+      button.addEventListener('click', () => selectOption(option));
+      tradePageContent()
+      optionActButtons.appendChild(button);
     }
   })
   function saveGameState() {
@@ -96,17 +87,34 @@ function showTextNode(textNodeIndex) {
 
 function showOption(option) { // Verifica se tem o state requirido para o botão
   return option.requiredState == null || option.requiredState(state);
-} // Se a opção não pedir nada /\     ou se a opção pedir algo /\, executa a função.
+}; // Se a opção não pedir nada /\     ou se a opção pedir algo /\, executa a função.
 
 function selectOption(option) {
   const nextTextNodeId = option.nextText;
+  if (nextTextNodeId === 5.4){
+      hitBar("hp", 10);
+     }
   if (nextTextNodeId <= 0) {
     return restart();
   }
   state = Object.assign(state, option.setState); // Pega o state atual e adiciona tudo do setState clicado.
   showTextNode(nextTextNodeId);
-}
+};
 
+function hitBar(bar, hit) { // bar = "hp" || "mana" || "xp" // hit = 0.1 ~ 1.);
+  controlProgress(bar, hit);
+};
+
+function controlProgress(name, hit) {
+(function (name) {
+  let progress = document.getElementById(name + "-bar");
+  let firstChild = progress.firstChild;
+  let firstGrandChild = firstChild.firstChild;
+  firstGrandChild.style.width =  parseInt(firstGrandChild.style.width) - `${hit}` + '%';
+  localStorage.setItem(name, JSON.stringify(firstGrandChild.style.width));
+}
+)(name);
+};
 
 function addInputText(numID, names, placeholder) { // Id que será add / name&id do input / placeholder
   const textNode = textNodes.find(textNode => textNode.id === numID);
@@ -127,15 +135,23 @@ function addInputText(numID, names, placeholder) { // Id que será add / name&id
 
   textNode.options.forEach(option => {
     if (showOption(option)) {
-      createButtons(option)
+      const button = document.createElement('button');
+      button.innerText = option.text;
+      button.classList.add('btnAct');
+      button.addEventListener('click', () => selectOption(option));
+      optionActButtons.appendChild(button);
     }
   })
-}
+};
 
 function tradePageContent() {
   const objId8 = textNodes.find((obj) => obj.id === 8);
+  const objId54 = textNodes.find((obj) => obj.id === 5.4);
   if (objId8) {
-    objId8.textLeft = `Parabéns ${state.playerName}, você é dez!`;
+    objId8.textRight = `"Então seu nome é ${state.playerName} é.. Hum.. Esse é um nome tanto incomum. Ainda não consigo identificar sua origem"`;
+  }
+  if (objId54) {
+    objId54.textLeft = '<h4>Você perde 10 de vida.</h4> "Sinto muito, meu amigo, mas você não tem o que é preciso para fazer parte do nosso grupo."';
   }
 };
 
@@ -153,7 +169,7 @@ const textNodes = [
         nextText: 2
       },
       {
-        text: 'Juntar-se aos exploradores',
+        text: 'Conversar com os exploradores',
         nextText: 3.2
       }
     ]
@@ -162,7 +178,7 @@ const textNodes = [
     id: 2,
     textLeft: 'Um guerreiro de aparência imponente ergue sua taça de hidromel e chama a atenção dos outros membros.',
     textRight: `Com um sorriso malicioso no rosto, Clargoth, o líder orc do grupo diz: 
-    "Companheiros, nós preparar para a jornada que vir! Mas antes, aproveitar noite e beber em honra do sucesso futuro!"`,
+    "Companheiros, nos prepararmos para a jornada que virá! Mas antes, vamos aproveitar a noite e beber em honra do sucesso futuro!"`,
     options: [
       {
         text: 'Oferecer um brinde aos exploradores',
@@ -183,7 +199,7 @@ const textNodes = [
   {
     id: 3.1,
     textLeft: `Ao oferecer uma bebida para Clargoth e seu grupo, ele ergue a sobrancelha em surpresa, mas logo aceita com um sorriso largo no rosto e diz:
-    "Muito obrigado, meu amigo. Nós comemorar nossa vitória juntos!", levantando a caneca de hidromel em um brinde"`,
+    "Muito obrigado, meu amigo. Iremos comemorar a futura vitória juntos!", levantando a caneca de hidromel em um brinde"`,
     textRight: 'Vejo que você gosta de aventuras, hmmm... Deseja se juntar à nós? exclama Clargoth',
     options: [
       {
@@ -199,17 +215,17 @@ const textNodes = [
   {
     id: 3.2,
     textLeft: '"Ei, meu amigo. Algum problema? Meu grupo precisa se preparar para a jornada que virá em breve.", diz Clargoth, sorrindo de forma amistosa',
-    textRight: 'Clargoth é um líder Orc. Leal e forte que sempre terá o interesse de seus amigos em primeiro lugar.',
+    textRight: 'Clargoth é um líder Orc leal e forte, que sempre terá o interesse de seus amigos em primeiro lugar.',
     options: [
+      {
+        text: 'Dizer que deseja ir atrás do artefato também',
+        nextText: 4
+      },
       {
         text: 'Oferecer um brinde aos exploradores',
         requiredState: (currentState) => currentState.beer,
         setState: { beer: false, dignity: true },
         nextText: 3.1
-      },
-      {
-        text: 'Dizer que deseja ir atrás do artefato também',
-        nextText: 4
       },
       {
         text: 'Nada não.',
@@ -220,8 +236,8 @@ const textNodes = [
   {
     id: 4,
     textLeft: 'Clargoth bebe sua bebida em um gole só, mostrando habilidade em consumir grandes quantidades de álcool. Depois de terminar, Clargoth bate na mesa com força e grita "Mais um pro time!" e então ele começa a cantar uma música de sua terra natal. Os outros frequentadores da taverna param para ouvir, enquanto o orc entoa a canção com uma voz potente e rouca..',
-    textRight: `Você e os outros membros da mesa se juntam a ele na cantoria, criando uma atmosfera animada na taverna. Depois de alguns minutos, a música termina e Clargoth se volta para você, com um olhar de cumplicidade, e diz:
-    Pensando bem... Se você quer ser um membro deste grupo, você deve provar seu valor.`,
+    textRight: `Você e os outros membros da mesa se juntam-se a ele na cantoria, criando uma atmosfera animada na taverna. Depois de alguns minutos, a música termina e Clargoth se volta para você, com um olhar de cumplicidade, e diz:
+    Pensando bem... Eu estou bêbado e meu discernimento está fraco.. Se você quer ser um membro deste grupo, você deve provar seu valor.`,
     options: [
       {
         text: 'Eu acabei de pagar uma rodada de bebida pra vocês...',
@@ -312,12 +328,12 @@ const textNodes = [
   },
   {
     id: 5.4,
-    textLeft: `"Sinto muito, meu amigo, mas você não tem o que é preciso para fazer parte do nosso grupo."`,
+    textLeft: '<h4>Você perde 10 de vida.</h4>' + '"Sinto muito, meu amigo, mas você não tem o que é preciso para fazer parte do nosso grupo."',
     textRight: `"Nós precisamos de guerreiros fortes e habilidosos, que possam enfrentar as ameaças que encontrarmos em nossas jornadas. Talvez você precise treinar mais e aprimorar suas habilidades antes de se aventurar em perigos maiores."`,
     options: [
       {
-        text: 'Reiniciar',
-        nextText: -1
+        text: 'Tentar novamente',
+        nextText: 5.1
       }
     ]
   },
@@ -340,8 +356,7 @@ const textNodes = [
     id: 7,
     textLeft: `Clargoth olhou fixamente para você. "Antes de partirmos, preciso saber mais sobre você", disse ele franzindo os olhos em sua direção.`,
     textRight: `Não consigo ver bem seu rosto com essas roupas e capa escura.
-     Me diga, qual o seu nome? 
-    E qual criatura é você?`,
+     Me diga, qual o seu nome?`,
     options: [
       {
         text: 'Hmm... Que tal mais uma caneca de hidromel?',
@@ -350,35 +365,36 @@ const textNodes = [
         nextText: 12
       },
       {
-        text: 'Sou um Humano',
-        setState: { imHuman: true },
-        nextText: 8
-      },
-      {
-        text: 'Sou um Elfo',
-        setState: { imElf: true },
-        nextText: 8
-      },
-      {
-        text: 'Sou um Gnomo',
-        setState: { imGnome: true },
-        nextText: 8
-      },
-      {
-        text: 'Sou um Goblin!',
-        setState: { imGoblin: true },
+        text: 'Certo',
         nextText: 8
       }
     ]
   },
   {
     id: 8,
-    textLeft: `Parabéns ${state.playerName}, você é dez!`,
-    textRight: `uuoou  ${state.playerName} `,
+    textLeft: `O orc te observa com curiosidade, seus olhos amarelados brilham com um misto de surpresa e desconfiança. 
+    Ele aperta a caneca com mais força e diz:`,
+    textRight: `"Hum.. Esse é um nome tanto incomum. Com isso ainda não consigo identificar sua origem"`,
     options: [
       {
-        text: 'Prox',
+        text: 'Sou um Humano',
+        setState: { imHuman: true },
         nextText: 9
+      },
+      {
+        text: 'Sou um Elfo',
+        setState: { imElf: true },
+        nextText: 9.1
+      },
+      {
+        text: 'Sou um Gnomo',
+        setState: { imGnome: true },
+        nextText: 9.2
+      },
+      {
+        text: 'Sou um Goblin!',
+        setState: { imGoblin: true },
+        nextText: 9.3
       }
     ]
   },
@@ -429,14 +445,3 @@ const textNodes = [
 ];
 
 loadGameState()
-
-function controlProgress(name, hit) {
-  (function (name) {
-    let progress = document.getElementById(name + "-bar");
-    let firstChild = progress.firstChild;
-    let firstGrandChild = firstChild.firstChild;
-    firstGrandChild.style.width = `${hit}%`;
-    localStorage.setItem(name, JSON.stringify(firstGrandChild.style.width));
-  }
-  )(name);
-};
