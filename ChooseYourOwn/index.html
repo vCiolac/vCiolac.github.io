@@ -11,30 +11,56 @@
     rel="stylesheet" type="text/css" />
   <link async href="http://fonts.googleapis.com/css?family=Acme" data-generated="http://enjoycss.com" rel="stylesheet"
     type="text/css" />
-  <link href="dist/rpgui.css" rel="stylesheet" type="text/css" >
-  <script src="dist/rpgui.js"></script>
-  <link rel="stylesheet" href="css/style.css">
-  <title>Choices - Story Game</title>
+  <link href="dist/rpgui.min.css" rel="stylesheet" type="text/css">
+  <script src="dist/rpgui.min.js"></script>
+  <link rel="stylesheet" href="css/style2.css">
+  <title>Choose You Own Story - Game</title>
 </head>
 
 <body>
-  <section class="book-container rpgui-container framed-golden-2">
-    <section class="pageLeft rpgui-container framed-golden">
-      <div id="textLeft">Text Left</div>
-  </section>
-  <section class="pageRight rpgui-container framed-golden">
-    <div id="textRight">Text Right</div>
-  </section>
-  </section>
-  <div id="space2"></div>
-  <section id="actionControls">
-    <button class="btnAct">Option 1</button>
-    <button class="btnAct">Option 2</button>
-  </section>
-  <section id="pageControls">
-    <!-- <button class="btnBackPage">Voltar</button> -->
-    <button class="btnReset">Reiniciar</button>
-  </section>
+  <main id="flow" class="rpgui-content rpgui-cursor-default">
+    <div>
+      <section id="cont" class="rpgui-container framed">
+        <header>
+          <h2>CHOOSE-YOUR-OWN</h2>
+          <hr class="golden">
+          <h1>Faça suas escolhas e trace seu caminho neste jogo de aventura por texto.</h1>
+        </header>
+        <div class="book-container rpgui-container framed-grey">
+          <section class="pageLeft rpgui-container framed-golden">
+            <span id="textLeft">Text Left</span>
+          </section>
+          <section class="pageRight rpgui-container framed-golden">
+            <span id="textRight">Text Right</span>
+          </section>
+        </div>
+        <div id="space2"></div>
+        <section id="actionControls">
+          <button class="btnAct rpgui-button">Option 1</button>
+          <button class="btnAct rpgui-button">Option 2</button>
+        </section>
+        <section id="pageControls">
+          <!-- <button class="btnBackPage">Voltar</button> -->
+          <button class="btnReset rpgui-button">Reiniciar</button>
+        </section>
+        <hr>
+        <div id="bars">
+            <label>Vida:</label>
+            <div id="hp-bar" class="rpgui-progress red"></div>
+
+            <label>Mana:</label>
+            <div id="mana-bar" class="rpgui-progress blue"></div>
+
+            <label>Experiência:</label>
+            <div id="xp-bar" class="rpgui-progress"></div>
+          </div>
+        </div>
+        <div id="tests">
+        </div>
+        </div>
+      </section>
+    </div>
+  </main>
   <script src="js/script.js"></script>
 </body>
 

@@ -14,7 +14,7 @@ function startGame(num) {
 function loadGameState() {
   const savedState = localStorage.getItem('gameState');
   const savedPages = localStorage.getItem('gamePage');
-  if (savedState !== null || savedPages !== null ) {
+  if (savedState !== null || savedPages !== null) {
     state = JSON.parse(savedState);
     showTextNode(JSON.parse(savedPages));
   } else {
@@ -48,6 +48,17 @@ resetBtn.addEventListener('click', restart);
 //   });
 // }
 
+function createButtons(option, bar, hit) { // bar = "hp" || "mana" || "xp" // hit = 0.1 ~ 1.
+  const button = document.createElement('button');
+  button.innerText = option.text;
+  button.classList.add('btnAct');
+  button.addEventListener('click', () => selectOption(option));
+  optionActButtons.appendChild(button);
+  if (bar || hit) {
+    button.addEventListener('click', () => controlProgress(bar, hit));
+  }
+}
+
 function showTextNode(textNodeIndex) {
   const textNode = textNodes.find(textNode => textNode.id === textNodeIndex); // Passa por todos os arrays de textnodes, procura o 'id' e faz textNode.id ser igual ao numero atribuido na selectOption.
   textLeftElement.innerText = textNode.textLeft;
@@ -59,12 +70,11 @@ function showTextNode(textNodeIndex) {
     return addInputText(7, 'playerName', 'Escreva seu nome');
   }
   textNode.options.forEach(option => { // Para cada options dentro do Id cria seus botões com o text.
+    if (textNodeIndex === 8) { // tem que por o Id anterior do texto que se quer dar hit.
+      createButtons(option, "hp", 0)
+    }
     if (showOption(option)) {
-      const button = document.createElement('button');
-      button.innerText = option.text;
-      button.classList.add('btnAct');
-      button.addEventListener('click', () => selectOption(option));
-      optionActButtons.appendChild(button);
+      createButtons(option)
     }
   })
   function saveGameState() {
@@ -88,7 +98,7 @@ function selectOption(option) {
 }
 
 
-function addInputText(numID, names, placeholder) {
+function addInputText(numID, names, placeholder) { // Id que será add / name&id do input / placeholder
   const textNode = textNodes.find(textNode => textNode.id === numID);
   const input = document.createElement('input');
   input.type = 'text';
@@ -107,12 +117,7 @@ function addInputText(numID, names, placeholder) {
 
   textNode.options.forEach(option => {
     if (showOption(option)) {
-      const button = document.createElement('button');
-      button.innerText = option.text;
-      button.name = names;
-      button.classList.add('btnAct');
-      button.addEventListener('click', () => selectOption(option));
-      optionActButtons.appendChild(button);
+      createButtons(option)
     }
   })
 }
@@ -335,17 +340,12 @@ const textNodes = [
         nextText: 12
       },
       {
-        text: 'Você não vê? Também sou orc.',
-        setState: { imOrc: true },
-        nextText: 8
-      },
-      {
-        text: 'Sou um humano',
+        text: 'Sou um Humano',
         setState: { imHuman: true },
         nextText: 8
       },
       {
-        text: 'Sou um elfo',
+        text: 'Sou um Elfo',
         setState: { imElf: true },
         nextText: 8
       },
@@ -368,14 +368,14 @@ const textNodes = [
     options: [
       {
         text: 'Prox',
-        nextText: -1
+        nextText: 9
       }
     ]
   },
   {
     id: 9,
-    textLeft: `Parabéns ${state} você é dez`,
-    textRight: 'BARABAM.2',
+    textLeft: `Apanha safada`,
+    textRight: 'e ganha XP',
     options: [
       {
         text: 'Restart',
@@ -419,3 +419,11 @@ const textNodes = [
 ];
 
 loadGameState()
+
+function controlProgress(name, hit) {
+  (function (name) {
+    let progress = document.getElementById(name + "-bar");
+    RPGUI.set_value(progress, hit);
+  }
+  )(name);
+};

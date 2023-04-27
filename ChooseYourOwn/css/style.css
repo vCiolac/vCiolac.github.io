@@ -21,6 +21,7 @@ body {
 .book-container {
   height: 1000px;
   width: 1000px;
+
   display: flex;
   max-width: 80%;
   max-height: 80%;
