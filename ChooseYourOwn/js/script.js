@@ -7,6 +7,7 @@ let state = {};
 
 function startGame(num) {
   state = {
+    playerName: '',
     level: 1,
   };
   showTextNode(num);
@@ -188,6 +189,10 @@ function tradePageContent() {
 const infos = document.getElementById('infos');
 
 function fillStateSelect() {
+  const stateSelect = document.querySelector('#stateSelect');
+  while (stateSelect.firstChild) {
+    stateSelect.removeChild(stateSelect.firstChild);
+  }
   for (const prop in state) {
     if (state.hasOwnProperty(prop) && state[prop] !== false) {
       const option = document.createElement('option');
