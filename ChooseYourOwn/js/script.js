@@ -36,6 +36,15 @@ function restart() {
 
 resetBtn.addEventListener('click', restart);
 
+// const level = document.querySelector('#level');
+
+// level.addEventListener('keyup', () => {
+//   const contador = textArea.value.length;
+//   atual.innerHTML = 500 - contador;
+// });
+// }
+// }
+
 // function backPage () {
 //   for (let i = 1; i < textNodes.length; i += 1) {
 //     if (textLeftElement.innerText === textNodes[i].textLeft) {
@@ -82,12 +91,19 @@ function showTextNode(textNodeIndex) {
     }
   })
   function saveGameState() {
-    let progress = document.getElementById("hp-bar");
-    let firstChild = progress.firstChild;
-    let firstGrandChild = firstChild.firstChild;
+    let hp = document.getElementById("hp-bar");
+    let mp = document.getElementById("mp-bar");
+    let level = document.getElementById('level');
+    let hpfirstChild = hp.firstChild;
+    let mpfirstChild = mp.firstChild;
+    let hpFirstGrandChild = hpfirstChild.firstChild;
+    let mpFirstGrandChild = mpfirstChild.firstChild;
+
     localStorage.setItem('gameState', JSON.stringify(state));
     localStorage.setItem('gamePage', JSON.stringify(textNodeIndex));
-    localStorage.setItem('hp', JSON.stringify(firstGrandChild.style.width));
+    localStorage.setItem('hp', JSON.stringify(hpFirstGrandChild.style.width));
+    localStorage.setItem('mp', JSON.stringify(mpFirstGrandChild.style.width));
+    localStorage.setItem('level', JSON.stringify(parseInt(level.innerHTML)));
   }
   saveGameState();
 };
@@ -102,7 +118,7 @@ function selectOption(option) {
     controlProgress("hp", 'down', 10);
   }
   if (nextTextNodeId === 5.2 || nextTextNodeId === 5.3) {
-    controlProgress("xp", 'up', 50);
+    controlProgress("xp", 'up', 10);
   }
   if (nextTextNodeId <= 0) {
     return restart();
@@ -111,7 +127,7 @@ function selectOption(option) {
   showTextNode(nextTextNodeId);
 };
 
-function controlProgress(name, operador, hit) { // name = "hp" or "mana" or "xp" /oprd = up or down/ hit = valorporcentagem
+function controlProgress(name, operador, hit) { // name = "hp" or "mp" or "xp" /oprd = up or down/ hit = valorporcentagem
   let progress = document.getElementById(name + "-bar");
   let firstChild = progress.firstChild;
   let firstGrandChild = firstChild.firstChild;
@@ -137,15 +153,20 @@ function dieOrUp(name) {
   let progress = document.getElementById(name + "-bar");
   let firstChild = progress.firstChild;
   let firstGrandChild = firstChild.firstChild;
+  let level = document.getElementById('level');
   if (name === 'hp' && parseInt(firstGrandChild.style.width) <= 0) {
     restart();
     alert('Sua barra de vida chegou a 0%, você morreu.');
   }
   if (name === 'xp' && parseInt(firstGrandChild.style.width) >= 100) {
     state.level += 1;
+    let currentlvl = parseInt(level.innerHTML);
+    let newLvl = currentlvl + 1;
+    level.innerHTML = newLvl;
     alert('Sua barra de experiência chegou a 100%! Você upou 1 level!');
     firstGrandChild.style.width = 0;
   }
+  
 };
 
 function addInputText(numID, names, placeholder) { // Id que será add / name&id do input / placeholder
