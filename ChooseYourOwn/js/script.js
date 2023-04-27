@@ -14,6 +14,10 @@ function startGame(num) {
 function loadGameState() {
   const savedState = localStorage.getItem('gameState');
   const savedPages = localStorage.getItem('gamePage');
+  const hp = localStorage.getItem('hp');
+  if (hp !== null) {
+    controlProgress("hp", JSON.parse(hp))
+  }
   if (savedState !== null || savedPages !== null) {
     state = JSON.parse(savedState);
     showTextNode(JSON.parse(savedPages));
@@ -40,14 +44,6 @@ resetBtn.addEventListener('click', restart);
 // }
 // backPageBtn.addEventListener('click', backPage);
 
-// function typeWriter(elemento, text) {
-//   const textoArray = text.split('');
-//   elemento.innerText = '';
-//   textoArray.forEach((letra, i) => {
-//     setTimeout(() => elemento.innerHTML += letra, 50 * i);
-//   });
-// }
-
 function createButtons(option, bar, hit) { // bar = "hp" || "mana" || "xp" // hit = 0.1 ~ 1.
   const button = document.createElement('button');
   button.innerText = option.text;
@@ -59,10 +55,24 @@ function createButtons(option, bar, hit) { // bar = "hp" || "mana" || "xp" // hi
   }
 }
 
+function typeWriter(text, element) {
+  const speed = 50;
+  let i = 0;
+  element.innerHTML = '';
+  function write() {
+    if (i < text.length) {
+      element.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(write, speed);
+    }
+  }
+  write();
+}
+
 function showTextNode(textNodeIndex) {
   const textNode = textNodes.find(textNode => textNode.id === textNodeIndex); // Passa por todos os arrays de textnodes, procura o 'id' e faz textNode.id ser igual ao numero atribuido na selectOption.
-  textLeftElement.innerText = textNode.textLeft;
-  textRightElement.innerText = textNode.textRight;
+  typeWriter(`${textNode.textLeft}`, textLeftElement);
+  typeWriter(`${textNode.textRight}`, textRightElement);
   while (optionActButtons.firstChild) {
     optionActButtons.removeChild(optionActButtons.firstChild);
   }
