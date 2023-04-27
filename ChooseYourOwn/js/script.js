@@ -45,8 +45,7 @@ function loadGameState() {
 };
 
 function restart() {
-  localStorage.clear('gameState');
-  localStorage.clear('gamePage');
+  localStorage.clear();
   startGame(1);
 };
 
@@ -74,6 +73,11 @@ function showTextNode(textNodeIndex) {
   textRightElement.innerHTML = textNode.textRight;
   while (optionActButtons.firstChild) {
     optionActButtons.removeChild(optionActButtons.firstChild);
+  }
+  if (textNodeIndex === 1) {
+    hpFirstGrandChild.style.width = 100 + '%';
+    mpFirstGrandChild.style.width = 100 + '%';
+    xpFirstGrandChild.style.width = 0 + '%';
   }
   if (textNodeIndex === 7) {
     return addInputText(7, 'playerName', 'Escreva seu nome');
