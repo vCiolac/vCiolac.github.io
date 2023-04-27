@@ -2,7 +2,6 @@ const textLeftElement = document.getElementById('textLeft');
 const textRightElement = document.getElementById('textRight');
 const optionActButtons = document.getElementById('actionControls');
 const resetBtn = document.getElementsByClassName('btnReset')[0];
-// const backPageBtn = document.getElementsByClassName('btnBackPage')[0];
 
 let state = {};
 
@@ -35,25 +34,6 @@ function restart() {
 };
 
 resetBtn.addEventListener('click', restart);
-
-// const level = document.querySelector('#level');
-
-// level.addEventListener('keyup', () => {
-//   const contador = textArea.value.length;
-//   atual.innerHTML = 500 - contador;
-// });
-// }
-// }
-
-// function backPage () {
-//   for (let i = 1; i < textNodes.length; i += 1) {
-//     if (textLeftElement.innerText === textNodes[i].textLeft) {
-//       let current = textNodes[i].id -1;
-//       showTextNode(current)
-//     }
-//   }
-// }
-// backPageBtn.addEventListener('click', backPage);
 
 // function typeWriter(text, element) {
 //   const speed = 25;
@@ -106,6 +86,7 @@ function showTextNode(textNodeIndex) {
     localStorage.setItem('level', JSON.stringify(parseInt(level.innerHTML)));
   }
   saveGameState();
+  fillStateSelect();
 };
 
 function showOption(option) { // Verifica se tem o state requirido para o botão
@@ -204,7 +185,18 @@ function tradePageContent() {
   }
 };
 
+const infos = document.getElementById('infos');
 
+function fillStateSelect() {
+  for (const prop in state) {
+    if (state.hasOwnProperty(prop) && state[prop] !== false) {
+      const option = document.createElement('option');
+      option.value = prop;
+      option.text = `${prop}: ${state[prop]}`;
+      stateSelect.appendChild(option);
+    }
+  }
+};
 
 const textNodes = [
   {
