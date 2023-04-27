@@ -44,24 +44,26 @@ resetBtn.addEventListener('click', restart);
 // }
 // backPageBtn.addEventListener('click', backPage);
 
-function typeWriter(text, element) {
-  const speed = 25;
-  let i = 0;
-  element.innerHTML = '';
-  function write() {
-    if (i < text.length) {
-      element.innerHTML += text.charAt(i);
-      i+= 1;
-      setTimeout(write, speed);
-    }
-  }
-  write();
-}
+// function typeWriter(text, element) {
+//   const speed = 25;
+//   let i = 0;
+//   element.innerHTML = '';
+//   function write() {
+//     if (i < text.length) {
+//       element.innerHTML += text.charAt(i);
+//       i += 1;
+//       setTimeout(write, speed);
+//     }
+//   }
+//   write();
+// }
 
 function showTextNode(textNodeIndex) {
   const textNode = textNodes.find(textNode => textNode.id === textNodeIndex); // Passa por todos os arrays de textnodes, procura o 'id' e faz textNode.id ser igual ao numero atribuido na selectOption.
-  typeWriter(`${textNode.textLeft}`, textLeftElement);
-  typeWriter(`${textNode.textRight}`, textRightElement);
+  // typeWriter(`${textNode.textLeft}`, textLeftElement);
+  // typeWriter(`${textNode.textRight}`, textRightElement);
+  textLeftElement.innerHTML = textNode.textLeft;
+  textRightElement.innerHTML = textNode.textRight;
   while (optionActButtons.firstChild) {
     optionActButtons.removeChild(optionActButtons.firstChild);
   }
@@ -74,13 +76,16 @@ function showTextNode(textNodeIndex) {
       button.innerText = option.text;
       button.classList.add('btnAct');
       button.addEventListener('click', () => selectOption(option));
-      tradePageContent()
       optionActButtons.appendChild(button);
     }
   })
   function saveGameState() {
+    let progress = document.getElementById("hp-bar");
+    let firstChild = progress.firstChild;
+    let firstGrandChild = firstChild.firstChild;
     localStorage.setItem('gameState', JSON.stringify(state));
     localStorage.setItem('gamePage', JSON.stringify(textNodeIndex));
+    localStorage.setItem('hp', JSON.stringify(firstGrandChild.style.width));
   }
   saveGameState();
 };
@@ -91,9 +96,9 @@ function showOption(option) { // Verifica se tem o state requirido para o botão
 
 function selectOption(option) {
   const nextTextNodeId = option.nextText;
-  if (nextTextNodeId === 5.4){
-      hitBar("hp", 10);
-     }
+  if (nextTextNodeId === 5.4) {
+    hitBar("hp", 'down', 10);
+  }
   if (nextTextNodeId <= 0) {
     return restart();
   }
@@ -101,19 +106,35 @@ function selectOption(option) {
   showTextNode(nextTextNodeId);
 };
 
-function hitBar(bar, hit) { // bar = "hp" || "mana" || "xp" // hit = 0.1 ~ 1.);
-  controlProgress(bar, hit);
+function hitBar(bar, operador, hit) { // bar = "hp" or "mana" or "xp" /oprd = up or down/ hit = 0.1 ~ 1.);
+  controlProgress(bar, operador, hit);
 };
 
-function controlProgress(name, hit) {
-(function (name) {
+
+function controlProgress(name, operador, hit) {
+  (function (name) {
+    let progress = document.getElementById(name + "-bar");
+    let firstChild = progress.firstChild;
+    let firstGrandChild = firstChild.firstChild;
+    if (operador === 'up') {
+      firstGrandChild.style.width = parseInt(firstGrandChild.style.width) + `${hit}` + '%';
+    } if (operador === 'down') {
+      firstGrandChild.style.width = parseInt(firstGrandChild.style.width) - `${hit}` + '%';
+    }
+    localStorage.setItem(name, JSON.stringify(firstGrandChild.style.width));
+    state.hp = parseFloat(firstGrandChild.style.width);
+  })(name);
+  die(name);
+}
+
+function die(name) {
   let progress = document.getElementById(name + "-bar");
   let firstChild = progress.firstChild;
   let firstGrandChild = firstChild.firstChild;
-  firstGrandChild.style.width =  parseInt(firstGrandChild.style.width) - `${hit}` + '%';
-  localStorage.setItem(name, JSON.stringify(firstGrandChild.style.width));
-}
-)(name);
+  if (parseInt(firstGrandChild.style.width) <= 0) {
+    restart();
+    alert('Sua vida chegou a 0%, você morreu');
+  }
 };
 
 function addInputText(numID, names, placeholder) { // Id que será add / name&id do input / placeholder
@@ -146,12 +167,8 @@ function addInputText(numID, names, placeholder) { // Id que será add / name&id
 
 function tradePageContent() {
   const objId8 = textNodes.find((obj) => obj.id === 8);
-  const objId54 = textNodes.find((obj) => obj.id === 5.4);
   if (objId8) {
     objId8.textRight = `"Então seu nome é ${state.playerName} é.. Hum.. Esse é um nome tanto incomum. Ainda não consigo identificar sua origem"`;
-  }
-  if (objId54) {
-    objId54.textLeft = '<h4>Você perde 10 de vida.</h4> "Sinto muito, meu amigo, mas você não tem o que é preciso para fazer parte do nosso grupo."';
   }
 };
 
@@ -328,12 +345,13 @@ const textNodes = [
   },
   {
     id: 5.4,
-    textLeft: '<h4>Você perde 10 de vida.</h4>' + '"Sinto muito, meu amigo, mas você não tem o que é preciso para fazer parte do nosso grupo."',
+    textLeft: '<h4>Você perde 10% da sua vida.</h4> "Sinto muito, meu amigo, mas você não tem o que é preciso para fazer parte do nosso grupo."',
     textRight: `"Nós precisamos de guerreiros fortes e habilidosos, que possam enfrentar as ameaças que encontrarmos em nossas jornadas. Talvez você precise treinar mais e aprimorar suas habilidades antes de se aventurar em perigos maiores."`,
     options: [
       {
         text: 'Tentar novamente',
-        nextText: 5.1
+        nextText: 5.1,
+        requiredState: (currentState) => currentState.hp,
       }
     ]
   },
