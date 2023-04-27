@@ -56,7 +56,7 @@ function showTextNode(textNodeIndex) {
     optionActButtons.removeChild(optionActButtons.firstChild);
   }
   if (textNodeIndex === 7) {
-    return addInputName(7);
+    return addInputText(7, 'playerName', 'Escreva seu nome');
   }
   textNode.options.forEach(option => { // Para cada options dentro do Id cria seus botões com o text.
     if (showOption(option)) {
@@ -88,22 +88,20 @@ function selectOption(option) {
 }
 
 
-function addInputName(num) {
-  const textNode = textNodes.find(textNode => textNode.id === num);
+function addInputText(numID, names, placeholder) {
+  const textNode = textNodes.find(textNode => textNode.id === numID);
   const input = document.createElement('input');
   input.type = 'text';
-  input.name = 'playerName';
-  input.placeholder = 'Escreva seu nome';
-  input.id = 'playerName';
+  input.name = names;
+  input.placeholder = placeholder;
+  input.id = names;
 
   input.addEventListener('change', () => {
-    const playerNameInput = document.getElementById("playerName");
-    state.playerName = playerNameInput.value;
-    const objId8 = textNodes.find((obj) => obj.id === 8);
-    if (objId8) {
-      objId8.textLeft = `Parabéns ${state.playerName}, você é dez!`;
-    }
+    const inputName = document.getElementById(names);
+    state[names] = inputName.value;
+    tradePageContent();
   });
+
   input.setAttribute('required', 'required');
   optionActButtons.appendChild(input);
 
@@ -111,13 +109,21 @@ function addInputName(num) {
     if (showOption(option)) {
       const button = document.createElement('button');
       button.innerText = option.text;
-      button.name = 'playerName';
+      button.name = names;
       button.classList.add('btnAct');
       button.addEventListener('click', () => selectOption(option));
       optionActButtons.appendChild(button);
     }
   })
 }
+
+function tradePageContent() {
+  const objId8 = textNodes.find((obj) => obj.id === 8);
+  if (objId8) {
+    objId8.textLeft = `Parabéns ${state.playerName}, você é dez!`;
+  }
+};
+
 
 
 const textNodes = [
@@ -357,12 +363,12 @@ const textNodes = [
   },
   {
     id: 8,
-    textLeft: `Parabéns jão`,
+    textLeft: `Parabéns ${state.playerName}, você é dez!`,
     textRight: `uuoou  ${state.playerName} `,
     options: [
       {
-        text: 'Restart ',
-        nextText: 9
+        text: 'Prox',
+        nextText: -1
       }
     ]
   },
@@ -373,7 +379,7 @@ const textNodes = [
     options: [
       {
         text: 'Restart',
-        nextText: -1
+        nextText: 10
       }
     ]
   },
