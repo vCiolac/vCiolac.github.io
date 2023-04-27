@@ -71,7 +71,7 @@ function showTextNode(textNodeIndex) {
   }
   textNode.options.forEach(option => { // Para cada options dentro do Id cria seus botões com o text.
     if (textNodeIndex === 8) { // tem que por o Id anterior do texto que se quer dar hit.
-      createButtons(option, "hp", 0)
+      createButtons(option, "hp", 10)
     }
     if (showOption(option)) {
       createButtons(option)
@@ -423,7 +423,10 @@ loadGameState()
 function controlProgress(name, hit) {
   (function (name) {
     let progress = document.getElementById(name + "-bar");
-    RPGUI.set_value(progress, hit);
+    let firstChild = progress.firstChild;
+    let firstGrandChild = firstChild.firstChild;
+    firstGrandChild.style.width = `${hit}%`;
+    localStorage.setItem(name, JSON.stringify(firstGrandChild.style.width));
   }
   )(name);
 };
