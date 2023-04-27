@@ -7,7 +7,9 @@ const resetBtn = document.getElementsByClassName('btnReset')[0];
 let state = {};
 
 function startGame(num) {
-  state = {};
+  state = {
+    level: 1,
+  };
   showTextNode(num);
 };
 
@@ -97,7 +99,10 @@ function showOption(option) { // Verifica se tem o state requirido para o botão
 function selectOption(option) {
   const nextTextNodeId = option.nextText;
   if (nextTextNodeId === 5.4) {
-    hitBar("hp", 'down', 10);
+    controlProgress("hp", 'down', 10);
+  }
+  if (nextTextNodeId === 5.2 || nextTextNodeId === 5.3) {
+    controlProgress("xp", 'up', 50);
   }
   if (nextTextNodeId <= 0) {
     return restart();
@@ -106,34 +111,40 @@ function selectOption(option) {
   showTextNode(nextTextNodeId);
 };
 
-function hitBar(bar, operador, hit) { // bar = "hp" or "mana" or "xp" /oprd = up or down/ hit = 0.1 ~ 1.);
-  controlProgress(bar, operador, hit);
-};
-
-
-function controlProgress(name, operador, hit) {
-  (function (name) {
-    let progress = document.getElementById(name + "-bar");
-    let firstChild = progress.firstChild;
-    let firstGrandChild = firstChild.firstChild;
-    if (operador === 'up') {
-      firstGrandChild.style.width = parseInt(firstGrandChild.style.width) + `${hit}` + '%';
-    } if (operador === 'down') {
-      firstGrandChild.style.width = parseInt(firstGrandChild.style.width) - `${hit}` + '%';
-    }
-    localStorage.setItem(name, JSON.stringify(firstGrandChild.style.width));
-    state.hp = parseFloat(firstGrandChild.style.width);
-  })(name);
-  die(name);
-}
-
-function die(name) {
+function controlProgress(name, operador, hit) { // name = "hp" or "mana" or "xp" /oprd = up or down/ hit = valorporcentagem
   let progress = document.getElementById(name + "-bar");
   let firstChild = progress.firstChild;
   let firstGrandChild = firstChild.firstChild;
-  if (parseInt(firstGrandChild.style.width) <= 0) {
+
+  let currentWidth = parseInt(firstGrandChild.style.width);
+  let newWidth;
+  
+  if (operador === 'up') {
+    newWidth = currentWidth + hit;
+  } else if (operador === 'down') {
+    newWidth = currentWidth - hit;
+  } else {
+    return;
+  }
+  
+  firstGrandChild.style.width = newWidth + '%';
+  localStorage.setItem(name, JSON.stringify(newWidth + '%'));
+  state[name] = newWidth;
+  dieOrUp(name);
+}
+
+function dieOrUp(name) {
+  let progress = document.getElementById(name + "-bar");
+  let firstChild = progress.firstChild;
+  let firstGrandChild = firstChild.firstChild;
+  if (name === 'hp' && parseInt(firstGrandChild.style.width) <= 0) {
     restart();
-    alert('Sua vida chegou a 0%, você morreu');
+    alert('Sua barra de vida chegou a 0%, você morreu.');
+  }
+  if (name === 'xp' && parseInt(firstGrandChild.style.width) >= 100) {
+    state.level += 1;
+    alert('Sua barra de experiência chegou a 100%! Você upou 1 level!');
+    firstGrandChild.style.width = 0;
   }
 };
 
@@ -306,7 +317,8 @@ const textNodes = [
   },
   {
     id: 5.2,
-    textLeft: `"Certo, e como você lidaria com um dragão que cospe fogo?"`,
+    textLeft: `<h4>Você ganhou 10% de experiência.</h4>
+    "Certo, e como você lidaria com um dragão que cospe fogo?"`,
     textRight: `"Os dragões são extremamente inteligentes e podem antecipar nossos movimentos. Precisamos pensar em algo que possa enganá-lo, algo que ele não espera."`,
     options: [
       {
@@ -326,7 +338,8 @@ const textNodes = [
   },
   {
     id: 5.3,
-    textLeft: `"Ok. Em uma batalha contra um grupo de goblins, como você faria com sua equipe para obter a vitória?"`,
+    textLeft: `<h4>Você ganhou 10% de experiência.</h4>
+    "Ok. Em uma batalha contra um grupo de goblins, como você faria com sua equipe para obter a vitória?"`,
     textRight: `"Ahh os goblins... Nossos inimigos mais frequentes, eles são ágeis e imprevisíveis, e isso pode ser um problema para nós. É necesssário ser astuto e não subestimá-los."`,
     options: [
       {
