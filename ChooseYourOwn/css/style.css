@@ -54,6 +54,7 @@ body {
 
 .pageLeft,
 .pageRight {
+  overflow: auto;
   flex: 1;
   padding: 5px 10px;
 }
