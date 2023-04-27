@@ -7,13 +7,19 @@ const resetBtn = document.getElementsByClassName('btnReset')[0];
 let state = {};
 
 function startGame(num) {
-  state = {};
+  state = {
+    level: 1,
+  };
   showTextNode(num);
 };
 
 function loadGameState() {
   const savedState = localStorage.getItem('gameState');
   const savedPages = localStorage.getItem('gamePage');
+  const hp = localStorage.getItem('hp');
+  if (hp !== null) {
+    controlProgress("hp", JSON.parse(hp))
+  }
   if (savedState !== null || savedPages !== null) {
     state = JSON.parse(savedState);
     showTextNode(JSON.parse(savedPages));
@@ -30,6 +36,15 @@ function restart() {
 
 resetBtn.addEventListener('click', restart);
 
+// const level = document.querySelector('#level');
+
+// level.addEventListener('keyup', () => {
+//   const contador = textArea.value.length;
+//   atual.innerHTML = 500 - contador;
+// });
+// }
+// }
+
 // function backPage () {
 //   for (let i = 1; i < textNodes.length; i += 1) {
 //     if (textLeftElement.innerText === textNodes[i].textLeft) {
@@ -40,29 +55,26 @@ resetBtn.addEventListener('click', restart);
 // }
 // backPageBtn.addEventListener('click', backPage);
 
-// function typeWriter(elemento, text) {
-//   const textoArray = text.split('');
-//   elemento.innerText = '';
-//   textoArray.forEach((letra, i) => {
-//     setTimeout(() => elemento.innerHTML += letra, 50 * i);
-//   });
+// function typeWriter(text, element) {
+//   const speed = 25;
+//   let i = 0;
+//   element.innerHTML = '';
+//   function write() {
+//     if (i < text.length) {
+//       element.innerHTML += text.charAt(i);
+//       i += 1;
+//       setTimeout(write, speed);
+//     }
+//   }
+//   write();
 // }
-
-function createButtons(option, bar, hit) { // bar = "hp" || "mana" || "xp" // hit = 0.1 ~ 1.
-  const button = document.createElement('button');
-  button.innerText = option.text;
-  button.classList.add('btnAct');
-  button.addEventListener('click', () => selectOption(option));
-  optionActButtons.appendChild(button);
-  if (bar || hit) {
-    button.addEventListener('click', () => controlProgress(bar, hit));
-  }
-}
 
 function showTextNode(textNodeIndex) {
   const textNode = textNodes.find(textNode => textNode.id === textNodeIndex); // Passa por todos os arrays de textnodes, procura o 'id' e faz textNode.id ser igual ao numero atribuido na selectOption.
-  textLeftElement.innerText = textNode.textLeft;
-  textRightElement.innerText = textNode.textRight;
+  // typeWriter(`${textNode.textLeft}`, textLeftElement);
+  // typeWriter(`${textNode.textRight}`, textRightElement);
+  textLeftElement.innerHTML = textNode.textLeft;
+  textRightElement.innerHTML = textNode.textRight;
   while (optionActButtons.firstChild) {
     optionActButtons.removeChild(optionActButtons.firstChild);
   }
@@ -70,33 +82,92 @@ function showTextNode(textNodeIndex) {
     return addInputText(7, 'playerName', 'Escreva seu nome');
   }
   textNode.options.forEach(option => { // Para cada options dentro do Id cria seus botões com o text.
-    if (textNodeIndex === 8) { // tem que por o Id anterior do texto que se quer dar hit.
-      createButtons(option, "hp", 0)
-    }
     if (showOption(option)) {
-      createButtons(option)
+      const button = document.createElement('button');
+      button.innerText = option.text;
+      button.classList.add('btnAct');
+      button.addEventListener('click', () => selectOption(option));
+      optionActButtons.appendChild(button);
     }
   })
   function saveGameState() {
+    let hp = document.getElementById("hp-bar");
+    let mp = document.getElementById("mp-bar");
+    let level = document.getElementById('level');
+    let hpfirstChild = hp.firstChild;
+    let mpfirstChild = mp.firstChild;
+    let hpFirstGrandChild = hpfirstChild.firstChild;
+    let mpFirstGrandChild = mpfirstChild.firstChild;
+
     localStorage.setItem('gameState', JSON.stringify(state));
     localStorage.setItem('gamePage', JSON.stringify(textNodeIndex));
+    localStorage.setItem('hp', JSON.stringify(hpFirstGrandChild.style.width));
+    localStorage.setItem('mp', JSON.stringify(mpFirstGrandChild.style.width));
+    localStorage.setItem('level', JSON.stringify(parseInt(level.innerHTML)));
   }
   saveGameState();
 };
 
 function showOption(option) { // Verifica se tem o state requirido para o botão
   return option.requiredState == null || option.requiredState(state);
-} // Se a opção não pedir nada /\     ou se a opção pedir algo /\, executa a função.
+}; // Se a opção não pedir nada /\     ou se a opção pedir algo /\, executa a função.
 
 function selectOption(option) {
   const nextTextNodeId = option.nextText;
+  if (nextTextNodeId === 5.4) {
+    controlProgress("hp", 'down', 10);
+  }
+  if (nextTextNodeId === 5.2 || nextTextNodeId === 5.3) {
+    controlProgress("xp", 'up', 10);
+  }
   if (nextTextNodeId <= 0) {
     return restart();
   }
   state = Object.assign(state, option.setState); // Pega o state atual e adiciona tudo do setState clicado.
   showTextNode(nextTextNodeId);
+};
+
+function controlProgress(name, operador, hit) { // name = "hp" or "mp" or "xp" /oprd = up or down/ hit = valorporcentagem
+  let progress = document.getElementById(name + "-bar");
+  let firstChild = progress.firstChild;
+  let firstGrandChild = firstChild.firstChild;
+
+  let currentWidth = parseInt(firstGrandChild.style.width);
+  let newWidth;
+  
+  if (operador === 'up') {
+    newWidth = currentWidth + hit;
+  } else if (operador === 'down') {
+    newWidth = currentWidth - hit;
+  } else {
+    return;
+  }
+  
+  firstGrandChild.style.width = newWidth + '%';
+  localStorage.setItem(name, JSON.stringify(newWidth + '%'));
+  state[name] = newWidth;
+  dieOrUp(name);
 }
 
+function dieOrUp(name) {
+  let progress = document.getElementById(name + "-bar");
+  let firstChild = progress.firstChild;
+  let firstGrandChild = firstChild.firstChild;
+  let level = document.getElementById('level');
+  if (name === 'hp' && parseInt(firstGrandChild.style.width) <= 0) {
+    restart();
+    alert('Sua barra de vida chegou a 0%, você morreu.');
+  }
+  if (name === 'xp' && parseInt(firstGrandChild.style.width) >= 100) {
+    state.level += 1;
+    let currentlvl = parseInt(level.innerHTML);
+    let newLvl = currentlvl + 1;
+    level.innerHTML = newLvl;
+    alert('Sua barra de experiência chegou a 100%! Você upou 1 level!');
+    firstGrandChild.style.width = 0;
+  }
+  
+};
 
 function addInputText(numID, names, placeholder) { // Id que será add / name&id do input / placeholder
   const textNode = textNodes.find(textNode => textNode.id === numID);
@@ -117,15 +188,19 @@ function addInputText(numID, names, placeholder) { // Id que será add / name&id
 
   textNode.options.forEach(option => {
     if (showOption(option)) {
-      createButtons(option)
+      const button = document.createElement('button');
+      button.innerText = option.text;
+      button.classList.add('btnAct');
+      button.addEventListener('click', () => selectOption(option));
+      optionActButtons.appendChild(button);
     }
   })
-}
+};
 
 function tradePageContent() {
   const objId8 = textNodes.find((obj) => obj.id === 8);
   if (objId8) {
-    objId8.textLeft = `Parabéns ${state.playerName}, você é dez!`;
+    objId8.textRight = `"Então seu nome é ${state.playerName} é.. Hum.. Esse é um nome tanto incomum. Ainda não consigo identificar sua origem"`;
   }
 };
 
@@ -143,7 +218,7 @@ const textNodes = [
         nextText: 2
       },
       {
-        text: 'Juntar-se aos exploradores',
+        text: 'Conversar com os exploradores',
         nextText: 3.2
       }
     ]
@@ -152,7 +227,7 @@ const textNodes = [
     id: 2,
     textLeft: 'Um guerreiro de aparência imponente ergue sua taça de hidromel e chama a atenção dos outros membros.',
     textRight: `Com um sorriso malicioso no rosto, Clargoth, o líder orc do grupo diz: 
-    "Companheiros, nós preparar para a jornada que vir! Mas antes, aproveitar noite e beber em honra do sucesso futuro!"`,
+    "Companheiros, nos prepararmos para a jornada que virá! Mas antes, vamos aproveitar a noite e beber em honra do sucesso futuro!"`,
     options: [
       {
         text: 'Oferecer um brinde aos exploradores',
@@ -173,7 +248,7 @@ const textNodes = [
   {
     id: 3.1,
     textLeft: `Ao oferecer uma bebida para Clargoth e seu grupo, ele ergue a sobrancelha em surpresa, mas logo aceita com um sorriso largo no rosto e diz:
-    "Muito obrigado, meu amigo. Nós comemorar nossa vitória juntos!", levantando a caneca de hidromel em um brinde"`,
+    "Muito obrigado, meu amigo. Iremos comemorar a futura vitória juntos!", levantando a caneca de hidromel em um brinde"`,
     textRight: 'Vejo que você gosta de aventuras, hmmm... Deseja se juntar à nós? exclama Clargoth',
     options: [
       {
@@ -189,17 +264,17 @@ const textNodes = [
   {
     id: 3.2,
     textLeft: '"Ei, meu amigo. Algum problema? Meu grupo precisa se preparar para a jornada que virá em breve.", diz Clargoth, sorrindo de forma amistosa',
-    textRight: 'Clargoth é um líder Orc. Leal e forte que sempre terá o interesse de seus amigos em primeiro lugar.',
+    textRight: 'Clargoth é um líder Orc leal e forte, que sempre terá o interesse de seus amigos em primeiro lugar.',
     options: [
+      {
+        text: 'Dizer que deseja ir atrás do artefato também',
+        nextText: 4
+      },
       {
         text: 'Oferecer um brinde aos exploradores',
         requiredState: (currentState) => currentState.beer,
         setState: { beer: false, dignity: true },
         nextText: 3.1
-      },
-      {
-        text: 'Dizer que deseja ir atrás do artefato também',
-        nextText: 4
       },
       {
         text: 'Nada não.',
@@ -210,8 +285,8 @@ const textNodes = [
   {
     id: 4,
     textLeft: 'Clargoth bebe sua bebida em um gole só, mostrando habilidade em consumir grandes quantidades de álcool. Depois de terminar, Clargoth bate na mesa com força e grita "Mais um pro time!" e então ele começa a cantar uma música de sua terra natal. Os outros frequentadores da taverna param para ouvir, enquanto o orc entoa a canção com uma voz potente e rouca..',
-    textRight: `Você e os outros membros da mesa se juntam a ele na cantoria, criando uma atmosfera animada na taverna. Depois de alguns minutos, a música termina e Clargoth se volta para você, com um olhar de cumplicidade, e diz:
-    Pensando bem... Se você quer ser um membro deste grupo, você deve provar seu valor.`,
+    textRight: `Você e os outros membros da mesa se juntam-se a ele na cantoria, criando uma atmosfera animada na taverna. Depois de alguns minutos, a música termina e Clargoth se volta para você, com um olhar de cumplicidade, e diz:
+    Pensando bem... Eu estou bêbado e meu discernimento está fraco.. Se você quer ser um membro deste grupo, você deve provar seu valor.`,
     options: [
       {
         text: 'Eu acabei de pagar uma rodada de bebida pra vocês...',
@@ -263,7 +338,8 @@ const textNodes = [
   },
   {
     id: 5.2,
-    textLeft: `"Certo, e como você lidaria com um dragão que cospe fogo?"`,
+    textLeft: `<h4>Você ganhou 10% de experiência.</h4>
+    "Certo, e como você lidaria com um dragão que cospe fogo?"`,
     textRight: `"Os dragões são extremamente inteligentes e podem antecipar nossos movimentos. Precisamos pensar em algo que possa enganá-lo, algo que ele não espera."`,
     options: [
       {
@@ -283,7 +359,8 @@ const textNodes = [
   },
   {
     id: 5.3,
-    textLeft: `"Ok. Em uma batalha contra um grupo de goblins, como você faria com sua equipe para obter a vitória?"`,
+    textLeft: `<h4>Você ganhou 10% de experiência.</h4>
+    "Ok. Em uma batalha contra um grupo de goblins, como você faria com sua equipe para obter a vitória?"`,
     textRight: `"Ahh os goblins... Nossos inimigos mais frequentes, eles são ágeis e imprevisíveis, e isso pode ser um problema para nós. É necesssário ser astuto e não subestimá-los."`,
     options: [
       {
@@ -302,12 +379,13 @@ const textNodes = [
   },
   {
     id: 5.4,
-    textLeft: `"Sinto muito, meu amigo, mas você não tem o que é preciso para fazer parte do nosso grupo."`,
+    textLeft: '<h4>Você perde 10% da sua vida.</h4> "Sinto muito, meu amigo, mas você não tem o que é preciso para fazer parte do nosso grupo."',
     textRight: `"Nós precisamos de guerreiros fortes e habilidosos, que possam enfrentar as ameaças que encontrarmos em nossas jornadas. Talvez você precise treinar mais e aprimorar suas habilidades antes de se aventurar em perigos maiores."`,
     options: [
       {
-        text: 'Reiniciar',
-        nextText: -1
+        text: 'Tentar novamente',
+        nextText: 5.1,
+        requiredState: (currentState) => currentState.hp,
       }
     ]
   },
@@ -330,8 +408,7 @@ const textNodes = [
     id: 7,
     textLeft: `Clargoth olhou fixamente para você. "Antes de partirmos, preciso saber mais sobre você", disse ele franzindo os olhos em sua direção.`,
     textRight: `Não consigo ver bem seu rosto com essas roupas e capa escura.
-     Me diga, qual o seu nome? 
-    E qual criatura é você?`,
+     Me diga, qual o seu nome?`,
     options: [
       {
         text: 'Hmm... Que tal mais uma caneca de hidromel?',
@@ -340,35 +417,36 @@ const textNodes = [
         nextText: 12
       },
       {
-        text: 'Sou um Humano',
-        setState: { imHuman: true },
-        nextText: 8
-      },
-      {
-        text: 'Sou um Elfo',
-        setState: { imElf: true },
-        nextText: 8
-      },
-      {
-        text: 'Sou um Gnomo',
-        setState: { imGnome: true },
-        nextText: 8
-      },
-      {
-        text: 'Sou um Goblin!',
-        setState: { imGoblin: true },
+        text: 'Certo',
         nextText: 8
       }
     ]
   },
   {
     id: 8,
-    textLeft: `Parabéns ${state.playerName}, você é dez!`,
-    textRight: `uuoou  ${state.playerName} `,
+    textLeft: `O orc te observa com curiosidade, seus olhos amarelados brilham com um misto de surpresa e desconfiança. 
+    Ele aperta a caneca com mais força e diz:`,
+    textRight: `"Hum.. Esse é um nome tanto incomum. Com isso ainda não consigo identificar sua origem"`,
     options: [
       {
-        text: 'Prox',
+        text: 'Sou um Humano',
+        setState: { imHuman: true },
         nextText: 9
+      },
+      {
+        text: 'Sou um Elfo',
+        setState: { imElf: true },
+        nextText: 9.1
+      },
+      {
+        text: 'Sou um Gnomo',
+        setState: { imGnome: true },
+        nextText: 9.2
+      },
+      {
+        text: 'Sou um Goblin!',
+        setState: { imGoblin: true },
+        nextText: 9.3
       }
     ]
   },
@@ -419,11 +497,3 @@ const textNodes = [
 ];
 
 loadGameState()
-
-function controlProgress(name, hit) {
-  (function (name) {
-    let progress = document.getElementById(name + "-bar");
-    RPGUI.set_value(progress, hit);
-  }
-  )(name);
-};
