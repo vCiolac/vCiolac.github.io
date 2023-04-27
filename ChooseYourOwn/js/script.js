@@ -2,12 +2,22 @@ const textLeftElement = document.getElementById('textLeft');
 const textRightElement = document.getElementById('textRight');
 const optionActButtons = document.getElementById('actionControls');
 const resetBtn = document.getElementsByClassName('btnReset')[0];
-// const backPageBtn = document.getElementsByClassName('btnBackPage')[0];
+let hp = document.getElementById("hp-bar");
+let mp = document.getElementById("mp-bar");
+let xp = document.getElementById("xp-bar");
+let level = document.getElementById('level');
+let hpfirstChild = hp.firstChild;
+let mpfirstChild = mp.firstChild;
+let xpfirstChild = xp.firstChild;
+let hpFirstGrandChild = hpfirstChild.firstChild;
+let mpFirstGrandChild = mpfirstChild.firstChild;
+let xpFirstGrandChild = xpfirstChild.firstChild;
 
 let state = {};
 
 function startGame(num) {
   state = {
+    playerName: '',
     level: 1,
   };
   showTextNode(num);
@@ -16,12 +26,18 @@ function startGame(num) {
 function loadGameState() {
   const savedState = localStorage.getItem('gameState');
   const savedPages = localStorage.getItem('gamePage');
-  const hp = localStorage.getItem('hp');
-  if (hp !== null) {
-    controlProgress("hp", JSON.parse(hp))
+  const savedHp = localStorage.getItem('hp');
+  const savedMp = localStorage.getItem('mp');
+  const savedXp = localStorage.getItem('xp');
+  const savedLevel = localStorage.getItem('level');
+  if (savedHp !== null || savedMp !== null || savedXp !== null) {
+    hpFirstGrandChild.style.width = JSON.parse(savedHp);
+    mpFirstGrandChild.style.width = JSON.parse(savedMp);
+    xpFirstGrandChild.style.width = JSON.parse(savedXp);
   }
-  if (savedState !== null || savedPages !== null) {
+  if (savedState !== null || savedPages !== null || savedLevel !== null) {
     state = JSON.parse(savedState);
+    level.innerHTML = JSON.parse(savedLevel)
     showTextNode(JSON.parse(savedPages));
   } else {
     startGame(1);
@@ -29,31 +45,11 @@ function loadGameState() {
 };
 
 function restart() {
-  localStorage.clear('gameState');
-  localStorage.clear('gamePage');
+  localStorage.clear();
   startGame(1);
 };
 
 resetBtn.addEventListener('click', restart);
-
-// const level = document.querySelector('#level');
-
-// level.addEventListener('keyup', () => {
-//   const contador = textArea.value.length;
-//   atual.innerHTML = 500 - contador;
-// });
-// }
-// }
-
-// function backPage () {
-//   for (let i = 1; i < textNodes.length; i += 1) {
-//     if (textLeftElement.innerText === textNodes[i].textLeft) {
-//       let current = textNodes[i].id -1;
-//       showTextNode(current)
-//     }
-//   }
-// }
-// backPageBtn.addEventListener('click', backPage);
 
 // function typeWriter(text, element) {
 //   const speed = 25;
@@ -78,6 +74,11 @@ function showTextNode(textNodeIndex) {
   while (optionActButtons.firstChild) {
     optionActButtons.removeChild(optionActButtons.firstChild);
   }
+  if (textNodeIndex === 1) {
+    hpFirstGrandChild.style.width = 100 + '%';
+    mpFirstGrandChild.style.width = 100 + '%';
+    xpFirstGrandChild.style.width = 0 + '%';
+  }
   if (textNodeIndex === 7) {
     return addInputText(7, 'playerName', 'Escreva seu nome');
   }
@@ -91,21 +92,15 @@ function showTextNode(textNodeIndex) {
     }
   })
   function saveGameState() {
-    let hp = document.getElementById("hp-bar");
-    let mp = document.getElementById("mp-bar");
-    let level = document.getElementById('level');
-    let hpfirstChild = hp.firstChild;
-    let mpfirstChild = mp.firstChild;
-    let hpFirstGrandChild = hpfirstChild.firstChild;
-    let mpFirstGrandChild = mpfirstChild.firstChild;
-
     localStorage.setItem('gameState', JSON.stringify(state));
     localStorage.setItem('gamePage', JSON.stringify(textNodeIndex));
     localStorage.setItem('hp', JSON.stringify(hpFirstGrandChild.style.width));
     localStorage.setItem('mp', JSON.stringify(mpFirstGrandChild.style.width));
+    localStorage.setItem('xp', JSON.stringify(xpFirstGrandChild.style.width));
     localStorage.setItem('level', JSON.stringify(parseInt(level.innerHTML)));
   }
   saveGameState();
+  fillStateSelect();
 };
 
 function showOption(option) { // Verifica se tem o state requirido para o botão
@@ -134,7 +129,7 @@ function controlProgress(name, operador, hit) { // name = "hp" or "mp" or "xp" /
 
   let currentWidth = parseInt(firstGrandChild.style.width);
   let newWidth;
-  
+
   if (operador === 'up') {
     newWidth = currentWidth + hit;
   } else if (operador === 'down') {
@@ -142,7 +137,7 @@ function controlProgress(name, operador, hit) { // name = "hp" or "mp" or "xp" /
   } else {
     return;
   }
-  
+
   firstGrandChild.style.width = newWidth + '%';
   localStorage.setItem(name, JSON.stringify(newWidth + '%'));
   state[name] = newWidth;
@@ -157,6 +152,8 @@ function dieOrUp(name) {
   if (name === 'hp' && parseInt(firstGrandChild.style.width) <= 0) {
     restart();
     alert('Sua barra de vida chegou a 0%, você morreu.');
+  } if (name === 'hp') {
+
   }
   if (name === 'xp' && parseInt(firstGrandChild.style.width) >= 100) {
     state.level += 1;
@@ -166,7 +163,7 @@ function dieOrUp(name) {
     alert('Sua barra de experiência chegou a 100%! Você upou 1 level!');
     firstGrandChild.style.width = 0;
   }
-  
+
 };
 
 function addInputText(numID, names, placeholder) { // Id que será add / name&id do input / placeholder
@@ -204,7 +201,22 @@ function tradePageContent() {
   }
 };
 
+const infos = document.getElementById('infos');
 
+function fillStateSelect() {
+  const stateSelect = document.querySelector('#stateSelect');
+  while (stateSelect.firstChild) {
+    stateSelect.removeChild(stateSelect.firstChild);
+  }
+  for (const prop in state) {
+    if (state.hasOwnProperty(prop) && state[prop] !== false) {
+      const option = document.createElement('option');
+      option.value = prop;
+      option.text = `${prop}: ${state[prop]}`;
+      stateSelect.appendChild(option);
+    }
+  }
+};
 
 const textNodes = [
   {
