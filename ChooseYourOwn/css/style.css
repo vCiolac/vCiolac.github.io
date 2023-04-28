@@ -13,7 +13,7 @@ section .rpgui-container {
   position: relative;
 }
 
-#cont {
+#contain {
   position: relative;
 }
 
@@ -115,8 +115,10 @@ header {
 }
 
 #imgs img {
-  max-width: 22%;
+  max-width: 49vw;
+  max-height: 25vw;
   height: auto;
+  padding: 0%;
 }
 
 @media screen and (max-width: 800px) {
