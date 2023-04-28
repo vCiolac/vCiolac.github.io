@@ -50,27 +50,43 @@ function restart() {
 };
 
 resetBtn.addEventListener('click', restart);
+const isFinished = { value: false };
 
-// function typeWriter(text, element) {
-//   const speed = 25;
-//   let i = 0;
-//   element.innerHTML = '';
-//   function write() {
-//     if (i < text.length) {
-//       element.innerHTML += text.charAt(i);
-//       i += 1;
-//       setTimeout(write, speed);
-//     }
-//   }
-//   write();
-// }
+function typeWriter(text, element) {
+  const speed = 30;
+  let i = 0;
+  element.innerHTML = '';
+  
+  function write() {
+    if (i < text.length) {
+      element.innerHTML += text.charAt(i);
+      i += 1;
+      setTimeout(write, speed);
+    } else {
+      isFinished.value = true;
+    }
+  }
+  
+  write();
+};
+
 
 function showTextNode(textNodeIndex) {
   const textNode = textNodes.find(textNode => textNode.id === textNodeIndex); // Passa por todos os arrays de textnodes, procura o 'id' e faz textNode.id ser igual ao numero atribuido na selectOption.
-  // typeWriter(`${textNode.textLeft}`, textLeftElement);
-  // typeWriter(`${textNode.textRight}`, textRightElement);
-  textLeftElement.innerHTML = textNode.textLeft;
-  textRightElement.innerHTML = textNode.textRight;
+  isFinished.value = false;
+  typeWriter(`${textNode.textLeft}`, textLeftElement);
+  typeWriter(`${textNode.textRight}`, textRightElement);
+  const imgs = document.getElementById('imgs')
+  while (imgs.firstChild) {
+    imgs.removeChild(imgs.firstChild);
+  }
+  if (textNode.imgSrc1 !== "") {
+    createImage(textNode.imgSrc1);
+  }
+  if (textNode.imgSrc2 !== "") {
+    createImage(textNode.imgSrc2);
+  }
+  
   while (optionActButtons.firstChild) {
     optionActButtons.removeChild(optionActButtons.firstChild);
   }
@@ -83,15 +99,31 @@ function showTextNode(textNodeIndex) {
   if (textNodeIndex === 7) {
     return addInputText(7, 'playerName', 'Escreva seu nome');
   }
+
+  optionActButtons.innerHTML = '';
+
   textNode.options.forEach(option => { // Para cada options dentro do Id cria seus botões com o text.
     if (showOption(option)) {
       const button = document.createElement('button');
       button.innerText = option.text;
       button.classList.add('btnAct');
-      button.addEventListener('click', () => selectOption(option));
-      optionActButtons.appendChild(button);
-    }
-  })
+
+      const a = document.createElement('a');
+      a.setAttribute('href', '#book-container');
+
+      a.appendChild(button);
+      optionActButtons.appendChild(a);
+
+      button.addEventListener('click', () => {
+        if (isFinished.value) {
+          selectOption(option);
+        } else {
+          alert('Por favor espere o texto terminar de ser escrito antes de fazer uma escolha.');
+        }
+      });
+    };
+  });
+      
   function saveGameState() {
     localStorage.setItem('gameState', JSON.stringify(state));
     localStorage.setItem('gamePage', JSON.stringify(textNodeIndex));
@@ -202,15 +234,13 @@ function tradePageContent() {
   }
 };
 
-function createImage(src, alt) {
+function createImage(src) {
   const img = document.createElement('img');
   img.src = src;
-  img.alt = alt;
-  img.classList.add('rpgui-container framed');
+  img.classList.add('rpgui-container', 'framed');
   const imgs = document.getElementById('imgs');
   imgs.appendChild(img);
 }
-
 
 function fillStateSelect() {
   const stateSelect = document.querySelector('#stateSelect');
@@ -230,7 +260,9 @@ function fillStateSelect() {
 const textNodes = [
   {
     id: 1,
-    textLeft: 'A noite caiu e você sente sede.. A Taverna de Dallas está sempre agitada, com música alta e um clima animado. Ao entrar, você senta e se depara com um grupo de aventureiros em uma mesa próxima ao bar',
+    imgSrc1: "../imgs/night-tavern.png",
+    imgSrc2: "../imgs/tablefull.png",
+    textLeft: 'A noite caiu e você sente sede.. A taverna da cidade está sempre agitada, com música alta e um clima agradável. Ao entrar, você senta e se depara com um grupo de aventureiros em uma mesa próxima ao bar',
     textRight: ' Você consegue escutar que eles estão discutindo os detalhes de sua próxima expedição.Eles haviam sido contratados para encontrar um artefato místico que esta escondido nas profundezas de uma masmorra, e você percebe que eles ainda não planejaram uma estratégia para a jornada.',
     options: [
       {
@@ -246,6 +278,8 @@ const textNodes = [
   },
   {
     id: 2,
+    imgSrc1: "",
+    imgSrc2: "../imgs/clargoth.png",
     textLeft: 'Um guerreiro de aparência imponente ergue sua taça de hidromel e chama a atenção dos outros membros.',
     textRight: `Com um sorriso malicioso no rosto, Clargoth, o líder orc do grupo, diz: 
     "Companheiros, devemos nos preparar para a jornada! Mas antes.. Vamos aproveitar a noite e beber em honra do sucesso futuro!"`,
@@ -268,6 +302,8 @@ const textNodes = [
   },
   {
     id: 3.1,
+    imgSrc1: "",
+    imgSrc2: "",
     textLeft: `Ao oferecer uma bebida para Clargoth e seu grupo, ele ergue a sobrancelha em surpresa, mas logo aceita com um sorriso largo no rosto, e diz:
     "Muito obrigado, meu amigo. Iremos comemorar a futura vitória juntos!", levantando a caneca de hidromel em um brinde"`,
     textRight: 'Vejo que você gosta de aventuras, hmmm... Deseja se juntar à nossa caçada? Exclama Clargoth.',
@@ -284,6 +320,8 @@ const textNodes = [
   },
   {
     id: 3.2,
+    imgSrc1: "",
+    imgSrc2: "",
     textLeft: '"Ei, meu amigo. Algum problema? Meu grupo precisa se preparar para a jornada que virá em breve.", diz Clargoth, sorrindo de forma amistosa',
     textRight: 'Clargoth é um líder Orc, leal e forte, que sempre terá o interesse de seus amigos em primeiro lugar.',
     options: [
@@ -305,6 +343,8 @@ const textNodes = [
   },
   {
     id: 4,
+    imgSrc1: "",
+    imgSrc2: "",
     textLeft: `Clargoth bebe sua bebida em um gole só, mostrando ter habilidade em consumir grandes quantidades de álcool. Depois de terminar, Clargoth bate na mesa com força e grita:
      "Mais um pro time!" e então ele começa a cantar uma música de sua terra natal. Os outros frequentadores da taverna param para ouvir, enquanto o orc entoa a canção com uma voz potente e rouca..`,
     textRight: `Você e os outros membros da mesa juntam-se todos na cantoria, criando uma atmosfera animada na taverna. Depois de alguns minutos, a música termina e Clargoth se volta para você, com um olhar de cumplicidade,
@@ -328,6 +368,8 @@ const textNodes = [
   },
   {
     id: 5,
+    imgSrc1: "",
+    imgSrc2: "",
     textLeft: `Ele se vira para você com uma expressão séria.
     "Vou fazer algumas perguntas para testar suas habilidades. Você está pronto?".
     Clargoth diz, encarando você com um olhar desafiador.`,
@@ -341,6 +383,8 @@ const textNodes = [
   },
   {
     id: 5.1,
+    imgSrc1: "",
+    imgSrc2: "",
     textLeft: `"Qual é a melhor arma para se usar contra um troll de pedra?"`,
     textRight: '"Pense bem, amigo. Se o troll perceber que estamos planejando atacá-lo, ele pode ficar ainda mais feroz e nos dar um problema ainda maior."',
     options: [
@@ -360,6 +404,8 @@ const textNodes = [
   },
   {
     id: 5.2,
+    imgSrc1: "",
+    imgSrc2: "",
     textLeft: `<h4>Você ganhou 10% de experiência.</h4>
     "Certo, e como você lidaria com um dragão que cospe fogo?"`,
     textRight: `"Os dragões são extremamente inteligentes e podem antecipar nossos movimentos. Precisamos pensar em algo que possa enganá-lo, algo que ele não espera."`,
@@ -381,6 +427,8 @@ const textNodes = [
   },
   {
     id: 5.3,
+    imgSrc1: "",
+    imgSrc2: "",
     textLeft: `<h4>Você ganhou 10% de experiência.</h4>
     "Ok. Em uma batalha contra um grupo de goblins, como você faria com sua equipe para obter a vitória?"`,
     textRight: `"Ahh os goblins... Nossos inimigos mais frequentes, eles são ágeis e imprevisíveis, e isso pode ser um problema para nós. É necesssário ser astuto e não subestimá-los."`,
@@ -401,6 +449,8 @@ const textNodes = [
   },
   {
     id: 5.4,
+    imgSrc1: "",
+    imgSrc2: "",
     textLeft: '<h4>Você perde 10% da sua vida.</h4> "Sinto muito, meu amigo, mas você não tem o que é preciso para fazer parte do nosso grupo."',
     textRight: `"Nós precisamos de guerreiros fortes e habilidosos, que possam enfrentar as ameaças que encontrarmos em nossas jornadas. Talvez você precise treinar mais e aprimorar suas habilidades antes de se aventurar em perigos maiores."`,
     options: [
@@ -413,8 +463,10 @@ const textNodes = [
   },
   {
     id: 6,
+    imgSrc1: "",
+    imgSrc2: "",
     textLeft: `"Muito bem, meu amigo! Você provou ser habilidoso, e estou feliz em ter você em nosso grupo. Mas não se engane, o caminho que temos pela frente é cheio de perigos, monstros que desafiam a lógica e a própria natureza habitam a masmorra em que estamos prestes a entrar."`,
-    textRight: `"Nossas habilidades e forças serão testadas além do que podemos suportar, e muitos que começam essa jornada com nós não voltam" conclui Clargoth, "Saiba que a morte é um destino certo e horrível que aguarda aqueles que são fracos e imprudentes."`,
+    textRight: `"Nossas habilidades e forças serão testadas além do que podemos suportar, e muitos dos que começam essa jornada não voltam" conclui Clargoth, "Saiba que a morte é um destino certo e horrível que aguarda aqueles que são fracos e imprudentes."`,
     options: [
       {
         text: 'Eu entendo os perigos que nos aguardam e estou aqui para enfrentá-los',
@@ -428,24 +480,28 @@ const textNodes = [
   },
   {
     id: 7,
+    imgSrc1: "",
+    imgSrc2: "",
     textLeft: `Clargoth olhou fixamente para você. "Antes de partirmos, preciso saber mais sobre você", disse ele franzindo os olhos em sua direção.`,
     textRight: `Não consigo ver bem seu rosto com essas roupas e capa escura.
      Me diga, qual o seu nome?`,
     options: [
       {
+        text: 'Certo',
+        nextText: 8
+      },
+      {
         text: 'Hmm... Que tal mais uma caneca de hidromel?',
         requiredState: (currentState) => currentState.mead === 1,
         setState: { mead: false },
         nextText: 12
-      },
-      {
-        text: 'Certo',
-        nextText: 8
       }
     ]
   },
   {
     id: 8,
+    imgSrc1: "",
+    imgSrc2: "",
     textLeft: `O orc te observa com curiosidade, seus olhos amarelados brilham com um misto de surpresa e desconfiança. 
     Ele aperta a caneca com mais força e diz:`,
     textRight: `"Hum.. Esse é um nome tanto incomum. Com isso ainda não consigo identificar sua origem"`,
@@ -474,6 +530,8 @@ const textNodes = [
   },
   {
     id: 9,
+    imgSrc1: "",
+    imgSrc2: "",
     textLeft: `A`,
     textRight: 'e ganha XP',
     options: [
@@ -485,6 +543,8 @@ const textNodes = [
   },
   {
     id: 10,
+    imgSrc1: "",
+    imgSrc2: "",
     textLeft: 'The monster laughed as you hid behind your shield and ate you.',
     textRight: 'BARABAM.',
     options: [
@@ -496,6 +556,8 @@ const textNodes = [
   },
   {
     id: 11,
+    imgSrc1: "",
+    imgSrc2: "",
     textLeft: 'You threw your jar of goo at the monster and it exploded. After the dust settled you saw the monster was destroyed. Seeing your victory you decide to claim this castle as your and live out the rest of your days there.',
     textRight: 'BARABAM.',
     options: [
@@ -507,6 +569,8 @@ const textNodes = [
   },
   {
     id: 12,
+    imgSrc1: "",
+    imgSrc2: "",
     textLeft: 'As horas passam... Os exploradores beberam mais do que deveriam. Garrick, o bardô, cantava canções antigas em voz alta, enquanto Clargoth, batia em sua mesa com a caneca, rindo das piadas sujas que seus outros parceiros contavam.',
     textRight: 'Você acabou bebendo mais do que aguentava. A última coisa de que se lembra é de ter acabado de tomar um grande gole de hidromel e depois tudo ficou escuro.',
     options: [

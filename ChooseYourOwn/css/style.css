@@ -13,7 +13,7 @@ section .rpgui-container {
   position: relative;
 }
 
-#cont {
+#contain {
   position: relative;
 }
 
@@ -89,7 +89,7 @@ header {
 
 #playerName,
 #stateSelect {
-  width: 45%;
+  max-width: 33%;
 }
 
 #infos {
@@ -115,8 +115,10 @@ header {
 }
 
 #imgs img {
-  max-width: 22%;
+  max-width: 49vw;
+  max-height: 25vw;
   height: auto;
+  padding: 0%;
 }
 
 @media screen and (max-width: 800px) {
@@ -137,6 +139,11 @@ header {
   #imgs img {
     max-width: 49%;
     height: auto;
+  }
+
+  #playerName,
+  #stateSelect {
+    max-width: 80%;
   }
 
 }
