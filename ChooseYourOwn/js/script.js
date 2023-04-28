@@ -260,8 +260,8 @@ function fillStateSelect() {
 const textNodes = [
   {
     id: 1,
-    imgSrc1: "../imgs/night-tavern.png",
-    imgSrc2: "../imgs/tablefull.png",
+    imgSrc1: "./imgs/night-tavern.png",
+    imgSrc2: "./imgs/tablefull.png",
     textLeft: 'A noite caiu e você sente sede.. A taverna da cidade está sempre agitada, com música alta e um clima agradável. Ao entrar, você senta e se depara com um grupo de aventureiros em uma mesa próxima ao bar',
     textRight: ' Você consegue escutar que eles estão discutindo os detalhes de sua próxima expedição.Eles haviam sido contratados para encontrar um artefato místico que esta escondido nas profundezas de uma masmorra, e você percebe que eles ainda não planejaram uma estratégia para a jornada.',
     options: [
