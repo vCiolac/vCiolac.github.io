@@ -222,8 +222,8 @@ function fillStateSelect() {
 const textNodes = [
   {
     id: 1,
-    textLeft: 'A noite caiu e você sente sede.. A Taverna de Dallas está sempre agitada, com música alta e um clima animado. Ao entrar, você senta e se depara com um grupo de aventureiros sentados em uma mesa próxima ao bar, discutindo os detalhes de sua próxima expedição.',
-    textRight: 'Eles haviam sido contratados para encontrar um artefato místico que estava escondido nas profundezas de uma masmorra, mas ainda não haviam planejado a estratégia para a jornada.',
+    textLeft: 'A noite caiu e você sente sede.. A Taverna de Dallas está sempre agitada, com música alta e um clima animado. Ao entrar, você senta e se depara com um grupo de aventureiros em uma mesa próxima ao bar',
+    textRight: ' Você consegue escutar que eles estão discutindo os detalhes de sua próxima expedição.Eles haviam sido contratados para encontrar um artefato místico que esta escondido nas profundezas de uma masmorra, e você percebe que eles ainda não planejaram uma estratégia para a jornada.',
     options: [
       {
         text: 'Pegar uma bebida',
@@ -239,8 +239,8 @@ const textNodes = [
   {
     id: 2,
     textLeft: 'Um guerreiro de aparência imponente ergue sua taça de hidromel e chama a atenção dos outros membros.',
-    textRight: `Com um sorriso malicioso no rosto, Clargoth, o líder orc do grupo diz: 
-    "Companheiros, nos prepararmos para a jornada que virá! Mas antes, vamos aproveitar a noite e beber em honra do sucesso futuro!"`,
+    textRight: `Com um sorriso malicioso no rosto, Clargoth, o líder orc do grupo, diz: 
+    "Companheiros, devemos nos preparar para a jornada! Mas antes.. Vamos aproveitar a noite e beber em honra do sucesso futuro!"`,
     options: [
       {
         text: 'Oferecer um brinde aos exploradores',
@@ -260,9 +260,9 @@ const textNodes = [
   },
   {
     id: 3.1,
-    textLeft: `Ao oferecer uma bebida para Clargoth e seu grupo, ele ergue a sobrancelha em surpresa, mas logo aceita com um sorriso largo no rosto e diz:
+    textLeft: `Ao oferecer uma bebida para Clargoth e seu grupo, ele ergue a sobrancelha em surpresa, mas logo aceita com um sorriso largo no rosto, e diz:
     "Muito obrigado, meu amigo. Iremos comemorar a futura vitória juntos!", levantando a caneca de hidromel em um brinde"`,
-    textRight: 'Vejo que você gosta de aventuras, hmmm... Deseja se juntar à nós? exclama Clargoth',
+    textRight: 'Vejo que você gosta de aventuras, hmmm... Deseja se juntar à nossa caçada? Exclama Clargoth.',
     options: [
       {
         text: 'Sim! Estou sedento por ação',
@@ -277,10 +277,10 @@ const textNodes = [
   {
     id: 3.2,
     textLeft: '"Ei, meu amigo. Algum problema? Meu grupo precisa se preparar para a jornada que virá em breve.", diz Clargoth, sorrindo de forma amistosa',
-    textRight: 'Clargoth é um líder Orc leal e forte, que sempre terá o interesse de seus amigos em primeiro lugar.',
+    textRight: 'Clargoth é um líder Orc, leal e forte, que sempre terá o interesse de seus amigos em primeiro lugar.',
     options: [
       {
-        text: 'Dizer que deseja ir atrás do artefato também',
+        text: 'Dizer que também deseja ir atrás do artefato',
         nextText: 4
       },
       {
@@ -297,9 +297,10 @@ const textNodes = [
   },
   {
     id: 4,
-    textLeft: 'Clargoth bebe sua bebida em um gole só, mostrando habilidade em consumir grandes quantidades de álcool. Depois de terminar, Clargoth bate na mesa com força e grita "Mais um pro time!" e então ele começa a cantar uma música de sua terra natal. Os outros frequentadores da taverna param para ouvir, enquanto o orc entoa a canção com uma voz potente e rouca..',
-    textRight: `Você e os outros membros da mesa se juntam-se a ele na cantoria, criando uma atmosfera animada na taverna. Depois de alguns minutos, a música termina e Clargoth se volta para você, com um olhar de cumplicidade, e diz:
-    Pensando bem... Eu estou bêbado e meu discernimento está fraco.. Se você quer ser um membro deste grupo, você deve provar seu valor.`,
+    textLeft: `Clargoth bebe sua bebida em um gole só, mostrando ter habilidade em consumir grandes quantidades de álcool. Depois de terminar, Clargoth bate na mesa com força e grita:
+     "Mais um pro time!" e então ele começa a cantar uma música de sua terra natal. Os outros frequentadores da taverna param para ouvir, enquanto o orc entoa a canção com uma voz potente e rouca..`,
+    textRight: `Você e os outros membros da mesa juntam-se todos na cantoria, criando uma atmosfera animada na taverna. Depois de alguns minutos, a música termina e Clargoth se volta para você, com um olhar de cumplicidade,
+    "Pensando bem... Eu estou bêbado e meu discernimento está fraco.. Se você quer ser um membro deste grupo, você deve provar seu valor."`,
     options: [
       {
         text: 'Eu acabei de pagar uma rodada de bebida pra vocês...',
@@ -312,7 +313,7 @@ const textNodes = [
         nextText: 5
       },
       {
-        text: 'Provar algo para você? Não preciso disso',
+        text: 'Provar para você? Não preciso disso',
         nextText: 12
       }
     ]
@@ -322,7 +323,7 @@ const textNodes = [
     textLeft: `Ele se vira para você com uma expressão séria.
     "Vou fazer algumas perguntas para testar suas habilidades. Você está pronto?".
     Clargoth diz, encarando você com um olhar desafiador.`,
-    textRight: 'Você pode sentir a pressão aumentar, mas sabe que é importante provar sua habilidade para ganhar seu respeito.',
+    textRight: 'Você pode sentir a pressão aumentar, mas sabe que é importante provar sua habilidade para ganhar o seu respeito.',
     options: [
       {
         text: 'Pode mandar',
@@ -398,7 +399,7 @@ const textNodes = [
       {
         text: 'Tentar novamente',
         nextText: 5.1,
-        requiredState: (currentState) => currentState.hp,
+        requiredState: (currentState) => currentState.hp > 0,
       }
     ]
   },
