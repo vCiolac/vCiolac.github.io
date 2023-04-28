@@ -50,25 +50,32 @@ function restart() {
 };
 
 resetBtn.addEventListener('click', restart);
+const isFinished = { value: false };
 
-// function typeWriter(text, element) {
-//   const speed = 25;
-//   let i = 0;
-//   element.innerHTML = '';
-//   function write() {
-//     if (i < text.length) {
-//       element.innerHTML += text.charAt(i);
-//       i += 1;
-//       setTimeout(write, speed);
-//     }
-//   }
-//   write();
-// }
+function typeWriter(text, element) {
+  const speed = 30;
+  let i = 0;
+  element.innerHTML = '';
+  
+  function write() {
+    if (i < text.length) {
+      element.innerHTML += text.charAt(i);
+      i += 1;
+      setTimeout(write, speed);
+    } else {
+      isFinished.value = true;
+    }
+  }
+  
+  write();
+};
+
 
 function showTextNode(textNodeIndex) {
   const textNode = textNodes.find(textNode => textNode.id === textNodeIndex); // Passa por todos os arrays de textnodes, procura o 'id' e faz textNode.id ser igual ao numero atribuido na selectOption.
-  // typeWriter(`${textNode.textLeft}`, textLeftElement);
-  // typeWriter(`${textNode.textRight}`, textRightElement);
+  isFinished.value = false;
+  typeWriter(`${textNode.textLeft}`, textLeftElement);
+  typeWriter(`${textNode.textRight}`, textRightElement);
   const imgs = document.getElementById('imgs')
   while (imgs.firstChild) {
     imgs.removeChild(imgs.firstChild);
@@ -79,8 +86,7 @@ function showTextNode(textNodeIndex) {
   if (textNode.imgSrc2 !== "") {
     createImage(textNode.imgSrc2);
   }
-  textLeftElement.innerHTML = textNode.textLeft;
-  textRightElement.innerHTML = textNode.textRight;
+  
   while (optionActButtons.firstChild) {
     optionActButtons.removeChild(optionActButtons.firstChild);
   }
@@ -93,20 +99,31 @@ function showTextNode(textNodeIndex) {
   if (textNodeIndex === 7) {
     return addInputText(7, 'playerName', 'Escreva seu nome');
   }
+
+  optionActButtons.innerHTML = '';
+
   textNode.options.forEach(option => { // Para cada options dentro do Id cria seus botões com o text.
     if (showOption(option)) {
       const button = document.createElement('button');
       button.innerText = option.text;
       button.classList.add('btnAct');
-      button.addEventListener('click', () => selectOption(option));
 
       const a = document.createElement('a');
       a.setAttribute('href', '#book-container');
-      a.appendChild(button);
 
+      a.appendChild(button);
       optionActButtons.appendChild(a);
-    }
-  })
+
+      button.addEventListener('click', () => {
+        if (isFinished.value) {
+          selectOption(option);
+        } else {
+          alert('Por favor espere o texto terminar de ser escrito antes de fazer uma escolha.');
+        }
+      });
+    };
+  });
+      
   function saveGameState() {
     localStorage.setItem('gameState', JSON.stringify(state));
     localStorage.setItem('gamePage', JSON.stringify(textNodeIndex));
@@ -244,8 +261,8 @@ const textNodes = [
   {
     id: 1,
     imgSrc1: "../imgs/night-tavern.png",
-    imgSrc2: "",
-    textLeft: 'A noite caiu e você sente sede.. A taverna de cidade está sempre agitada, com música alta e um clima agradável. Ao entrar, você senta e se depara com um grupo de aventureiros em uma mesa próxima ao bar',
+    imgSrc2: "../imgs/tablefull.png",
+    textLeft: 'A noite caiu e você sente sede.. A taverna da cidade está sempre agitada, com música alta e um clima agradável. Ao entrar, você senta e se depara com um grupo de aventureiros em uma mesa próxima ao bar',
     textRight: ' Você consegue escutar que eles estão discutindo os detalhes de sua próxima expedição.Eles haviam sido contratados para encontrar um artefato místico que esta escondido nas profundezas de uma masmorra, e você percebe que eles ainda não planejaram uma estratégia para a jornada.',
     options: [
       {
@@ -470,14 +487,14 @@ const textNodes = [
      Me diga, qual o seu nome?`,
     options: [
       {
+        text: 'Certo',
+        nextText: 8
+      },
+      {
         text: 'Hmm... Que tal mais uma caneca de hidromel?',
         requiredState: (currentState) => currentState.mead === 1,
         setState: { mead: false },
         nextText: 12
-      },
-      {
-        text: 'Certo',
-        nextText: 8
       }
     ]
   },

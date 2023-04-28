@@ -89,7 +89,7 @@ header {
 
 #playerName,
 #stateSelect {
-  width: 45%;
+  max-width: 33%;
 }
 
 #infos {
@@ -139,6 +139,11 @@ header {
   #imgs img {
     max-width: 49%;
     height: auto;
+  }
+
+  #playerName,
+  #stateSelect {
+    max-width: 80%;
   }
 
 }
