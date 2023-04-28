@@ -202,7 +202,15 @@ function tradePageContent() {
   }
 };
 
-const infos = document.getElementById('infos');
+function createImage(src, alt) {
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = alt;
+  img.classList.add('rpgui-container framed');
+  const imgs = document.getElementById('imgs');
+  imgs.appendChild(img);
+}
+
 
 function fillStateSelect() {
   const stateSelect = document.querySelector('#stateSelect');
