@@ -272,6 +272,31 @@ function createImage(src) {
   const img = document.createElement('img');
   img.src = src;
   img.classList.add('rpgui-container', 'framed');
+
+  img.addEventListener('click', () => {
+    // cria a div para o zoom
+    const zoomContainer = document.createElement('div');
+    zoomContainer.classList.add('zoom-container');
+    
+    // cria a imagem em tamanho maior
+    const zoomImg = document.createElement('img');
+    zoomImg.src = src;
+    zoomImg.classList.add('zoom-img', 'rpgui-container', 'framed');
+    zoomContainer.appendChild(zoomImg);
+
+    // cria o botão de fechar
+    const closeButton = document.createElement('button');
+    closeButton.classList.add('close-button');
+    closeButton.innerHTML = '&times;';
+    closeButton.addEventListener('click', () => {
+      zoomContainer.remove();
+    });
+    zoomContainer.appendChild(closeButton);
+
+    // adiciona o zoom ao corpo da página
+    document.body.appendChild(zoomContainer);
+  });
+
   const imgs = document.getElementById('imgs');
   imgs.appendChild(img);
 }
