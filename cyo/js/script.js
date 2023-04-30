@@ -42,6 +42,7 @@ function loadGameState() {
   } else {
     startGame(1);
   }
+  playPauseButton();
 };
 
 function restart() {
@@ -55,17 +56,75 @@ resetBtn.addEventListener('click', () => {
   } else {
     alert('Por favor espere o texto terminar de ser escrito antes de fazer uma escolha.');
     writeSpeed = 0;
+    writeSpeed2 = 0;
   }
 });
 
+let backgroundMusic = new Audio('./mp3/Medieval-Renaissance.mp3'); // Composed by Rafael Krux.
+let currentMusic = null;
+let isBackgroundMusicPlaying = false;
+const playPauseBtn = document.getElementById('playPauseBtn');
+
+playPauseBtn.addEventListener('click', playPauseButton);
+
+function playPauseButton() {
+  if (!isBackgroundMusicPlaying) {
+    playPauseBtn.innerHTML = '&#x23F8';
+    isBackgroundMusicPlaying = true;
+    playBackgroundMusic();
+  } else {
+    isBackgroundMusicPlaying = false;
+    playPauseBtn.innerHTML = '&#x25B6';
+    playBackgroundMusic();
+  }
+};
+
+function playBackgroundMusic() {
+  if (isBackgroundMusicPlaying) {
+    backgroundMusic.volume = 0.5; // definindo o volume para 50%
+    backgroundMusic.play();
+    isBackgroundMusicPlaying = true;
+    backgroundMusic.addEventListener('ended', function () {
+      this.currentTime = 0;
+      this.play();
+    });
+  } else {
+    backgroundMusic.pause();
+    isBackgroundMusicPlaying = false;
+  }
+};
+
+function playAudio(src) {
+  if (isBackgroundMusicPlaying) {
+    backgroundMusic.pause();
+    isBackgroundMusicPlaying = false;
+  }
+
+  let newMusic = new Audio(src);
+  newMusic.volume = 1;
+  newMusic.play();
+
+  newMusic.addEventListener('ended', function () {
+    this.removeEventListener('ended', arguments.callee);
+    backgroundMusic.currentTime = 0;
+    backgroundMusic.play();
+    isBackgroundMusicPlaying = true;
+    playPauseBtn.innerHTML = '&#x23F8';
+  });
+};
+
 const isFinished = { value: false };
 let writeSpeed = 30;
+let writeSpeed2 = 35;
 
-function typeWriter(newText, textElement) {
+function typeWriter(newText, textElement, newText2, textElement2) {
   writeSpeed = 30;
+  writeSpeed2 = 35;
   let i = 0;
+  let i2 = 0;
   let isH4 = false;
   textElement.innerHTML = '';
+  textElement2.innerHTML = '';
 
   // Verificar se o novo texto contém um elemento <h4>
   const h4Index = newText.indexOf('<h4>');
@@ -75,6 +134,14 @@ function typeWriter(newText, textElement) {
     // Definir o conteúdo do elemento textElement até o próximo </h4>
     textElement.innerHTML = newText.substring(0, closeH4Index);
     i = closeH4Index;
+  }
+  const h4Index2 = newText2.indexOf('<h4>');
+  if (h4Index2 !== -1) {
+    // Encontrar a posição do próximo </h4>
+    const closeH4Index2 = newText2.indexOf('</h4>', h4Index2) + 5;
+    // Definir o conteúdo do elemento textElement até o próximo </h4>
+    textElement2.innerHTML = newText2.substring(0, closeH4Index2);
+    i = closeH4Index2;
   }
 
   function write() {
@@ -94,21 +161,39 @@ function typeWriter(newText, textElement) {
           write();
         }
       }
-    } else {
+    } if (i === newText.length) {
+      if (writeSpeed === 0) {
+        writeSpeed2 = 0;
+      } if (i2 < newText2.length) {
+        if (newText2.charAt(i2) === '<' && newText2.slice(i2, i2 + 4) === '<h4>') {
+          isH4 = true;
+        } else if (newText2.charAt(i2) === '<' && newText2.slice(i2, i2 + 5) === '</h4>') {
+          isH4 = false;
+          textElement2.innerHTML += newText2.substring(i2, newText2.indexOf('</h4>', i2) + 5);
+          i2 = newText2.indexOf('</h4>', i2) + 5;
+        } else {
+          textElement2.innerHTML += newText2.charAt(i2);
+          i2 += 1;
+          if (!isH4) {
+            timeoutId = setTimeout(write, writeSpeed2);
+          } else {
+            write();
+          }
+        }
+      }
+    }
+    if (i2 === newText2.length) {
       isFinished.value = true;
     }
   }
 
   write();
-}
-
-
+};
 
 function showTextNode(textNodeIndex) {
   const textNode = textNodes.find(textNode => textNode.id === textNodeIndex); // Passa por todos os arrays de textnodes, procura o 'id' e faz textNode.id ser igual ao numero atribuido na selectOption.
   isFinished.value = false;
-  typeWriter(`${textNode.textLeft}`, textLeftElement);
-  typeWriter(`${textNode.textRight}`, textRightElement);
+  typeWriter(`${textNode.textRight}`, textLeftElement, `${textNode.textLeft}`, textRightElement);
   const imgs = document.getElementById('imgs')
   while (imgs.firstChild) {
     imgs.removeChild(imgs.firstChild);
@@ -153,6 +238,7 @@ function showTextNode(textNodeIndex) {
         } else {
           alert('Por favor espere o texto terminar de ser escrito antes de fazer uma escolha.');
           writeSpeed = 0;
+          writeSpeed2 = 0;
         }
       });
     };
@@ -181,6 +267,9 @@ function selectOption(option) {
   }
   if (nextTextNodeId === 5.2 || nextTextNodeId === 5.3) {
     controlProgress("xp", 'up', 10);
+  }
+  if (nextTextNodeId === 12 || nextTextNodeId === 4) {
+    playAudio('./mp3/medieval_loop.wav');
   }
   if (nextTextNodeId <= 0) {
     return restart();
@@ -277,7 +366,7 @@ function createImage(src) {
     // cria a div para o zoom
     const zoomContainer = document.createElement('div');
     zoomContainer.classList.add('zoom-container');
-    
+
     // cria a imagem em tamanho maior
     const zoomImg = document.createElement('img');
     zoomImg.src = src;
@@ -362,10 +451,10 @@ const textNodes = [
   {
     id: 3.1,
     imgSrc1: "",
-    imgSrc2: "",
+    imgSrc2: "./imgs/clargHappy.png",
     textLeft: `Ao oferecer uma bebida para Clargoth e seu grupo, ele ergue a sobrancelha em surpresa, mas logo aceita com um sorriso largo no rosto, e diz:
-    "Muito obrigado, meu amigo. Iremos comemorar a futura vitória juntos!", levantando a caneca de hidromel em um brinde"`,
-    textRight: 'Vejo que você gosta de aventuras, hmmm... Deseja se juntar à nossa caçada? Exclama Clargoth.',
+    "Muito obrigado, meu amigo. Iremos comemorar a futura vitória juntos!", levantando a caneca de hidromel em um brinde.`,
+    textRight: '"Vejo que você gosta de aventuras, hmmm... Deseja se juntar à nossa caçada?" Exclama Clargoth.',
     options: [
       {
         text: 'Sim! Estou sedento por ação',
@@ -402,7 +491,7 @@ const textNodes = [
   },
   {
     id: 4,
-    imgSrc1: "",
+    imgSrc1: "./imgs/guitar.png",
     imgSrc2: "",
     textLeft: `Clargoth bebe sua bebida em um gole só, mostrando ter habilidade em consumir grandes quantidades de álcool. Depois de terminar, Clargoth bate na mesa com força e grita:
      "Mais um pro time!" e então ele começa a cantar uma música de sua terra natal. Os outros frequentadores da taverna param para ouvir, enquanto o orc entoa a canção com uma voz potente e rouca..`,
@@ -427,7 +516,7 @@ const textNodes = [
   },
   {
     id: 5,
-    imgSrc1: "",
+    imgSrc1: "./imgs/radiant-orc.png",
     imgSrc2: "",
     textLeft: `Ele se vira para você com uma expressão séria.
     "Vou fazer algumas perguntas para testar suas habilidades. Você está pronto?".
@@ -443,13 +532,13 @@ const textNodes = [
   {
     id: 5.1,
     imgSrc1: "",
-    imgSrc2: "",
+    imgSrc2: "./imgs/stone-troll.png",
     textLeft: `"Qual é a melhor arma para se usar contra um troll de pedra?"`,
     textRight: '"Pense bem, amigo. Se o troll perceber que estamos planejando atacá-lo, ele pode ficar ainda mais feroz e nos dar um problema ainda maior."',
     options: [
       {
-        text: 'Uma arma que possa causar danos por esmagamento, como um martelo de guerra ou uma maça',
-        nextText: 5.2
+        text: 'Uma arma que possa causar danos por esmagamento, como um martelo de guerra ou uma clava',
+        nextText: 5.4
       },
       {
         text: 'Uma lança ou uma flecha, seria capaz de penetrar na pele dura do troll de pedra',
@@ -457,14 +546,14 @@ const textNodes = [
       },
       {
         text: 'Usar um feitiço de congelamento',
-        nextText: 5.4
+        nextText: 5.2
       }
     ]
   },
   {
     id: 5.2,
     imgSrc1: "",
-    imgSrc2: "",
+    imgSrc2: "./imgs/fire-dragon.png",
     textLeft: `<h4>Você ganhou 10% de experiência.</h4>
     "Certo, e como você lidaria com um dragão que cospe fogo?"`,
     textRight: `"Os dragões são extremamente inteligentes e podem antecipar nossos movimentos. Precisamos pensar em algo que possa enganá-lo, algo que ele não espera."`,
@@ -627,9 +716,9 @@ const textNodes = [
   },
   {
     id: 12,
-    imgSrc1: "",
+    imgSrc1: "./imgs/bard.png",
     imgSrc2: "",
-    textLeft: 'As horas passam... Os exploradores beberam mais do que deveriam. Garrick, o bardô, cantava canções antigas em voz alta, enquanto Clargoth, batia em sua mesa com a caneca, rindo das piadas sujas que seus outros parceiros contavam.',
+    textLeft: 'As horas passam... Os exploradores beberam mais do que deveriam. Garrick, o bardo, cantava canções antigas em voz alta, enquanto Clargoth, batia em sua mesa com a caneca, rindo das piadas sujas que seus outros parceiros contavam.',
     textRight: 'Você acabou bebendo mais do que aguentava. A última coisa de que se lembra é de ter acabado de tomar um grande gole de hidromel e depois tudo ficou escuro.',
     options: [
       {
