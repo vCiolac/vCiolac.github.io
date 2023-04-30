@@ -56,6 +56,7 @@ resetBtn.addEventListener('click', () => {
   } else {
     alert('Por favor espere o texto terminar de ser escrito antes de fazer uma escolha.');
     writeSpeed = 0;
+    writeSpeed2 = 0;
   }
 });
 
@@ -93,37 +94,26 @@ function playBackgroundMusic() {
   }
 };
 
-function playAudio(src, time) {
-  if (currentMusic) {
-    currentMusic.pause();
+function playAudio(src) {
+  if (isBackgroundMusicPlaying) {
+    backgroundMusic.pause();
+    isBackgroundMusicPlaying = false;
   }
 
-  currentMusic = new Audio(src);
-  currentMusic.volume = 1; // definindo o volume para 100%
-  currentMusic.play();
+  let newMusic = new Audio(src);
+  newMusic.volume = 1;
+  newMusic.play();
 
-  setTimeout(() => {
-    currentMusic.pause();
-    currentMusic.currentTime = 0;
-    currentMusic = null;
-    playBackgroundMusic();
-  }, time);
-}
-
-function playMusic(src, time) {
-  if (currentMusic) {
-    currentMusic.pause();
-  }
-
-  if (!isBackgroundMusicPlaying) {
-    playBackgroundMusic();
-  }
-
-  playAudio(src, time);
+  newMusic.addEventListener('ended', function () {
+    this.removeEventListener('ended', arguments.callee);
+    backgroundMusic.currentTime = 0;
+    backgroundMusic.play();
+    isBackgroundMusicPlaying = true;
+    playPauseBtn.innerHTML = '&#x23F8';
+  });
 };
 
 const isFinished = { value: false };
-let isWriter = false;
 let writeSpeed = 30;
 let writeSpeed2 = 35;
 
@@ -190,14 +180,14 @@ function typeWriter(newText, textElement, newText2, textElement2) {
             write();
           }
         }
+      }
+    }
+    if (i2 === newText2.length) {
+      isFinished.value = true;
     }
   }
-  if (i2 === newText2.length) {
-    isFinished.value = true;
-  }
-}
 
-write();
+  write();
 };
 
 function showTextNode(textNodeIndex) {
@@ -279,7 +269,7 @@ function selectOption(option) {
     controlProgress("xp", 'up', 10);
   }
   if (nextTextNodeId === 12 || nextTextNodeId === 4) {
-    playMusic('./mp3/medieval_loop.wav', 19000);
+    playAudio('./mp3/medieval_loop.wav');
   }
   if (nextTextNodeId <= 0) {
     return restart();
