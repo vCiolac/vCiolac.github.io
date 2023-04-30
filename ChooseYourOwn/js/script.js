@@ -52,23 +52,47 @@ function restart() {
 resetBtn.addEventListener('click', restart);
 const isFinished = { value: false };
 
-function typeWriter(text, element) {
-  const speed = 30;
+function typeWriter(newText, textElement) {
+  const speed = 25;
   let i = 0;
-  element.innerHTML = '';
-  
+  let isH4 = false;
+  textElement.innerHTML = '';
+
+  // Verificar se o novo texto contém um elemento <h4>
+  const h4Index = newText.indexOf('<h4>');
+  if (h4Index !== -1) {
+    // Encontrar a posição do próximo </h4>
+    const closeH4Index = newText.indexOf('</h4>', h4Index) + 5;
+    // Definir o conteúdo do elemento textElement até o próximo </h4>
+    textElement.innerHTML = newText.substring(0, closeH4Index);
+    i = closeH4Index;
+  }
+
   function write() {
-    if (i < text.length) {
-      element.innerHTML += text.charAt(i);
-      i += 1;
-      setTimeout(write, speed);
+    if (i < newText.length) {
+      if (newText.charAt(i) === '<' && newText.slice(i, i + 4) === '<h4>') {
+        isH4 = true;
+      } else if (newText.charAt(i) === '<' && newText.slice(i, i + 5) === '</h4>') {
+        isH4 = false;
+        textElement.innerHTML += newText.substring(i, newText.indexOf('</h4>', i) + 5);
+        i = newText.indexOf('</h4>', i) + 5;
+      } else {
+        textElement.innerHTML += newText.charAt(i);
+        i += 1;
+        if (!isH4) {
+          setTimeout(write, speed);
+        } else {
+          write();
+        }
+      }
     } else {
       isFinished.value = true;
     }
   }
-  
+
   write();
-};
+}
+
 
 
 function showTextNode(textNodeIndex) {
@@ -230,7 +254,7 @@ function addInputText(numID, names, placeholder) { // Id que será add / name&id
 function tradePageContent() {
   const objId8 = textNodes.find((obj) => obj.id === 8);
   if (objId8) {
-    objId8.textRight = `"Então seu nome é ${state.playerName} é.. Hum.. Esse é um nome tanto incomum. Ainda não consigo identificar sua origem"`;
+    objId8.textLeft = `O orc encara você com curiosidade, seus olhos amarelados brilhando com uma intensidade que demonstra um misto de surpresa e desconfiança. Com a caneca em mãos, ele aperta com mais força e se dirige a você: "Interessante... ${state.playerName}"`;
   }
 };
 
@@ -263,7 +287,7 @@ const textNodes = [
     imgSrc1: "./imgs/night-tavern.png",
     imgSrc2: "./imgs/tablefull.png",
     textLeft: 'A noite caiu e você sente sede.. A taverna da cidade está sempre agitada, com música alta e um clima agradável. Ao entrar, você senta e se depara com um grupo de aventureiros em uma mesa próxima ao bar',
-    textRight: ' Você consegue escutar que eles estão discutindo os detalhes de sua próxima expedição.Eles haviam sido contratados para encontrar um artefato místico que esta escondido nas profundezas de uma masmorra, e você percebe que eles ainda não planejaram uma estratégia para a jornada.',
+    textRight: 'É possível escutar que eles estão discutindo os detalhes de sua próxima expedição. Eles haviam sido contratados para encontrar um artefato místico que esta escondido nas profundezas de uma masmorra. Você percebe que eles ainda não planejaram uma estratégia para a jornada.',
     options: [
       {
         text: 'Pegar uma bebida',
@@ -279,7 +303,7 @@ const textNodes = [
   {
     id: 2,
     imgSrc1: "",
-    imgSrc2: "../imgs/clargoth.png",
+    imgSrc2: "./imgs/clargoth.png",
     textLeft: 'Um guerreiro de aparência imponente ergue sua taça de hidromel e chama a atenção dos outros membros.',
     textRight: `Com um sorriso malicioso no rosto, Clargoth, o líder orc do grupo, diz: 
     "Companheiros, devemos nos preparar para a jornada! Mas antes.. Vamos aproveitar a noite e beber em honra do sucesso futuro!"`,
@@ -321,7 +345,7 @@ const textNodes = [
   {
     id: 3.2,
     imgSrc1: "",
-    imgSrc2: "",
+    imgSrc2: "./imgs/clargoth.png",
     textLeft: '"Ei, meu amigo. Algum problema? Meu grupo precisa se preparar para a jornada que virá em breve.", diz Clargoth, sorrindo de forma amistosa',
     textRight: 'Clargoth é um líder Orc, leal e forte, que sempre terá o interesse de seus amigos em primeiro lugar.',
     options: [
@@ -501,10 +525,9 @@ const textNodes = [
   {
     id: 8,
     imgSrc1: "",
-    imgSrc2: "",
-    textLeft: `O orc te observa com curiosidade, seus olhos amarelados brilham com um misto de surpresa e desconfiança. 
-    Ele aperta a caneca com mais força e diz:`,
-    textRight: `"Hum.. Esse é um nome tanto incomum. Com isso ainda não consigo identificar sua origem"`,
+    imgSrc2: "./imgs/clargoth.png",
+    textLeft: `O orc encara você com curiosidade, seus olhos amarelados brilhando com uma intensidade que demonstra um misto de surpresa e desconfiança. Com a caneca em mãos, ele aperta com mais força e se dirige a você: "Interessante... `,
+    textRight: `"Seu nome é tão incomum quanto o seu rosto. Mas mesmo assim, não consigo identificar sua origem apenas por ele." Ele solta um grunhido de insatisfação e volta a tomar um gole do hidromel. A expressão em seu rosto demonstra que ele está pensando sobre o assunto.`,
     options: [
       {
         text: 'Sou um Humano',
