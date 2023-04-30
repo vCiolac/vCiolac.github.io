@@ -74,6 +74,18 @@ header {
   font-size: 0.85em;
 }
 
+#playPauseBtn {
+  background-size: 18% 42%;
+  font-size: 0.5rem;
+}
+
+.playPause {
+  height: 60px;
+  position: absolute;
+  top: -1.4em;
+  right: -4.4em;
+}
+
 #actionControls,
 #pageControls {
   display: flex;
@@ -177,6 +189,11 @@ header {
   #playerName,
   #stateSelect {
     max-width: 80%;
+  }
+
+  .playPause {
+    top: -1.9em;
+    right: -4.9em;
   }
 
 }

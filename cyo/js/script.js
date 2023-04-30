@@ -42,6 +42,7 @@ function loadGameState() {
   } else {
     startGame(1);
   }
+  playPauseButton();
 };
 
 function restart() {
@@ -57,6 +58,69 @@ resetBtn.addEventListener('click', () => {
     writeSpeed = 0;
   }
 });
+
+let backgroundMusic = new Audio('./mp3/Medieval-Renaissance.mp3'); // Composed by Rafael Krux.
+let currentMusic = null;
+let isBackgroundMusicPlaying = false;
+const playPauseBtn = document.getElementById('playPauseBtn');
+
+playPauseBtn.addEventListener('click', playPauseButton);
+
+function playPauseButton() {
+  if (!isBackgroundMusicPlaying) {
+    playPauseBtn.innerHTML = '&#x23F8';
+    isBackgroundMusicPlaying = true;
+    playBackgroundMusic();
+  } else {
+    isBackgroundMusicPlaying = false;
+    playPauseBtn.innerHTML = '&#x25B6';
+    playBackgroundMusic();
+  }
+};
+
+function playBackgroundMusic() {
+  if (isBackgroundMusicPlaying) {
+    backgroundMusic.volume = 0.5; // definindo o volume para 50%
+    backgroundMusic.play();
+    isBackgroundMusicPlaying = true;
+    backgroundMusic.addEventListener('ended', function () {
+      this.currentTime = 0;
+      this.play();
+    });
+  } else {
+    backgroundMusic.pause();
+    isBackgroundMusicPlaying = false;
+  }
+};
+
+function playAudio(src, time) {
+  if (currentMusic) {
+    currentMusic.pause();
+  }
+
+  currentMusic = new Audio(src);
+  currentMusic.volume = 1; // definindo o volume para 100%
+  currentMusic.play();
+
+  setTimeout(() => {
+    currentMusic.pause();
+    currentMusic.currentTime = 0;
+    currentMusic = null;
+    playBackgroundMusic();
+  }, time);
+}
+
+function playMusic(src, time) {
+  if (currentMusic) {
+    currentMusic.pause();
+  }
+
+  if (!isBackgroundMusicPlaying) {
+    playBackgroundMusic();
+  }
+
+  playAudio(src, time);
+};
 
 const isFinished = { value: false };
 let writeSpeed = 30;
@@ -100,9 +164,8 @@ function typeWriter(newText, textElement) {
   }
 
   write();
+  ;
 }
-
-
 
 function showTextNode(textNodeIndex) {
   const textNode = textNodes.find(textNode => textNode.id === textNodeIndex); // Passa por todos os arrays de textnodes, procura o 'id' e faz textNode.id ser igual ao numero atribuido na selectOption.
@@ -277,7 +340,7 @@ function createImage(src) {
     // cria a div para o zoom
     const zoomContainer = document.createElement('div');
     zoomContainer.classList.add('zoom-container');
-    
+
     // cria a imagem em tamanho maior
     const zoomImg = document.createElement('img');
     zoomImg.src = src;
@@ -402,8 +465,8 @@ const textNodes = [
   },
   {
     id: 4,
-    imgSrc1: "./imgs/toast.png",
-    imgSrc2: "./imgs/bard.png",
+    imgSrc1: "./imgs/guitar.png",
+    imgSrc2: "",
     textLeft: `Clargoth bebe sua bebida em um gole só, mostrando ter habilidade em consumir grandes quantidades de álcool. Depois de terminar, Clargoth bate na mesa com força e grita:
      "Mais um pro time!" e então ele começa a cantar uma música de sua terra natal. Os outros frequentadores da taverna param para ouvir, enquanto o orc entoa a canção com uma voz potente e rouca..`,
     textRight: `Você e os outros membros da mesa juntam-se todos na cantoria, criando uma atmosfera animada na taverna. Depois de alguns minutos, a música termina e Clargoth se volta para você, com um olhar de cumplicidade,
@@ -427,7 +490,7 @@ const textNodes = [
   },
   {
     id: 5,
-    imgSrc1: "./imgs/clargoth.png",
+    imgSrc1: "./imgs/radiant-orc.png",
     imgSrc2: "",
     textLeft: `Ele se vira para você com uma expressão séria.
     "Vou fazer algumas perguntas para testar suas habilidades. Você está pronto?".
