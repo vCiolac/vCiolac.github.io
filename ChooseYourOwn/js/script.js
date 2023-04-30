@@ -49,11 +49,20 @@ function restart() {
   startGame(1);
 };
 
-resetBtn.addEventListener('click', restart);
+resetBtn.addEventListener('click', () => {
+  if (isFinished.value) {
+    restart();
+  } else {
+    alert('Por favor espere o texto terminar de ser escrito antes de fazer uma escolha.');
+    writeSpeed = 0;
+  }
+});
+
 const isFinished = { value: false };
+let writeSpeed = 30;
 
 function typeWriter(newText, textElement) {
-  const speed = 25;
+  writeSpeed = 30;
   let i = 0;
   let isH4 = false;
   textElement.innerHTML = '';
@@ -80,7 +89,7 @@ function typeWriter(newText, textElement) {
         textElement.innerHTML += newText.charAt(i);
         i += 1;
         if (!isH4) {
-          setTimeout(write, speed);
+          timeoutId = setTimeout(write, writeSpeed);
         } else {
           write();
         }
@@ -110,7 +119,7 @@ function showTextNode(textNodeIndex) {
   if (textNode.imgSrc2 !== "") {
     createImage(textNode.imgSrc2);
   }
-  
+
   while (optionActButtons.firstChild) {
     optionActButtons.removeChild(optionActButtons.firstChild);
   }
@@ -143,11 +152,12 @@ function showTextNode(textNodeIndex) {
           selectOption(option);
         } else {
           alert('Por favor espere o texto terminar de ser escrito antes de fazer uma escolha.');
+          writeSpeed = 0;
         }
       });
     };
   });
-      
+
   function saveGameState() {
     localStorage.setItem('gameState', JSON.stringify(state));
     localStorage.setItem('gamePage', JSON.stringify(textNodeIndex));
