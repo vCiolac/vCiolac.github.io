@@ -123,13 +123,18 @@ function playMusic(src, time) {
 };
 
 const isFinished = { value: false };
+let isWriter = false;
 let writeSpeed = 30;
+let writeSpeed2 = 35;
 
-function typeWriter(newText, textElement) {
+function typeWriter(newText, textElement, newText2, textElement2) {
   writeSpeed = 30;
+  writeSpeed2 = 35;
   let i = 0;
+  let i2 = 0;
   let isH4 = false;
   textElement.innerHTML = '';
+  textElement2.innerHTML = '';
 
   // Verificar se o novo texto contém um elemento <h4>
   const h4Index = newText.indexOf('<h4>');
@@ -139,6 +144,14 @@ function typeWriter(newText, textElement) {
     // Definir o conteúdo do elemento textElement até o próximo </h4>
     textElement.innerHTML = newText.substring(0, closeH4Index);
     i = closeH4Index;
+  }
+  const h4Index2 = newText2.indexOf('<h4>');
+  if (h4Index2 !== -1) {
+    // Encontrar a posição do próximo </h4>
+    const closeH4Index2 = newText2.indexOf('</h4>', h4Index2) + 5;
+    // Definir o conteúdo do elemento textElement até o próximo </h4>
+    textElement2.innerHTML = newText2.substring(0, closeH4Index2);
+    i = closeH4Index2;
   }
 
   function write() {
@@ -158,20 +171,39 @@ function typeWriter(newText, textElement) {
           write();
         }
       }
-    } else {
-      isFinished.value = true;
+    } if (i === newText.length) {
+      if (writeSpeed === 0) {
+        writeSpeed2 = 0;
+      } if (i2 < newText2.length) {
+        if (newText2.charAt(i2) === '<' && newText2.slice(i2, i2 + 4) === '<h4>') {
+          isH4 = true;
+        } else if (newText2.charAt(i2) === '<' && newText2.slice(i2, i2 + 5) === '</h4>') {
+          isH4 = false;
+          textElement2.innerHTML += newText2.substring(i2, newText2.indexOf('</h4>', i2) + 5);
+          i2 = newText2.indexOf('</h4>', i2) + 5;
+        } else {
+          textElement2.innerHTML += newText2.charAt(i2);
+          i2 += 1;
+          if (!isH4) {
+            timeoutId = setTimeout(write, writeSpeed2);
+          } else {
+            write();
+          }
+        }
     }
   }
-
-  write();
-  ;
+  if (i2 === newText2.length) {
+    isFinished.value = true;
+  }
 }
+
+write();
+};
 
 function showTextNode(textNodeIndex) {
   const textNode = textNodes.find(textNode => textNode.id === textNodeIndex); // Passa por todos os arrays de textnodes, procura o 'id' e faz textNode.id ser igual ao numero atribuido na selectOption.
   isFinished.value = false;
-  typeWriter(`${textNode.textLeft}`, textLeftElement);
-  typeWriter(`${textNode.textRight}`, textRightElement);
+  typeWriter(`${textNode.textRight}`, textLeftElement, `${textNode.textLeft}`, textRightElement);
   const imgs = document.getElementById('imgs')
   while (imgs.firstChild) {
     imgs.removeChild(imgs.firstChild);
@@ -216,6 +248,7 @@ function showTextNode(textNodeIndex) {
         } else {
           alert('Por favor espere o texto terminar de ser escrito antes de fazer uma escolha.');
           writeSpeed = 0;
+          writeSpeed2 = 0;
         }
       });
     };
@@ -244,6 +277,9 @@ function selectOption(option) {
   }
   if (nextTextNodeId === 5.2 || nextTextNodeId === 5.3) {
     controlProgress("xp", 'up', 10);
+  }
+  if (nextTextNodeId === 12 || nextTextNodeId === 4) {
+    playMusic('./mp3/medieval_loop.wav', 19000);
   }
   if (nextTextNodeId <= 0) {
     return restart();
