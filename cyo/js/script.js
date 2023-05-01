@@ -263,9 +263,11 @@ function selectOption(option) {
   const nextTextNodeId = option.nextText;
   if (nextTextNodeId === 5.4) {
     controlProgress("hp", 'down', 10);
+    playAudio('./mp3/hit30.mp3.flac');
   }
   if (nextTextNodeId === 5.2 || nextTextNodeId === 5.3) {
     controlProgress("xp", 'up', 10);
+    playAudio('./mp3/up.wav');
   }
   if (nextTextNodeId === 12 || nextTextNodeId === 4) {
     playAudio('./mp3/medieval_loop.wav');
@@ -332,6 +334,7 @@ function addInputText(numID, names, placeholder) { // Id que será add / name&id
   input.addEventListener('change', () => {
     const inputName = document.getElementById(names);
     state[names] = inputName.value;
+    playAudio('./mp3/task.mp3');
     tradePageContent();
   });
 
@@ -443,6 +446,7 @@ const textNodes = [
       },
       {
         text: 'Ignorar e beber sozinho',
+        setState: { skipClargoth: true },
         nextText: 12
       }
     ]
@@ -461,6 +465,7 @@ const textNodes = [
       },
       {
         text: 'Não, obrigado',
+        setState: { skipClargoth: true },
         nextText: 12
       }
     ]
@@ -509,6 +514,7 @@ const textNodes = [
       },
       {
         text: 'Provar para você? Não preciso disso',
+        setState: { skipClargoth: true },
         nextText: 12
       }
     ]
@@ -523,7 +529,7 @@ const textNodes = [
     textRight: 'Você pode sentir a pressão aumentar, mas sabe que é importante provar sua habilidade para ganhar o seu respeito.',
     options: [
       {
-        text: 'Pode mandar',
+        text: 'Estou pronto',
         nextText: 5.1
       },
     ]
@@ -544,7 +550,7 @@ const textNodes = [
         nextText: 5.2
       },
       {
-        text: 'Usar um feitiço de congelamento',
+        text: 'Usar um feitiço de congelamento, pode retardar seus movimentos tornando-o mais fácil de acertar.',
         nextText: 5.2
       }
     ]
@@ -554,7 +560,7 @@ const textNodes = [
     imgSrc1: "",
     imgSrc2: "./imgs/fire-dragon.png",
     textLeft: `<h4>Você ganhou 10% de experiência.</h4>
-    "Certo, e como você lidaria com um dragão que cospe fogo?"`,
+    "Certo! E como você lidaria com um dragão que cospe fogo?"`,
     textRight: `"Os dragões são extremamente inteligentes e podem antecipar nossos movimentos. Precisamos pensar em algo que possa enganá-lo, algo que ele não espera."`,
     options: [
       {
@@ -574,10 +580,10 @@ const textNodes = [
   },
   {
     id: 5.3,
-    imgSrc1: "",
+    imgSrc1: "./imgs/goblins.png",
     imgSrc2: "",
     textLeft: `<h4>Você ganhou 10% de experiência.</h4>
-    "Ok. Em uma batalha contra um grupo de goblins, como você faria com sua equipe para obter a vitória?"`,
+    "Parabéns, acetou. E agora em uma batalha contra um grupo de goblins, como você faria com sua equipe para obter a vitória?"`,
     textRight: `"Ahh os goblins... Nossos inimigos mais frequentes, eles são ágeis e imprevisíveis, e isso pode ser um problema para nós. É necesssário ser astuto e não subestimá-los."`,
     options: [
       {
@@ -597,9 +603,9 @@ const textNodes = [
   {
     id: 5.4,
     imgSrc1: "",
-    imgSrc2: "",
-    textLeft: '<h4>Você perde 10% da sua vida.</h4> "Sinto muito, meu amigo, mas você não tem o que é preciso para fazer parte do nosso grupo."',
-    textRight: `"Nós precisamos de guerreiros fortes e habilidosos, que possam enfrentar as ameaças que encontrarmos em nossas jornadas. Talvez você precise treinar mais e aprimorar suas habilidades antes de se aventurar em perigos maiores."`,
+    imgSrc2: "./imgs/clargHappy.png",
+    textLeft: '<h4>Você perde 10% da sua vida.</h4> "Você errou feio, amigo. Isso é inaceitável em nossa tribo. Você deveria estar mais bem preparado. Como punição, tirei 10 pontos de vida de você"',
+    textRight: `"Você precisa treinar mais em vez de gastar todo seu tempo em tavernas bebendo hidromel!"`,
     options: [
       {
         text: 'Tentar novamente',
@@ -611,7 +617,7 @@ const textNodes = [
   {
     id: 6,
     imgSrc1: "",
-    imgSrc2: "",
+    imgSrc2: "./imgs/clargHappy.png",
     textLeft: `"Muito bem, meu amigo! Você provou ser habilidoso, e estou feliz em ter você em nosso grupo. Mas não se engane, o caminho que temos pela frente é cheio de perigos, monstros que desafiam a lógica e a própria natureza habitam a masmorra em que estamos prestes a entrar."`,
     textRight: `"Nossas habilidades e forças serão testadas além do que podemos suportar, e muitos dos que começam essa jornada não voltam" conclui Clargoth, "Saiba que a morte é um destino certo e horrível que aguarda aqueles que são fracos e imprudentes."`,
     options: [
@@ -628,7 +634,7 @@ const textNodes = [
   {
     id: 7,
     imgSrc1: "",
-    imgSrc2: "",
+    imgSrc2: "./imgs/clargoth.png",
     textLeft: `Clargoth olhou fixamente para você. "Antes de partirmos, preciso saber mais sobre você", disse ele franzindo os olhos em sua direção.`,
     textRight: `Não consigo ver bem seu rosto com essas roupas e capa escura.
      Me diga, qual o seu nome?`,
@@ -640,7 +646,7 @@ const textNodes = [
       {
         text: 'Hmm... Que tal mais uma caneca de hidromel?',
         requiredState: (currentState) => currentState.mead === 1,
-        setState: { mead: false },
+        setState: { mead: false, skipClargoth: true },
         nextText: 12
       }
     ]
@@ -648,7 +654,7 @@ const textNodes = [
   {
     id: 8,
     imgSrc1: "",
-    imgSrc2: "./imgs/clargoth.png",
+    imgSrc2: "./imgs/radiant-orc.png",
     textLeft: `O orc encara você com curiosidade, seus olhos amarelados brilhando com uma intensidade que demonstra um misto de surpresa e desconfiança. Com a caneca em mãos, ele aperta com mais força e se dirige a você: "Interessante... `,
     textRight: `"Seu nome é tão incomum quanto o seu rosto. Mas mesmo assim, não consigo identificar sua origem apenas por ele." Ele solta um grunhido de insatisfação e volta a tomar um gole do hidromel. A expressão em seu rosto demonstra que ele está pensando sobre o assunto.`,
     options: [
@@ -678,8 +684,47 @@ const textNodes = [
     id: 9,
     imgSrc1: "",
     imgSrc2: "",
-    textLeft: `A`,
-    textRight: 'e ganha XP',
+    textLeft: `Em construção, obrigado por jogar :)`,
+    textRight: '',
+    options: [
+      {
+        text: 'Restart',
+        nextText: 10
+      }
+    ]
+  },
+  {
+    id: 9.1,
+    imgSrc1: "",
+    imgSrc2: "",
+    textLeft: `Em construção, obrigado por jogar :)`,
+    textRight: '',
+    options: [
+      {
+        text: 'Restart',
+        nextText: 10
+      }
+    ]
+  },
+  {
+    id: 9.2,
+    imgSrc1: "",
+    imgSrc2: "",
+    textLeft: `Em construção, obrigado por jogar :)`,
+    textRight: '',
+    options: [
+      {
+        text: 'Restart',
+        nextText: 10
+      }
+    ]
+  },
+  {
+    id: 9.3,
+    imgSrc1: "",
+    imgSrc2: "",
+    textLeft: `Em construção, obrigado por jogar :)`,
+    textRight: '',
     options: [
       {
         text: 'Restart',
@@ -691,7 +736,7 @@ const textNodes = [
     id: 10,
     imgSrc1: "",
     imgSrc2: "",
-    textLeft: 'The monster laughed as you hid behind your shield and ate you.',
+    textLeft: '',
     textRight: 'BARABAM.',
     options: [
       {
@@ -723,6 +768,12 @@ const textNodes = [
       {
         text: 'Reiniciar',
         nextText: -1
+      },
+      {
+        text: 'Em construção',
+        requiredState: (currentState) => currentState.skipClargoth,
+        nextText: -1,
+        
       }
     ]
   }
