@@ -75,15 +75,15 @@ header {
 }
 
 #playPauseBtn {
-  background-size: 18% 42%;
-  font-size: 0.5rem;
+  background-size: 25% 55%;
+  font-size: 1rem;
 }
 
 .playPause {
   height: 60px;
   position: absolute;
-  top: -1.4em;
-  right: -4.4em;
+  top: -1.3em;
+  right: -3.99em;
 }
 
 #actionControls,
@@ -192,8 +192,8 @@ header {
   }
 
   .playPause {
-    top: -1.9em;
-    right: -4.9em;
+    top: -4.21em;
+    right: -4.1em;
   }
 
 }

@@ -42,7 +42,6 @@ function loadGameState() {
   } else {
     startGame(1);
   }
-  playPauseButton();
 };
 
 function restart() {
