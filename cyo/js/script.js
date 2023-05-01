@@ -192,7 +192,7 @@ function typeWriter(newText, textElement, newText2, textElement2) {
 function showTextNode(textNodeIndex) {
   const textNode = textNodes.find(textNode => textNode.id === textNodeIndex); // Passa por todos os arrays de textnodes, procura o 'id' e faz textNode.id ser igual ao numero atribuido na selectOption.
   isFinished.value = false;
-  typeWriter(`${textNode.textRight}`, textLeftElement, `${textNode.textLeft}`, textRightElement);
+  typeWriter(`${textNode.textLeft}`, textLeftElement, `${textNode.textRight}`, textRightElement);
   const imgs = document.getElementById('imgs')
   while (imgs.firstChild) {
     imgs.removeChild(imgs.firstChild);
