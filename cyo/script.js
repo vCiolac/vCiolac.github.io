@@ -395,11 +395,15 @@ function fillStateSelect() {
   while (stateSelect.firstChild) {
     stateSelect.removeChild(stateSelect.firstChild);
   }
-  for (const prop in state) {
-    if (state.hasOwnProperty(prop) && state[prop] !== false) {
+  for (const key in state) {
+    if (state.hasOwnProperty(key) && state[key] !== false) {
       const option = document.createElement('option');
-      option.value = prop;
-      option.text = `${prop}: ${state[prop]}`;
+      option.value = key;
+      if (state[key] === true) {
+        option.text = key.charAt(0).toUpperCase() + key.slice(1);
+      } else {
+        option.text = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${state[key]}`;
+      }
       stateSelect.appendChild(option);
     }
   }
@@ -658,22 +662,22 @@ const textNodes = [
     options: [
       {
         text: 'Sou um Humano',
-        setState: { Human: true },
+        setState: { human: true },
         nextText: 9
       },
       {
         text: 'Sou um Elfo',
-        setState: { Elf: true },
+        setState: { elf: true },
         nextText: 9.3
       },
       {
         text: 'Sou um Gnomo',
-        setState: { Gnome: true },
+        setState: { gnome: true },
         nextText: 9.6
       },
       {
         text: 'Sou um Goblin!',
-        setState: { Goblin: true },
+        setState: { goblin: true },
         nextText: 9.9
       }
     ]
@@ -765,12 +769,12 @@ const textNodes = [
     options: [
       {
         text: 'Sou do Vale da Prata',
-        setState: {valleyGnome: true },
+        setState: { valleyGnome: true },
         nextText: 9.61
       },
       {
         text: 'Venho da dinastia Girassol',
-        setState: {daisyGnome: true },
+        setState: { daisyGnome: true },
         nextText: 9.7
       },
       {
