@@ -17,7 +17,7 @@ let state = {};
 
 function startGame(num) {
   state = {
-    playerName: '',
+    name: '',
     level: 1,
   };
   showTextNode(num);
@@ -66,14 +66,17 @@ const playPauseBtn = document.getElementById('playPauseBtn');
 
 playPauseBtn.addEventListener('click', playPauseButton);
 
+let stopMusic = false;
 function playPauseButton() {
   if (!isBackgroundMusicPlaying) {
     playPauseBtn.innerHTML = '&#x23F8';
     isBackgroundMusicPlaying = true;
+    stopMusic = false;
     playBackgroundMusic();
   } else {
     isBackgroundMusicPlaying = false;
     playPauseBtn.innerHTML = '&#x25B6';
+    stopMusic = true;
     playBackgroundMusic();
   }
 };
@@ -104,11 +107,13 @@ function playAudio(src) {
   newMusic.play();
 
   newMusic.addEventListener('ended', function () {
+    if (!stopMusic) {
+      backgroundMusic.currentTime = 0;
+      backgroundMusic.play();
+      isBackgroundMusicPlaying = true;
+      playPauseBtn.innerHTML = '&#x23F8';
+    }
     this.removeEventListener('ended', arguments.callee);
-    backgroundMusic.currentTime = 0;
-    backgroundMusic.play();
-    isBackgroundMusicPlaying = true;
-    playPauseBtn.innerHTML = '&#x23F8';
   });
 };
 
@@ -117,11 +122,12 @@ let writeSpeed = 30;
 let writeSpeed2 = 35;
 
 function typeWriter(newText, textElement, newText2, textElement2) {
-  writeSpeed = 30;
-  writeSpeed2 = 35;
+  let writeSpeed = 30;
+  let writeSpeed2 = 35;
   let i = 0;
   let i2 = 0;
   let isH4 = false;
+  let isH42 = false;
   textElement.innerHTML = '';
   textElement2.innerHTML = '';
 
@@ -140,7 +146,7 @@ function typeWriter(newText, textElement, newText2, textElement2) {
     const closeH4Index2 = newText2.indexOf('</h4>', h4Index2) + 5;
     // Definir o conteúdo do elemento textElement até o próximo </h4>
     textElement2.innerHTML = newText2.substring(0, closeH4Index2);
-    i = closeH4Index2;
+    i2 = closeH4Index2;
   }
 
   function write() {
@@ -156,28 +162,20 @@ function typeWriter(newText, textElement, newText2, textElement2) {
         i += 1;
         if (!isH4) {
           timeoutId = setTimeout(write, writeSpeed);
-        } else {
-          write();
         }
       }
-    } if (i === newText.length) {
-      if (writeSpeed === 0) {
-        writeSpeed2 = 0;
-      } if (i2 < newText2.length) {
-        if (newText2.charAt(i2) === '<' && newText2.slice(i2, i2 + 4) === '<h4>') {
-          isH4 = true;
-        } else if (newText2.charAt(i2) === '<' && newText2.slice(i2, i2 + 5) === '</h4>') {
-          isH4 = false;
-          textElement2.innerHTML += newText2.substring(i2, newText2.indexOf('</h4>', i2) + 5);
-          i2 = newText2.indexOf('</h4>', i2) + 5;
-        } else {
-          textElement2.innerHTML += newText2.charAt(i2);
-          i2 += 1;
-          if (!isH4) {
-            timeoutId = setTimeout(write, writeSpeed2);
-          } else {
-            write();
-          }
+    } else if (i2 < newText2.length) {
+      if (newText2.charAt(i2) === '<' && newText2.slice(i2, i2 + 4) === '<h4>') {
+        isH42 = true;
+      } else if (newText2.charAt(i2) === '<' && newText2.slice(i2, i2 + 5) === '</h4>') {
+        isH42 = false;
+        textElement2.innerHTML += newText2.substring(i2, newText2.indexOf('</h4>', i2) + 5);
+        i2 = newText2.indexOf('</h4>', i2) + 5;
+      } else {
+        textElement2.innerHTML += newText2.charAt(i2);
+        i2 += 1;
+        if (!isH42) {
+          timeoutId = setTimeout(write, writeSpeed2);
         }
       }
     }
@@ -214,7 +212,7 @@ function showTextNode(textNodeIndex) {
     level.innerHTML = 1;
   }
   if (textNodeIndex === 7) {
-    return addInputText(7, 'playerName', 'Escreva seu nome');
+    return addInputText(7, 'name', 'Escreva seu nome');
   }
 
   optionActButtons.innerHTML = '';
@@ -261,7 +259,7 @@ function showOption(option) { // Verifica se tem o state requirido para o botão
 
 function selectOption(option) {
   const nextTextNodeId = option.nextText;
-  if (nextTextNodeId === 5.4) {
+  if (nextTextNodeId === 5.4 || nextTextNodeId === 10.25) {
     controlProgress("hp", 'down', 10);
     playAudio('./mp3/hit30.mp3.flac');
   }
@@ -269,7 +267,7 @@ function selectOption(option) {
     controlProgress("xp", 'up', 10);
     playAudio('./mp3/up.wav');
   }
-  if (nextTextNodeId === 12 || nextTextNodeId === 4) {
+  if (nextTextNodeId === 12 || nextTextNodeId === 4 ) {
     playAudio('./mp3/medieval_loop.wav');
   }
   if (nextTextNodeId <= 0) {
@@ -355,7 +353,7 @@ function addInputText(numID, names, placeholder) { // Id que será add / name&id
 function tradePageContent() {
   const objId8 = textNodes.find((obj) => obj.id === 8);
   if (objId8) {
-    objId8.textLeft = `O orc encara você com curiosidade, seus olhos amarelados brilhando com uma intensidade que demonstra um misto de surpresa e desconfiança. Com a caneca em mãos, ele aperta com mais força e se dirige a você: "Interessante... ${state.playerName}"`;
+    objId8.textLeft = `O orc encara você com curiosidade, seus olhos amarelados brilhando com uma intensidade que demonstra um misto de surpresa e desconfiança. Com a caneca em mãos, ele aperta com mais força e se dirige a você: "Interessante... ${state.name}"`;
   }
 };
 
@@ -412,7 +410,7 @@ const textNodes = [
     id: 1,
     imgSrc1: "./imgs/night-tavern.png",
     imgSrc2: "./imgs/tablefull.png",
-    textLeft: 'A noite caiu e você sente sede.. A taverna da cidade está sempre agitada, com música alta e um clima agradável. Ao entrar, você senta e se depara com um grupo de aventureiros em uma mesa próxima ao bar',
+    textLeft: 'A noite caiu e você sente sede.. A taverna da cidade está sempre agitada, com música alta e um clima agradável. Ao entrar, você senta e se depara com um grupo de aventureiros em uma mesa próxima ao bar.',
     textRight: 'É possível escutar que eles estão discutindo os detalhes de sua próxima expedição. Eles haviam sido contratados para encontrar um artefato místico que esta escondido nas profundezas de uma masmorra. Você percebe que eles ainda não planejaram uma estratégia para a jornada.',
     options: [
       {
@@ -660,32 +658,32 @@ const textNodes = [
     options: [
       {
         text: 'Sou um Humano',
-        setState: { imHuman: true },
+        setState: { Human: true },
         nextText: 9
       },
       {
         text: 'Sou um Elfo',
-        setState: { imElf: true },
+        setState: { Elf: true },
         nextText: 9.1
       },
       {
         text: 'Sou um Gnomo',
-        setState: { imGnome: true },
+        setState: { Gnome: true },
         nextText: 9.2
       },
       {
         text: 'Sou um Goblin!',
-        setState: { imGoblin: true },
+        setState: { Goblin: true },
         nextText: 9.3
       }
     ]
   },
   {
     id: 9,
-    imgSrc1: "",
+    imgSrc1: "./imgs/clargHappy.png",
     imgSrc2: "",
-    textLeft: `Em construção, obrigado por jogar :)`,
-    textRight: '',
+    textLeft: `Clargoth olha para você com um sorriso no rosto. "Ah, um humano! Sem dúvida, você será uma adição valiosa ao nosso grupo. Nossa missão é perigosa e temos muito a fazer antes de enfrentar a masmorra."`,
+    textRight: '"Precisamos reunir equipamentos, suprimentos e traçar um plano cuidadoso para nossa expedição. O que você sugere que façamos primeiro?"',
     options: [
       {
         text: 'Restart',
@@ -695,10 +693,10 @@ const textNodes = [
   },
   {
     id: 9.1,
-    imgSrc1: "",
+    imgSrc1: "./imgs/clargHappy.png",
     imgSrc2: "",
-    textLeft: `Em construção, obrigado por jogar :)`,
-    textRight: '',
+    textLeft: `Clargoth olha para você com desconfiança. "Um elfo? Você não é bem-vindo em muitas partes deste mundo, mas estou disposto a dar-lhe uma chance. Nossa missão é perigosa e temos muito a fazer antes de enfrentar a masmorra.`,
+    textRight: '"Precisamos reunir equipamentos, suprimentos e traçar um plano cuidadoso para nossa expedição. O que você sugere que façamos primeiro?"',
     options: [
       {
         text: 'Restart',
@@ -708,10 +706,10 @@ const textNodes = [
   },
   {
     id: 9.2,
-    imgSrc1: "",
+    imgSrc1: "./imgs/clargHappy.png",
     imgSrc2: "",
-    textLeft: `Em construção, obrigado por jogar :)`,
-    textRight: '',
+    textLeft: `Clargoth olha para você com um olhar intrigado. "Um gnomo, hein? Nunca tive um gnomo em meu grupo, estou ainda mais curioso em você. Nossa missão é perigosa e temos muito a fazer antes de enfrentar a masmorra.`,
+    textRight: '"Precisamos reunir equipamentos, suprimentos e traçar um plano cuidadoso para nossa expedição. O que você sugere que façamos primeiro?"',
     options: [
       {
         text: 'Restart',
@@ -721,23 +719,178 @@ const textNodes = [
   },
   {
     id: 9.3,
-    imgSrc1: "",
+    imgSrc1: "./imgs/clargoth.png",
     imgSrc2: "",
-    textLeft: `Em construção, obrigado por jogar :)`,
-    textRight: '',
+    textLeft: `Clargoth arregalou os olhos com surpresa ao ouvir que você é um goblin. Ele levou alguns segundos para se recuperar do choque, mas logo perguntou com cautela: "Qual a sua nação, meu jovem?`,
+    textRight: '"Eu não gostaria de ter um espião em nosso grupo." Ele cruzou os braços e esperou sua resposta, mantendo um olhar atento e desconfiado em você.',
     options: [
       {
-        text: 'Restart',
+        text: 'Sou da nação dos goblins do espaço.',
         nextText: 10
-      }
+      },
+      {
+        text: 'Faço parte da nação dos goblins do pântano.',
+        nextText: 11
+      },
+      {
+        text: 'Nascido e criado na nação goblins do sorvete.',
+        nextText: 13
+      },
     ]
   },
   {
     id: 10,
     imgSrc1: "",
+    imgSrc2: "imgs/space-goblins.png",
+    textLeft: `<h4>Você conta um resumo de sua história para Clargoth</h4>
+    "Um goblin do espaço, hein? Nunca ouvi falar de algo assim antes.. Então quer dizer que você sofreu uma pane em sua nave que acabou te levando a cair na Terra."`,
+    textRight: `"Então você diz que artefatos místicos são úteis para consertar a sua nave? Entendo, isso pode ser útil para nós também. Nosso principal objetivo é encontrar o artefato ZoMo. Caso você apenas o utilize para consertar a sua nave, e eu fique com ele, podemos chegar a um acordo."`,
+    options: [
+      {
+        text: 'É somente isso que preciso',
+        nextText: 10.1
+      }
+    ]
+  },
+  {
+    id: 10.1,
+    imgSrc1: "",
+    imgSrc2: "imgs/space-goblins.png",
+    textLeft: '"Bem, agora que sabemos um pouco mais sobre você, vamos nos concentrar em nossa missão. Estamos indo para uma masmorra antiga em busca de um artefato místico, e precisamos nos preparar bem para enfrentar os perigos que nos esperam lá dentro". Ele toma um gole de sua bebida antes de continuar.',
+    textRight: 'Clargoth se levanta da mesa e indica para você segui-lo. "Vamos até a nossa base de operações, onde vamos nos preparar para a jornada que nos aguarda". Ele caminha em direção à porta da taverna. O grupo de aventureiros que estava sentado próximo ao bar também se levanta e começa a seguir Clargoth em direção à base de operações.',
+    options: [
+      {
+        text: 'Ir junto',
+        nextText: 10.2
+      }
+    ]
+  },
+  {
+    id: 10.2,
+    imgSrc1: "",
+    imgSrc2: "imgs/space-goblins.png",
+    textLeft: 'Ao chegarem na base Clargoth puxa um mapa de sua mochila e mostra as diferentes rotas que levam à entrada da masmorra. "Aqui estão nossas opções: a trilha da montanha, a estrada da floresta e o caminho do deserto. Qual você prefere?"',
+    textRight: 'Enquanto você pensa na escolha, Clargoth aponta para algo no mapa. "Oh, veja só, há uma charada que precisamos resolver para passar por um ponto crítico na trilha da montanha. Acho que é uma forma de proteção mágica do artefato que estamos procurando. Você é bom em charadas?"',
+    options: [
+      {
+        text: 'Trilha da montanha',
+        nextText: 10.21
+      },
+      {
+        text: 'Estrada da floresta',
+        nextText: 10.3
+      },
+      {
+        text: 'Caminho do deserto',
+        nextText: 10.4
+      },
+    ]
+  },
+  {
+    id: 10.21,
+    imgSrc1: "",
     imgSrc2: "",
-    textLeft: '',
-    textRight: 'BARABAM.',
+    textLeft: 'Conforme vocês seguem pela trilha da montanha, a paisagem se torna cada vez mais íngreme e acidentada. Em certo ponto, vocês se deparam com um grande portão de pedra que bloqueia o caminho. O portão parece antigo e reforçado, e não há nenhuma alavanca ou mecanismo visível para abri-lo.',
+    textRight: 'Clargoth coça a barba, pensativo. "Parece que este portão não é tão fácil de abrir quanto eu pensava", diz ele, olhando para o portão com desconfiança. "Talvez haja alguma pista que possamos encontrar para abri-lo."',
+    options: [
+      {
+        text: 'Avançar',
+        nextText: 10.22
+      },
+    ]
+  },
+  {
+    id: 10.22,
+    imgSrc1: "",
+    imgSrc2: "",
+    textLeft: 'Você começa a examinar o portão mais de perto e nota que há algumas inscrições em uma língua estranha esculpidas na pedra. Clargoth observa por cima do seu ombro. "Não reconheço essa língua. Parece que precisamos decifrar isso antes de podermos passar".',
+    textRight: 'Você começa a examinar as inscrições com mais cuidado e nota que cada letra parece estar ligada a um símbolo ou figura. Depois de alguns minutos decifrando as inscrições, você finalmente percebe que a charada está em forma de enigma.',
+    options: [
+      {
+        text: 'Avançar',
+        nextText: 10.23
+      },
+    ]
+  },
+  {
+    id: 10.23,
+    imgSrc1: "",
+    imgSrc2: "",
+    textLeft: `<h4>Eu sou uma criatura mágica que habita na masmorra, tenho asas para voar e um corpo brilhante que reflete a luz.</h4>`,
+    textRight: `<h4>Alguns me veem como uma bênção, outros como uma maldição.</h4>
+   "O que sou eu?"`,
+    options: [
+      {
+        text: 'Dragão',
+        nextText: 10.25
+      },
+      {
+        text: 'Fada',
+        nextText: 10.25
+      },
+      {
+        text: 'Fantasma',
+        nextText: 10.24
+      },
+    ]
+  },
+  {
+    id: 10.25,
+    imgSrc1: "",
+    imgSrc2: "",
+    textLeft: `<h4>Você errou!</h4>
+  De repente ouvem-se um estrondo seguido de uma onda de poeira que se forma no ar ofuscando a sua visão.`,
+    textRight: `<h4>Você perde 10% da sua vida.</h4>
+  Os portões somem restando apenas as grandes paredes de pedra. "Não temos escolha, temos que ir por outro caminho agora." Diz Clargoth.`,
+    options: [
+      {
+        text: 'Estrada da floresta',
+        nextText: 10.3
+      },
+      {
+        text: 'Caminho do deserto',
+        nextText: 10.4
+      },
+    ]
+  },
+  {
+    id: 10.24,
+    imgSrc1: "",
+    imgSrc2: "",
+    textLeft: `O portão mágico treme e começa a se mover, revelando uma passagem. Com isso, vocês conseguem passar pela porta mágica e continuar pela trilha da montanha. No caminho, vocês encontram uma ponte suspensa sobre um grande abismo. A ponte parece bastante instável e pode desabar a qualquer momento.`,
+    textRight: `Clargoth se aproxima de você e diz: "Precisamos passar pela ponte, mas ela parece muito perigosa. Tenho uma ideia, vamos atravessar juntos, um de cada vez, e vamos segurar um ao outro para garantir a segurança. O que acha?"`,
+    options: [
+      {
+        text: 'Avançar',
+        nextText: 10.242
+      }
+    ]
+  },
+  {
+    id: 10.242,
+    imgSrc1: "",
+    imgSrc2: "",
+    textLeft: 'Você concorda com a ideia e começa a atravessar a ponte. No meio do caminho, a ponte começa a balançar violentamente, Clargoth começa a cantar uma música de guerra dos orcs para manter a concentração e a coragem.',
+    textRight: `<h4>Role um dado de seis lados para determinar se você consegue atravessar a ponte com segurança ou não.</h4>
+    Agora é hora de testar a sua sorte.`,
+    // Você jogou o dado e tirou 6. Com esse resultado, você consegue atravessar a ponte sem problemas e chegar ao outro lado em segurança.
+
+// Caso você tivesse tirado 4 ou 5, você teria enfrentado algumas dificuldades durante a travessia e acabaria sofrendo alguns arranhões e cortes leves, mas conseguiria chegar ao outro lado.
+
+// No entanto, se tivesse tirado 1, 2 ou 3, você teria perdido o equilíbrio durante a travessia e acabaria caindo no abismo. Você sofreria um dano significativo e precisaria encontrar uma forma de se recuperar antes de continuar a missão.
+    options: [
+      {
+        text: 'Jogar',
+        nextText: 10.242
+      }
+    ]
+  },
+  {
+    id: 11,
+    imgSrc1: "./imgs/clargHappy.png",
+    imgSrc2: "./imgs/mug.png",
+    textLeft: 'Clargoth dá uma risada. "Goblins do pântano, hein? Já encontrei alguns deles em minhas viagens. Vocês são astutos e perigosos..',
+    textRight: '"Mas se você está com a gente, então.. Tudo certo! Só tome cuidado para não trair a nossa confiança."',
     options: [
       {
         text: 'Restart',
@@ -746,11 +899,11 @@ const textNodes = [
     ]
   },
   {
-    id: 11,
-    imgSrc1: "",
-    imgSrc2: "",
-    textLeft: 'You threw your jar of goo at the monster and it exploded. After the dust settled you saw the monster was destroyed. Seeing your victory you decide to claim this castle as your and live out the rest of your days there.',
-    textRight: 'BARABAM.',
+    id: 13,
+    imgSrc1: "./imgs/icecream-goblin.png",
+    imgSrc2: "./imgs/clargHappy.png",
+    textLeft: 'Clargoth coça a cabeça, um tanto confuso. "Goblins da terra dos sorvetes? Eu nunca ouvi falar disso. Bem, não importa, desde que você seja útil.',
+    textRight: '"Mas lembre-se, não vamos estar caçando sobremesa na masmorra, estamos atrás de um artefato místico."',
     options: [
       {
         text: 'Congratulations. Play Again.',
@@ -773,7 +926,7 @@ const textNodes = [
         text: 'Em construção',
         requiredState: (currentState) => currentState.skipClargoth,
         nextText: -1,
-        
+
       }
     ]
   }
