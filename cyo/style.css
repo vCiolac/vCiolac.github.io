@@ -150,8 +150,8 @@ header {
 }
 
 .zoom-img {
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 48vw;
+  max-height: 80vw;
   object-fit: contain;
 }
 
