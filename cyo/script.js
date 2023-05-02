@@ -760,7 +760,7 @@ const textNodes = [
     id: 9.6, //gnome
     imgSrc1: "./imgs/clargHappy.png",
     imgSrc2: "",
-    textLeft: `Clargoth olha para você com um olhar intrigado. "Um gnomo, hein? Nunca tive um gnomo em meu grupo, estou ainda mais curioso em você. Nossa missão é perigosa e temos muito a fazer antes de enfrentar a masmorra.`,
+    textLeft: `Clargoth olha para você com um olhar intrigado. "Um gnomo, hein? Nunca tive um gnomo em meu grupo, estou ainda mais curioso em você."`,
     textRight: '"Para que dinastia ou nação você pertence, gnomo? É importante que conheçamos os antecedentes de nossos companheiros para que possamos trabalhar em harmonia."',
     options: [
       {
@@ -810,8 +810,8 @@ const textNodes = [
     id: 9.8, 
     imgSrc1: "./imgs/gnomecreepy.png",
     imgSrc2: "",
-    textLeft: `"Renegado? O que te levou a deixar sua comunidade, amigo? Não precisa me contar se não quiser, mas saiba que agora estou aqui com você. Afinal, isso que é liderar.`,
-    textRight: 'E não, eu não tenho preconceitos em relação a isso. Se você é bom em combate e pode nos ajudar a chegar à masmorra, é tudo o que importa para mim."',
+    textLeft: `"Renegado? O que te levou a deixar sua comunidade, amigo? Não precisa me contar se não quiser, mas saiba que estou aqui com você. Afinal, isso que é liderar." Diz Clargoth.`,
+    textRight: '"E não, eu não tenho preconceitos em relação a isso. Se você é bom em combate e pode nos ajudar a chegar à masmorra, é tudo o que importa para mim."',
     options: [
       {
         text: 'Contar um pouco de sua história',
@@ -952,7 +952,7 @@ const textNodes = [
     imgSrc1: "",
     imgSrc2: "",
     textLeft: 'Você começa a examinar o portão mais de perto e nota que há algumas inscrições em uma língua estranha esculpidas na pedra. Clargoth observa por cima do seu ombro. "Não reconheço essa língua. Parece que precisamos decifrar isso antes de podermos passar."',
-    textRight: 'Ao examinar as inscrições com mais cuidado e nota que cada letra parece estar ligada a um símbolo ou figura. Depois de alguns minutos decifrando as inscrições, você finalmente percebe que a charada está em forma de enigma.',
+    textRight: 'Ao examinar as inscrições com mais cuidado você nota que cada letra parece estar ligada a um símbolo ou figura. Depois de alguns minutos decifrando as inscrições, você finalmente percebe que a charada está em forma de enigma.',
     options: [
       {
         text: 'Avançar',
@@ -1005,11 +1005,15 @@ const textNodes = [
     id: 13.14,
     imgSrc1: "",
     imgSrc2: "",
-    textLeft: `O portão mágico treme e começa a se mover, revelando uma passagem. Com isso, vocês conseguem passar pela porta mágica e continuar pela trilha da montanha. No caminho, vocês encontram uma ponte suspensa sobre um grande abismo. A ponte parece bastante instável e pode desabar a qualquer momento.`,
-    textRight: `Clargoth se aproxima de você e diz: "Precisamos passar pela ponte, mas ela parece muito perigosa. Tenho uma ideia, vamos atravessar juntos, um de cada vez, e vamos segurar um ao outro para garantir a segurança. O que acha?"`,
+    textLeft: `<h4>Fantasma! você diz</h4>
+    O portão mágico treme e começa a se mover, revelando uma passagem. Com isso, vocês conseguem passar pela porta mágica e continuar pela trilha da montanha. No caminho, vocês encontram uma ponte suspensa sobre um grande abismo. A ponte parece bastante instável e pode desabar a qualquer momento.`,
+    textRight: `Clargoth se aproxima de você e diz: "Precisamos passar pela ponte, mas ela parece muito perigosa. Tenho uma ideia, vamos atravessar juntos segurando um ao outro para garantir que ninguém caia. O que acha?"`,
     options: [
       {
-        text: 'Avançar',
+        text: 'Boa ideia!',
+        nextText: 13.16
+      },{
+        text: 'Acho melhor um por vez',
         nextText: 13.16
       }
     ]
@@ -1018,7 +1022,7 @@ const textNodes = [
     id: 13.16,
     imgSrc1: "",
     imgSrc2: "",
-    textLeft: 'Você concorda com a ideia e começa a atravessar a ponte. No meio do caminho, a ponte começa a balançar violentamente, Clargoth começa a cantar uma música de guerra dos orcs para manter a concentração e a coragem.',
+    textLeft: 'Você concorda com a ideia e todos começam a atravessar a ponte. Durante o caminho a ponte começa a balançar violentamente, Clargoth, que está no meio, começa a cantar uma música de guerra dos orcs para manter a concentração e a coragem do bando.',
     textRight: `<h4>Role um dado de seis lados para determinar se você consegue atravessar a ponte com segurança ou não.</h4>
     Agora é hora de testar a sua sorte.`,
     // Você jogou o dado e tirou 6. Com esse resultado, você consegue atravessar a ponte sem problemas e chegar ao outro lado em segurança.
