@@ -122,8 +122,8 @@ let writeSpeed = 30;
 let writeSpeed2 = 35;
 
 function typeWriter(newText, textElement, newText2, textElement2) {
-  let writeSpeed = 30;
-  let writeSpeed2 = 35;
+  writeSpeed = 30;
+  writeSpeed2 = 35;
   let i = 0;
   let i2 = 0;
   let isH4 = false;
@@ -634,7 +634,7 @@ const textNodes = [
     imgSrc1: "",
     imgSrc2: "./imgs/clargoth.png",
     textLeft: `Clargoth olhou fixamente para você. "Antes de partirmos, preciso saber mais sobre você", disse ele franzindo os olhos em sua direção.`,
-    textRight: `Não consigo ver bem seu rosto com essas roupas e capa escura.
+    textRight: `Não consigo ver bem seu rosto, além de sua capa, aqui está escuro.
      Me diga, qual o seu nome?`,
     options: [
       {
@@ -664,22 +664,22 @@ const textNodes = [
       {
         text: 'Sou um Elfo',
         setState: { Elf: true },
-        nextText: 9.1
+        nextText: 9.3
       },
       {
         text: 'Sou um Gnomo',
         setState: { Gnome: true },
-        nextText: 9.2
+        nextText: 9.6
       },
       {
         text: 'Sou um Goblin!',
         setState: { Goblin: true },
-        nextText: 9.3
+        nextText: 9.9
       }
     ]
   },
   {
-    id: 9,
+    id: 9, //human
     imgSrc1: "./imgs/clargHappy.png",
     imgSrc2: "",
     textLeft: `Clargoth olha para você com um sorriso no rosto. "Ah, um humano! Sem dúvida, você será uma adição valiosa ao nosso grupo. Nossa missão é perigosa e temos muito a fazer antes de enfrentar a masmorra."`,
@@ -687,12 +687,38 @@ const textNodes = [
     options: [
       {
         text: 'Restart',
-        nextText: 10
+        nextText: -1
       }
     ]
   },
   {
     id: 9.1,
+    imgSrc1: "",
+    imgSrc2: "",
+    textLeft: ``,
+    textRight: '',
+    options: [
+      {
+        text: 'Restart',
+        nextText: -1
+      }
+    ]
+  },
+  {
+    id: 9.2, //human
+    imgSrc1: "./imgs/clargHappy.png",
+    imgSrc2: "",
+    textLeft: ``,
+    textRight: '',
+    options: [
+      {
+        text: 'Restart',
+        nextText: -1
+      }
+    ]
+  },
+  {
+    id: 9.3, //elf
     imgSrc1: "./imgs/clargHappy.png",
     imgSrc2: "",
     textLeft: `Clargoth olha para você com desconfiança. "Um elfo? Você não é bem-vindo em muitas partes deste mundo, mas estou disposto a dar-lhe uma chance. Nossa missão é perigosa e temos muito a fazer antes de enfrentar a masmorra.`,
@@ -700,25 +726,105 @@ const textNodes = [
     options: [
       {
         text: 'Restart',
-        nextText: 10
+        nextText: -1
       }
     ]
   },
   {
-    id: 9.2,
-    imgSrc1: "./imgs/clargHappy.png",
+    id: 9.4, //elf
+    imgSrc1: "./",
     imgSrc2: "",
-    textLeft: `Clargoth olha para você com um olhar intrigado. "Um gnomo, hein? Nunca tive um gnomo em meu grupo, estou ainda mais curioso em você. Nossa missão é perigosa e temos muito a fazer antes de enfrentar a masmorra.`,
-    textRight: '"Precisamos reunir equipamentos, suprimentos e traçar um plano cuidadoso para nossa expedição. O que você sugere que façamos primeiro?"',
+    textLeft: ``,
+    textRight: '',
     options: [
       {
         text: 'Restart',
-        nextText: 10
+        nextText: -1
       }
     ]
   },
   {
-    id: 9.3,
+    id: 9.5, //elf
+    imgSrc1: "./",
+    imgSrc2: "",
+    textLeft: ``,
+    textRight: '',
+    options: [
+      {
+        text: 'Restart',
+        nextText: -1
+      }
+    ]
+  },
+  {
+    id: 9.6, //gnome
+    imgSrc1: "./imgs/clargHappy.png",
+    imgSrc2: "",
+    textLeft: `Clargoth olha para você com um olhar intrigado. "Um gnomo, hein? Nunca tive um gnomo em meu grupo, estou ainda mais curioso em você. Nossa missão é perigosa e temos muito a fazer antes de enfrentar a masmorra.`,
+    textRight: '"Para que dinastia ou nação você pertence, gnomo? É importante que conheçamos os antecedentes de nossos companheiros para que possamos trabalhar em harmonia."',
+    options: [
+      {
+        text: 'Sou do Vale da Prata',
+        setState: {valleyGnome: true },
+        nextText: 9.61
+      },
+      {
+        text: 'Venho da dinastia Girassol',
+        setState: {daisyGnome: true },
+        nextText: 9.7
+      },
+      {
+        text: 'Sou um Gnomo renegado',
+        setState: { renegadeGnome: true },
+        nextText: 9.8
+      }
+    ]
+  },
+  {
+    id: 9.61, 
+    imgSrc1: "./imgs/sunflowerGnome.png",
+    imgSrc2: "",
+    textLeft: `"Dinastia Girassol, hein? Nunca conheci nenhum guerreiro desse grupo, mas já ouvi rumores de que são capazes de manipular as sombras para controlar seus inimigos...`,
+    textRight: 'Clargoth fica um pouco mais cauteloso.. Pensa e diz: "Interessante, bem vindo ao grupo."',
+    options: [
+      {
+        text: 'Avançar',
+        nextText: 11
+      }
+    ]
+  },
+  {
+    id: 9.7, 
+    imgSrc1: "./imgs/gnomevalley.png",
+    imgSrc2: "",
+    textLeft: `"Ah, conheço bem o Vale da Prata. Guerreiros ágeis e magos astutos, hein? Certamente você tem habilidades valiosas para nossa missão."`,
+    textRight: 'Ele parece refletir por um instante antes de continuar...',
+    options: [
+      {
+        text: 'Avançar',
+        nextText: 11
+      }
+    ]
+  },
+  {
+    id: 9.8, 
+    imgSrc1: "./imgs/gnomecreepy.png",
+    imgSrc2: "",
+    textLeft: `"Renegado? O que te levou a deixar sua comunidade, amigo? Não precisa me contar se não quiser, mas saiba que agora estou aqui com você. Afinal, isso que é liderar.`,
+    textRight: 'E não, eu não tenho preconceitos em relação a isso. Se você é bom em combate e pode nos ajudar a chegar à masmorra, é tudo o que importa para mim."',
+    options: [
+      {
+        text: 'Contar um pouco de sua história',
+        nextText: 9.81
+      },
+      {
+        text: 'Avançar',
+        nextText: 11
+      }
+    ]
+  },
+  {
+    id: 9.9, //goblin
     imgSrc1: "./imgs/clargoth.png",
     imgSrc2: "",
     textLeft: `Clargoth arregalou os olhos com surpresa ao ouvir que você é um goblin. Ele levou alguns segundos para se recuperar do choque, mas logo perguntou com cautela: "Qual a sua nação, meu jovem?`,
@@ -726,20 +832,23 @@ const textNodes = [
     options: [
       {
         text: 'Sou da nação dos goblins do espaço.',
+        setState: { spaceGoblin: true },
         nextText: 10
       },
       {
         text: 'Faço parte da nação dos goblins do pântano.',
-        nextText: 11
+        setState: { swampGoblin: true },
+        nextText: 10.1
       },
       {
         text: 'Nascido e criado na nação goblins do sorvete.',
-        nextText: 13
+        setState: { iceCreamGoblin: true },
+        nextText: 10.2
       },
     ]
   },
   {
-    id: 10,
+    id: 10, //spacegoblin
     imgSrc1: "",
     imgSrc2: "imgs/space-goblins.png",
     textLeft: `<h4>Você conta um resumo de sua história para Clargoth</h4>
@@ -748,46 +857,72 @@ const textNodes = [
     options: [
       {
         text: 'É somente isso que preciso',
-        nextText: 10.1
+        nextText: 11
       }
     ]
   },
   {
-    id: 10.1,
+    id: 10.1, //swamp-goblin
     imgSrc1: "",
-    imgSrc2: "imgs/space-goblins.png",
-    textLeft: '"Bem, agora que sabemos um pouco mais sobre você, vamos nos concentrar em nossa missão. Estamos indo para uma masmorra antiga em busca de um artefato místico, e precisamos nos preparar bem para enfrentar os perigos que nos esperam lá dentro". Ele toma um gole de sua bebida antes de continuar.',
+    imgSrc2: "./imgs/swampgoblin.png",
+    textLeft: 'Clargoth dá uma risada. "Goblins do pântano, hein? Já encontrei alguns deles em minhas viagens. Vocês são astutos e perigosos..',
+    textRight: '"Mas se você está com a gente, então.. Tudo certo! Só tome cuidado para não trair a nossa confiança."',
+    options: [
+      {
+        text: 'Certo',
+        nextText: 11
+      }
+    ]
+  },
+  {
+    id: 10.2, //icecream-goblin
+    imgSrc1: "./imgs/icecream-goblin.png",
+    imgSrc2: "",
+    textLeft: 'Clargoth coça a cabeça, um tanto confuso. "Goblins da terra dos sorvetes? Eu nunca ouvi falar disso... Bem, não importa, desde que você seja útil.',
+    textRight: '"Mas lembre-se, não vamos estar caçando sobremesa na masmorra, estamos atrás de um artefato místico."',
+    options: [
+      {
+        text: 'HA HA',
+        nextText: 11
+      }
+    ]
+  },
+  {
+    id: 11, //geral
+    imgSrc1: "",
+    imgSrc2: "",
+    textLeft: '"Bom, agora que sabemos um pouco mais sobre você, vamos nos concentrar em nossa missão. Estamos indo para uma masmorra antiga em busca de um artefato místico, e precisamos nos preparar bem para enfrentar os perigos que nos esperam lá dentro". Ele toma um gole de sua bebida antes de continuar.',
     textRight: 'Clargoth se levanta da mesa e indica para você segui-lo. "Vamos até a nossa base de operações, onde vamos nos preparar para a jornada que nos aguarda". Ele caminha em direção à porta da taverna. O grupo de aventureiros que estava sentado próximo ao bar também se levanta e começa a seguir Clargoth em direção à base de operações.',
     options: [
       {
         text: 'Ir junto',
-        nextText: 10.2
+        nextText: 13
       }
     ]
   },
   {
-    id: 10.2,
+    id: 13,
     imgSrc1: "",
-    imgSrc2: "imgs/space-goblins.png",
+    imgSrc2: "",
     textLeft: 'Ao chegarem na base Clargoth puxa um mapa de sua mochila e mostra as diferentes rotas que levam à entrada da masmorra. "Aqui estão nossas opções: a trilha da montanha, a estrada da floresta e o caminho do deserto. Qual você prefere?"',
     textRight: 'Enquanto você pensa na escolha, Clargoth aponta para algo no mapa. "Oh, veja só, há uma charada que precisamos resolver para passar por um ponto crítico na trilha da montanha. Acho que é uma forma de proteção mágica do artefato que estamos procurando. Você é bom em charadas?"',
     options: [
       {
         text: 'Trilha da montanha',
-        nextText: 10.21
+        nextText: 13.1
       },
       {
         text: 'Estrada da floresta',
-        nextText: 10.3
+        nextText: 13.2
       },
       {
         text: 'Caminho do deserto',
-        nextText: 10.4
+        nextText: 13.3
       },
     ]
   },
   {
-    id: 10.21,
+    id: 13.1,
     imgSrc1: "",
     imgSrc2: "",
     textLeft: 'Conforme vocês seguem pela trilha da montanha, a paisagem se torna cada vez mais íngreme e acidentada. Em certo ponto, vocês se deparam com um grande portão de pedra que bloqueia o caminho. O portão parece antigo e reforçado, e não há nenhuma alavanca ou mecanismo visível para abri-lo.',
@@ -795,47 +930,47 @@ const textNodes = [
     options: [
       {
         text: 'Avançar',
-        nextText: 10.22
+        nextText: 13.12
       },
     ]
   },
   {
-    id: 10.22,
+    id: 13.12,
     imgSrc1: "",
     imgSrc2: "",
-    textLeft: 'Você começa a examinar o portão mais de perto e nota que há algumas inscrições em uma língua estranha esculpidas na pedra. Clargoth observa por cima do seu ombro. "Não reconheço essa língua. Parece que precisamos decifrar isso antes de podermos passar".',
-    textRight: 'Você começa a examinar as inscrições com mais cuidado e nota que cada letra parece estar ligada a um símbolo ou figura. Depois de alguns minutos decifrando as inscrições, você finalmente percebe que a charada está em forma de enigma.',
+    textLeft: 'Você começa a examinar o portão mais de perto e nota que há algumas inscrições em uma língua estranha esculpidas na pedra. Clargoth observa por cima do seu ombro. "Não reconheço essa língua. Parece que precisamos decifrar isso antes de podermos passar."',
+    textRight: 'Ao examinar as inscrições com mais cuidado e nota que cada letra parece estar ligada a um símbolo ou figura. Depois de alguns minutos decifrando as inscrições, você finalmente percebe que a charada está em forma de enigma.',
     options: [
       {
         text: 'Avançar',
-        nextText: 10.23
+        nextText: 13.13
       },
     ]
   },
   {
-    id: 10.23,
+    id: 13.13,
     imgSrc1: "",
     imgSrc2: "",
-    textLeft: `<h4>Eu sou uma criatura mágica que habita na masmorra, tenho asas para voar e um corpo brilhante que reflete a luz.</h4>`,
+    textLeft: `<h4>Eu sou uma criatura mágica que habita na masmorra, sou capaz de voar e tenho um corpo brilhante que reflete a luz.</h4>`,
     textRight: `<h4>Alguns me veem como uma bênção, outros como uma maldição.</h4>
    "O que sou eu?"`,
     options: [
       {
         text: 'Dragão',
-        nextText: 10.25
+        nextText: 13.15
       },
       {
         text: 'Fada',
-        nextText: 10.25
+        nextText: 13.15
       },
       {
         text: 'Fantasma',
-        nextText: 10.24
+        nextText: 13.14
       },
     ]
   },
   {
-    id: 10.25,
+    id: 13.15,
     imgSrc1: "",
     imgSrc2: "",
     textLeft: `<h4>Você errou!</h4>
@@ -845,16 +980,16 @@ const textNodes = [
     options: [
       {
         text: 'Estrada da floresta',
-        nextText: 10.3
+        nextText: 13.2
       },
       {
         text: 'Caminho do deserto',
-        nextText: 10.4
+        nextText: 13.3
       },
     ]
   },
   {
-    id: 10.24,
+    id: 13.14,
     imgSrc1: "",
     imgSrc2: "",
     textLeft: `O portão mágico treme e começa a se mover, revelando uma passagem. Com isso, vocês conseguem passar pela porta mágica e continuar pela trilha da montanha. No caminho, vocês encontram uma ponte suspensa sobre um grande abismo. A ponte parece bastante instável e pode desabar a qualquer momento.`,
@@ -862,12 +997,12 @@ const textNodes = [
     options: [
       {
         text: 'Avançar',
-        nextText: 10.242
+        nextText: 13.16
       }
     ]
   },
   {
-    id: 10.242,
+    id: 13.16,
     imgSrc1: "",
     imgSrc2: "",
     textLeft: 'Você concorda com a ideia e começa a atravessar a ponte. No meio do caminho, a ponte começa a balançar violentamente, Clargoth começa a cantar uma música de guerra dos orcs para manter a concentração e a coragem.',
@@ -881,33 +1016,7 @@ const textNodes = [
     options: [
       {
         text: 'Jogar',
-        nextText: 10.242
-      }
-    ]
-  },
-  {
-    id: 11,
-    imgSrc1: "./imgs/clargHappy.png",
-    imgSrc2: "./imgs/mug.png",
-    textLeft: 'Clargoth dá uma risada. "Goblins do pântano, hein? Já encontrei alguns deles em minhas viagens. Vocês são astutos e perigosos..',
-    textRight: '"Mas se você está com a gente, então.. Tudo certo! Só tome cuidado para não trair a nossa confiança."',
-    options: [
-      {
-        text: 'Restart',
-        nextText: -1
-      }
-    ]
-  },
-  {
-    id: 13,
-    imgSrc1: "./imgs/icecream-goblin.png",
-    imgSrc2: "./imgs/clargHappy.png",
-    textLeft: 'Clargoth coça a cabeça, um tanto confuso. "Goblins da terra dos sorvetes? Eu nunca ouvi falar disso. Bem, não importa, desde que você seja útil.',
-    textRight: '"Mas lembre-se, não vamos estar caçando sobremesa na masmorra, estamos atrás de um artefato místico."',
-    options: [
-      {
-        text: 'Congratulations. Play Again.',
-        nextText: -1
+        nextText: 13.16
       }
     ]
   },
