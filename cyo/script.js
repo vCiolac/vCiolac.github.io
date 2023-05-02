@@ -824,6 +824,19 @@ const textNodes = [
     ]
   },
   {
+    id: 9.81,
+    imgSrc1: "./imgs/gnomecreepy.png",
+    imgSrc2: "",
+    textLeft: ``,
+    textRight: '',
+    options: [
+      {
+        text: 'Avançar',
+        nextText: 11
+      }
+    ]
+  },
+  {
     id: 9.9, //goblin
     imgSrc1: "./imgs/clargoth.png",
     imgSrc2: "",
@@ -1042,3 +1055,5 @@ const textNodes = [
 ];
 
 loadGameState()
+
+module.exports = {typeWriter, addInputText, restart, tradePageContent, playAudio, playBackgroundMusic, playPauseButton, selectOption, showOption, showTextNode, startGame, dieOrUp, fillStateSelect, loadGameState, controlProgress, createImage};
