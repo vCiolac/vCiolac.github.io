@@ -92,6 +92,10 @@ header {
   justify-content: center;
 }
 
+#name {
+  max-width: 70%;
+}
+
 #bars {
   display: flex;
   flex-shrink: 1;
@@ -113,7 +117,6 @@ header {
 
 .slots {
   display: flex;
-  right: 0%;
   flex-wrap: wrap;
   justify-content: flex-end;
   max-width: 48%;
@@ -181,6 +184,10 @@ header {
     flex-direction: column;
   }
 
+  #name {
+    max-width: 100%;
+  }
+
   #imgs img {
     max-width: 49%;
     height: auto;
@@ -188,7 +195,8 @@ header {
 
   #playerName,
   #stateSelect {
-    max-width: 80%;
+    max-width: 96%;
+    align-self: stretch;
   }
 
   .playPause {
@@ -196,4 +204,11 @@ header {
     right: -4.1em;
   }
 
+  #infos {
+    flex-direction: column;
+  }
+
+  .slots {
+    justify-content: center;
+  }
 }
