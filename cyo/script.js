@@ -259,7 +259,7 @@ function showOption(option) { // Verifica se tem o state requirido para o botão
 
 function selectOption(option) {
   const nextTextNodeId = option.nextText;
-  if (nextTextNodeId === 5.4 || nextTextNodeId === 10.25) {
+  if (nextTextNodeId === 5.4 || nextTextNodeId === 13.15) {
     controlProgress("hp", 'down', 10);
     playAudio('./mp3/hit30.mp3.flac');
   }
@@ -709,7 +709,7 @@ const textNodes = [
     ]
   },
   {
-    id: 9.2, //human
+    id: 9.2,
     imgSrc1: "./imgs/clargHappy.png",
     imgSrc2: "",
     textLeft: ``,
@@ -726,7 +726,7 @@ const textNodes = [
     imgSrc1: "./imgs/clargHappy.png",
     imgSrc2: "",
     textLeft: `Clargoth olha para você com desconfiança. "Um elfo? Você não é bem-vindo em muitas partes deste mundo, mas estou disposto a dar-lhe uma chance. Nossa missão é perigosa e temos muito a fazer antes de enfrentar a masmorra.`,
-    textRight: '"Precisamos reunir equipamentos, suprimentos e traçar um plano cuidadoso para nossa expedição. O que você sugere que façamos primeiro?"',
+    textRight: '"Precisamos reunir equipamentos, suprimentos e traçar um plano cuidadoso para nossa expedição. Mas antes, me conte, que tipo de elfo você é?"',
     options: [
       {
         text: 'Restart',
@@ -735,7 +735,7 @@ const textNodes = [
     ]
   },
   {
-    id: 9.4, //elf
+    id: 9.4,
     imgSrc1: "./",
     imgSrc2: "",
     textLeft: ``,
@@ -748,7 +748,7 @@ const textNodes = [
     ]
   },
   {
-    id: 9.5, //elf
+    id: 9.5,
     imgSrc1: "./",
     imgSrc2: "",
     textLeft: ``,
@@ -831,8 +831,8 @@ const textNodes = [
     id: 9.81,
     imgSrc1: "./imgs/gnomecreepy.png",
     imgSrc2: "",
-    textLeft: ``,
-    textRight: '',
+    textLeft: `Você conta que nasceu em uma família de gnomos de boa aparência e habilidades surpreendentes, mas sempre se destacou por sua aparência medonha e sua aptidão por feitiçaria, algo que não era bem visto entre sua família. Conta que tentou se encaixar, mas foi rejeitado e acabou se isolando e desde então, vive sozinho.`,
+    textRight: 'Clargoth ouve a sua história com empatia e diz: "Eu entendo como é se sentir diferente e ser julgado por isso. Mas saiba que aqui em nosso grupo, valorizamos as habilidades de cada um, independentemente de sua aparência ou origem. Se você se juntar a nós, terá um lugar onde será aceito e valorizado pelo que é."',
     options: [
       {
         text: 'Avançar',
