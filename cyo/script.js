@@ -785,7 +785,7 @@ const textNodes = [
     ]
   },
   {
-    id: 9.61, 
+    id: 9.7, // gnome sunflower
     imgSrc1: "./imgs/sunflowerGnome.png",
     imgSrc2: "",
     textLeft: `"Dinastia Girassol, hein? Nunca conheci nenhum guerreiro desse grupo, mas já ouvi rumores de que são capazes de manipular as sombras para controlar seus inimigos...`,
@@ -798,7 +798,7 @@ const textNodes = [
     ]
   },
   {
-    id: 9.7, 
+    id: 9.61, //gnome valley
     imgSrc1: "./imgs/gnomevalley.png",
     imgSrc2: "",
     textLeft: `"Ah, conheço bem o Vale da Prata. Guerreiros ágeis e magos astutos, hein? Certamente você tem habilidades valiosas para nossa missão."`,
@@ -811,7 +811,7 @@ const textNodes = [
     ]
   },
   {
-    id: 9.8, 
+    id: 9.8, //gnome creepy
     imgSrc1: "./imgs/gnomecreepy.png",
     imgSrc2: "",
     textLeft: `"Renegado? O que te levou a deixar sua comunidade, amigo? Não precisa me contar se não quiser, mas saiba que estou aqui com você. Afinal, isso que é liderar." Diz Clargoth.`,
@@ -828,11 +828,11 @@ const textNodes = [
     ]
   },
   {
-    id: 9.81,
+    id: 9.81, //gnome creepy
     imgSrc1: "./imgs/gnomecreepy.png",
     imgSrc2: "",
-    textLeft: `Você conta que nasceu em uma família de gnomos de boa aparência e habilidades surpreendentes, mas sempre se destacou por sua aparência medonha e sua aptidão por feitiçaria, algo que não era bem visto entre sua família. Conta que tentou se encaixar, mas foi rejeitado e acabou se isolando e desde então, vive sozinho.`,
-    textRight: 'Clargoth ouve a sua história com empatia e diz: "Eu entendo como é se sentir diferente e ser julgado por isso. Mas saiba que aqui em nosso grupo, valorizamos as habilidades de cada um, independentemente de sua aparência ou origem. Se você se juntar a nós, terá um lugar onde será aceito e valorizado pelo que é."',
+    textLeft: `Você conta que nasceu em uma família de gnomos de boa aparência e habilidades surpreendentes, mas sempre se destacou por sua aparência medonha e sua aptidão por feitiçaria, algo que não era bem visto em sua família. Conta que tentou se encaixar, mas foi rejeitado e acabou se isolando, e desde então, vive sozinho.`,
+    textRight: 'Clargoth ouve a sua história com empatia e diz: "Eu entendo como é se sentir diferente e ser julgado por isso, amigo. Mas saiba que aqui em nosso grupo, valorizamos as habilidades de cada um, independentemente de sua aparência ou origem. Se você se juntar a nós, terá um lugar onde será aceito e valorizado pelo que é."',
     options: [
       {
         text: 'Avançar',
@@ -939,7 +939,7 @@ const textNodes = [
     ]
   },
   {
-    id: 13.1,
+    id: 13.1, //trilha da montanha
     imgSrc1: "",
     imgSrc2: "",
     textLeft: 'Conforme vocês seguem pela trilha da montanha, a paisagem se torna cada vez mais íngreme e acidentada. Em certo ponto, vocês se deparam com um grande portão de pedra que bloqueia o caminho. O portão parece antigo e reforçado, e não há nenhuma alavanca ou mecanismo visível para abri-lo.',
@@ -1064,4 +1064,4 @@ const textNodes = [
 
 loadGameState()
 
-module.exports = {typeWriter, addInputText, restart, tradePageContent, playAudio, playBackgroundMusic, playPauseButton, selectOption, showOption, showTextNode, startGame, dieOrUp, fillStateSelect, loadGameState, controlProgress, createImage};
+// module.exports = {typeWriter, addInputText, restart, tradePageContent, playAudio, playBackgroundMusic, playPauseButton, selectOption, showOption, showTextNode, startGame, dieOrUp, fillStateSelect, loadGameState, controlProgress, createImage};
