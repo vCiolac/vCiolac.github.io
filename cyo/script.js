@@ -83,7 +83,7 @@ function playPauseButton() {
 
 function playBackgroundMusic() {
   if (isBackgroundMusicPlaying) {
-    backgroundMusic.volume = 0.5; // definindo o volume para 50%
+    backgroundMusic.volume = 1; // 100%
     backgroundMusic.play();
     isBackgroundMusicPlaying = true;
     backgroundMusic.addEventListener('ended', function () {
@@ -103,7 +103,7 @@ function playAudio(src) {
   }
 
   let newMusic = new Audio(src);
-  newMusic.volume = 1;
+  newMusic.volume = 0.8;
   newMusic.play();
 
   newMusic.addEventListener('ended', function () {
@@ -333,7 +333,6 @@ function addInputText(numID, names, placeholder) { // Id que será add / name&id
     const inputName = document.getElementById(names);
     state[names] = inputName.value;
     playAudio('./mp3/task.mp3');
-    tradePageContent();
   });
 
   input.setAttribute('required', 'required');
@@ -344,7 +343,14 @@ function addInputText(numID, names, placeholder) { // Id que será add / name&id
       const button = document.createElement('button');
       button.innerText = option.text;
       button.classList.add('btnAct');
-      button.addEventListener('click', () => selectOption(option));
+      button.addEventListener('click', () => {
+       if (isFinished.value) {
+        selectOption(option);
+      } else {
+        alert('Por favor espere o texto terminar de ser escrito antes de fazer uma escolha.');
+        writeSpeed = 0;
+        writeSpeed2 = 0;
+      }});
       optionActButtons.appendChild(button);
     }
   })
@@ -415,7 +421,7 @@ const textNodes = [
     imgSrc1: "./imgs/night-tavern.png",
     imgSrc2: "./imgs/tablefull.png",
     textLeft: 'A noite caiu e você sente sede.. A taverna da cidade está sempre agitada, com música alta e um clima agradável. Ao entrar, você senta e se depara com um grupo de aventureiros em uma mesa próxima ao bar.',
-    textRight: 'É possível escutar que eles estão discutindo os detalhes de sua próxima expedição. Eles haviam sido contratados para encontrar um artefato místico que esta escondido nas profundezas de uma masmorra. Você percebe que eles ainda não planejaram uma estratégia para a jornada.',
+    textRight: 'É possível escutar que eles estão discutindo os detalhes de sua próxima expedição. Eles haviam sido contratados para encontrar um artefato místico que esta escondido nas profundezas de uma masmorra. Você poder perceber que eles ainda não planejaram uma estratégia para a jornada.',
     options: [
       {
         text: 'Pegar uma bebida',
@@ -430,10 +436,10 @@ const textNodes = [
   },
   {
     id: 2,
-    imgSrc1: "",
+    imgSrc1: "./imgs/bartender.png",
     imgSrc2: "./imgs/clargoth.png",
-    textLeft: 'Um guerreiro de aparência imponente ergue sua taça de hidromel e chama a atenção dos outros membros.',
-    textRight: `Com um sorriso malicioso no rosto, Clargoth, o líder orc do grupo, diz: 
+    textLeft: `Ao se aproximar do balcão, você pede uma bebida ao bartender, ele então enche uma caneca com hidromel e a desliza suavemente na sua direção. O aroma adocicado da bebida envolve o seu nariz enquanto você se refresca com um belo gole. O barulho alto das conversas e risadas se misturam com a musica de fundo.`,
+    textRight: `Quando um guerreiro de aparência imponente ergue sua taça e chama a atenção dos outros membros. Com um sorriso malicioso no rosto, Clargoth, o líder orc do grupo, diz: 
     "Companheiros, devemos nos preparar para a jornada! Mas antes.. Vamos aproveitar a noite e beber em honra do sucesso futuro!"`,
     options: [
       {
@@ -585,7 +591,7 @@ const textNodes = [
     imgSrc1: "./imgs/goblins.png",
     imgSrc2: "",
     textLeft: `<h4>Você ganhou 10% de experiência.</h4>
-    "Parabéns, acetou. E agora em uma batalha contra um grupo de goblins, como você faria com sua equipe para obter a vitória?"`,
+    "Parabéns, acertou. E agora em uma batalha contra um grupo de goblins, como você faria com sua equipe para obter a vitória?"`,
     textRight: `"Ahh os goblins... Nossos inimigos mais frequentes, eles são ágeis e imprevisíveis, e isso pode ser um problema para nós. É necesssário ser astuto e não subestimá-los."`,
     options: [
       {
@@ -621,7 +627,7 @@ const textNodes = [
     imgSrc1: "",
     imgSrc2: "./imgs/clargHappy.png",
     textLeft: `"Muito bem, meu amigo! Você provou ser habilidoso, e estou feliz em ter você em nosso grupo. Mas não se engane, o caminho que temos pela frente é cheio de perigos, monstros que desafiam a lógica e a própria natureza habitam a masmorra em que estamos prestes a entrar."`,
-    textRight: `"Nossas habilidades e forças serão testadas além do que podemos suportar, e muitos dos que começam essa jornada não voltam" conclui Clargoth, "Saiba que a morte é um destino certo e horrível que aguarda aqueles que são fracos e imprudentes."`,
+    textRight: `"Nossas habilidades e forças serão testadas além do que podemos suportar, e muitos dos que começam essa jornada não voltam" Clargoth para por um segundo, com um olhar vibrante ele diz: "Saiba que a morte é um destino certo e horrível que aguarda aqueles que são fracos e imprudentes."`,
     options: [
       {
         text: 'Eu entendo os perigos que nos aguardam e estou aqui para enfrentá-los',
@@ -657,7 +663,7 @@ const textNodes = [
     id: 8,
     imgSrc1: "",
     imgSrc2: "./imgs/radiant-orc.png",
-    textLeft: `O orc encara você com curiosidade, seus olhos amarelados brilhando com uma intensidade que demonstra um misto de surpresa e desconfiança. Com a caneca em mãos, ele aperta com mais força e se dirige a você: "Interessante... `,
+    textLeft: `O orc encara você com curiosidade, seus olhos amarelados brilhando com uma intensidade que demonstra um misto de surpresa e desconfiança. Com a taça em suas mãos, ele a aperta com mais força e se dirige a você: "Interessante... `,
     textRight: `"Seu nome é tão incomum quanto o seu rosto. Mas mesmo assim, não consigo identificar sua origem apenas por ele." Ele solta um grunhido de insatisfação e volta a tomar um gole do hidromel. A expressão em seu rosto demonstra que ele está pensando sobre o assunto.`,
     options: [
       {
@@ -684,79 +690,129 @@ const textNodes = [
   },
   {
     id: 9, //human
-    imgSrc1: "./imgs/clargHappy.png",
+    imgSrc1: "./imgs/clargoth.png",
     imgSrc2: "",
-    textLeft: `Clargoth olha para você com um sorriso no rosto. "Ah, um humano! Sem dúvida, você será uma adição valiosa ao nosso grupo. Nossa missão é perigosa e temos muito a fazer antes de enfrentar a masmorra."`,
-    textRight: '"Precisamos reunir equipamentos, suprimentos e traçar um plano cuidadoso para nossa expedição. O que você sugere que façamos primeiro?"',
+    textLeft: `Clargoth olha para você com um desgosto no rosto.
+    "Ah, um humano... Sem dúvidas, como pude não reconhecer? Vocês são bem comuns por aqui.
+    Hmm, humanos..."`,
+    textRight: '"Não tenho uma opinião muito boa sobre vocês, mas sei que muitos dos melhores guerreiros que já vi também eram humanos... Então espero que você possa se provar útil em nossa missão. Me diga humano, o que você é capaz de fazer?"',
     options: [
       {
-        text: 'Restart',
-        nextText: -1
+        text: 'Sou uma arqueira habilidosa, capaz de acertar facilmente alvos grande como você',
+        nextText: 9.1
+      },
+      {
+        text: 'Sou um domador de animais, inclusive de bestas selvagens como você',
+        nextText: 9.12
+      },
+      {
+        text: 'Sou uma ladina esperta e ágil, posso roubar seus pertences sem você nem mesmo perceber',
+        nextText: 9.2
       }
     ]
   },
   {
-    id: 9.1,
-    imgSrc1: "",
+    id: 9.1, //archer
+    imgSrc1: "./imgs/archer.png",
     imgSrc2: "",
-    textLeft: ``,
-    textRight: '',
+    textLeft: `Clargoth parece levemente impressionado, ele cruza os braços avaliando você.
+    "Uma arqueira habilidosa, hein? Não duvido mesmo que seja capaz de acertar um alvo grande, mas será que tem precisão suficiente para não acertar seus companheiros em meio à uma batalha?"`,
+    textRight: '"Vamos ver durante nossa missão do que você é realmente capaz. Prove seu valor e talvez eu possa reconsiderar minha opinião sobre os humanos."',
     options: [
       {
-        text: 'Restart',
-        nextText: -1
+        text: 'Avançar',
+        nextText: 11
       }
     ]
   },
   {
-    id: 9.2,
-    imgSrc1: "./imgs/clargHappy.png",
+    id: 9.12, //beastMaster
+    imgSrc1: "./imgs/Beastmaster.png",
     imgSrc2: "",
-    textLeft: ``,
-    textRight: '',
+    textLeft: `Clargoth arqueia as sobrancelhas, curioso, ele diz: "Domador de animais, é? Se isso for verdade, poderá ser bastante útil para a nossa missão. Mas tenha cuidado, amigo, as bestas selvagens podem ser as mais imprevisíveis." Clargoth diz, ao dar uma risada`,
+    textRight: '"E certifique-se de que seus animais estejam bem treinados e sob controle. Não queremos que eles se voltem contra nós ou nos atrapalhem em nossa missão... E deixando as brincadeiras à parte, vamos tratar do que interessa."',
     options: [
       {
-        text: 'Restart',
-        nextText: -1
+        text: 'Avançar',
+        nextText: 11
+      }
+    ]
+  },
+  {
+    id: 9.2, //rogue
+    imgSrc1: "./imgs/rogue.png",
+    imgSrc2: "",
+    textLeft: `Clargoth dá um sorriso irônico e uma leve risada. "Uma ladina esperta, hein? Bom, eu consigo manter meus pertences bem guardados, mas quem sabe você não possa me ensinar alguns truques interessantes."`,
+    textRight: 'Enquanto te olha fixamente nos olhos, ele diz: "Só não se esqueça de quem são nossos verdadeiros inimigos e amigos aqui... Então não tente me roubar, se não você terá grandes problemas."',
+    options: [
+      {
+        text: 'Avançar',
+        nextText: 11
       }
     ]
   },
   {
     id: 9.3, //elf
-    imgSrc1: "./imgs/clargHappy.png",
+    imgSrc1: "./imgs/radiant-orc.png",
     imgSrc2: "",
-    textLeft: `Clargoth olha para você com desconfiança. "Um elfo? Você não é bem-vindo em muitas partes deste mundo, mas estou disposto a dar-lhe uma chance. Nossa missão é perigosa e temos muito a fazer antes de enfrentar a masmorra.`,
-    textRight: '"Precisamos reunir equipamentos, suprimentos e traçar um plano cuidadoso para nossa expedição. Mas antes, me conte, que tipo de elfo você é?"',
+    textLeft: `Com um olhar desconfiado, Clargoth encara você por um instante. Enquanto pensativo ele diz:
+    "Você é um elfo? Bom, em muitas partes deste mundo os outros não são acolhedores com a sua raça, posso dizer que é igual a minha, meu amigo."`,
+    textRight: '"Antes de seguirmos, precisamos traçar um plano cuidadoso para a nossa expedição. Mas, me diga, que tipo de elfo você é?" Pergunta Clargoth.',
     options: [
       {
-        text: 'Restart',
-        nextText: -1
+        text: 'Um Elfo aquático',
+        setState: { aquaticElf: true },
+        nextText: 9.31
+      },
+      {
+        text: 'Uma Elfa das florestas antigas',
+        setState: { forestElf: true },
+        nextText: 9.4
+      },
+      {
+        text: 'Sou um Elfo Monge',
+        setState: { monkElf: true },
+        nextText: 9.5
       }
     ]
   },
   {
-    id: 9.4,
-    imgSrc1: "./",
+    id: 9.31, //waterElf
+    imgSrc1: "./imgs/water-elf.png",
     imgSrc2: "",
-    textLeft: ``,
-    textRight: '',
+    textLeft: `Clargoth abre um sorriso e te encara com um olhar de duvida.
+    "Um elfo da água, hein? Ouvi dizer que vocês vivem nas profundezas dos rios e mares, e são capaz de controlar a água a seu favor.. Interessante, me pergunto o que te levou a vir à terra firme."`,
+    textRight: '"Sempre admirei a habilidade dos seus ancestrais em dominar o elemento mais poderoso da natureza. Imagino que você também tenha alguns truques na manga." Conclui, Clargoth.',
     options: [
       {
-        text: 'Restart',
-        nextText: -1
+        text: 'Avançar',
+        nextText: 11
       }
     ]
   },
   {
-    id: 9.5,
-    imgSrc1: "./",
-    imgSrc2: "",
-    textLeft: ``,
-    textRight: '',
+    id: 9.4, //forestElf
+    imgSrc1: "./imgs/forestElf.png",
+    imgSrc2: '',
+    textLeft: `Clargoth chama a atenção de todos e diz: "Uma elfa da floresta! Temos aqui conosco uma mestre na arte de esconder-se, rapazes. E além disso, parece que também ganhamos uma curandeira natural, que vai poder usar as ervas e plantas que encontrarmos em nosso caminho para nos curar!"`,
+    textRight: 'Todos ficam mais seguros ao ouvir sobre suas habilidades. Clargoth se pergunta se acabou pressionando você.. Ele parece confiar em sua capacidade.',
     options: [
       {
-        text: 'Restart',
-        nextText: -1
+        text: 'Agradecer a saudação',
+        nextText: 11
+      }
+    ]
+  },
+  {
+    id: 9.5, //monkElf
+    imgSrc1: "./imgs/monkElf.png",
+    imgSrc2: "",
+    textLeft: `Clargoth fica intrigado ao ouvir, "Um elfo monge? Incrivel, nunca ouvi falar de um fora do monastério. Admiro a habilidade dos monges em se movimentar rapidamente e desferir golpes precisos. Imagino que você seja um guerreiro habilidoso.`,
+    textRight: '"Eu conheço bem a arte da guerra.. Humm.. Mas vocês estudam filosofia e espiritualidade, né?" Clargoth coça a cabeça antes de concluir, "Err.. Estou sempre aberto a aprender novas técnicas. Seja bem vindo!"',
+    options: [
+      {
+        text: 'Agradecer a saudação',
+        nextText: 11
       }
     ]
   },
@@ -908,7 +964,7 @@ const textNodes = [
     id: 11, //geral
     imgSrc1: "",
     imgSrc2: "",
-    textLeft: '"Bom, agora que sabemos um pouco mais sobre você, vamos nos concentrar em nossa missão. Estamos indo para uma masmorra antiga em busca de um artefato místico, e precisamos nos preparar bem para enfrentar os perigos que nos esperam lá dentro". Ele toma um gole de sua bebida antes de continuar.',
+    textLeft: '"Bom, agora que sabemos um pouco mais sobre você, vamos nos concentrar em nossa missão. Estamos indo para uma masmorra antiga em busca de um artefato místico, e precisamos nos preparar bem para enfrentar os perigos que nos esperam lá dentro". Ele toma um gole de sua bebida antes de continuar',
     textRight: 'Clargoth se levanta da mesa e indica para você segui-lo. "Vamos até a nossa base de operações, onde vamos nos preparar para a jornada que nos aguarda". Ele caminha em direção à porta da taverna. O grupo de aventureiros que estava sentado próximo ao bar também se levanta e começa a seguir Clargoth em direção à base de operações.',
     options: [
       {
@@ -921,7 +977,7 @@ const textNodes = [
     id: 13,
     imgSrc1: "",
     imgSrc2: "",
-    textLeft: 'Ao chegarem na base Clargoth puxa um mapa de sua mochila e mostra as diferentes rotas que levam à entrada da masmorra. "Aqui estão nossas opções: a trilha da montanha, a estrada da floresta e o caminho do deserto. Qual você prefere?"',
+    textLeft: 'Ao chegarem na base, Clargoth puxa um mapa de sua mochila e mostra as diferentes rotas que levam à entrada da masmorra. "Aqui estão nossas opções: a trilha da montanha, a estrada da floresta e o caminho do deserto. Qual você prefere?"',
     textRight: 'Enquanto você pensa na escolha, Clargoth aponta para algo no mapa. "Oh, veja só, há uma charada que precisamos resolver para passar por um ponto crítico na trilha da montanha. Acho que é uma forma de proteção mágica do artefato que estamos procurando. Você é bom em charadas?"',
     options: [
       {
@@ -942,7 +998,7 @@ const textNodes = [
     id: 13.1, //trilha da montanha
     imgSrc1: "",
     imgSrc2: "",
-    textLeft: 'Conforme vocês seguem pela trilha da montanha, a paisagem se torna cada vez mais íngreme e acidentada. Em certo ponto, vocês se deparam com um grande portão de pedra que bloqueia o caminho. O portão parece antigo e reforçado, e não há nenhuma alavanca ou mecanismo visível para abri-lo.',
+    textLeft: 'Conforme vocês seguem pela trilha, a paisagem se torna cada vez mais íngreme e acidentada. Em certo ponto, vocês se deparam com um grande portão de pedra que bloqueia o caminho. O portão parece antigo e reforçado, e não há nenhuma alavanca ou mecanismo visível para abri-lo.',
     textRight: 'Clargoth coça a barba, pensativo. "Parece que este portão não é tão fácil de abrir quanto eu pensava", diz ele, olhando para o portão com desconfiança. "Talvez haja alguma pista que possamos encontrar para abri-lo."',
     options: [
       {
@@ -991,7 +1047,7 @@ const textNodes = [
     imgSrc1: "",
     imgSrc2: "",
     textLeft: `<h4>Você errou!</h4>
-  De repente ouvem-se um estrondo seguido de uma onda de poeira que se forma no ar ofuscando a sua visão.`,
+  De repente, ouvem-se um estrondo seguido de uma nuvem de poeira que toma todo o ar, ofuscando a visão de todos.`,
     textRight: `<h4>Você perde 10% da sua vida.</h4>
   Os portões somem restando apenas as grandes paredes de pedra. "Não temos escolha, temos que ir por outro caminho agora." Diz Clargoth.`,
     options: [
@@ -1009,9 +1065,9 @@ const textNodes = [
     id: 13.14,
     imgSrc1: "",
     imgSrc2: "",
-    textLeft: `<h4>Fantasma! você diz</h4>
+    textLeft: `<h4>Fantasma! você diz.</h4>
     O portão mágico treme e começa a se mover, revelando uma passagem. Com isso, vocês conseguem passar pela porta mágica e continuar pela trilha da montanha. No caminho, vocês encontram uma ponte suspensa sobre um grande abismo. A ponte parece bastante instável e pode desabar a qualquer momento.`,
-    textRight: `Clargoth se aproxima de você e diz: "Precisamos passar pela ponte, mas ela parece muito perigosa. Tenho uma ideia, vamos atravessar juntos segurando um ao outro para garantir que ninguém caia. O que acha?"`,
+    textRight: `Clargoth se aproxima de você, e diz: "Precisamos passar pela ponte, mas ela me parece perigosa. Tenho uma ideia, vamos atravessar juntos, segurando um ao outro para garantir que ninguém caia. O que acha?"`,
     options: [
       {
         text: 'Boa ideia!',
