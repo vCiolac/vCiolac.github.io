@@ -988,12 +988,12 @@ const textNodes = [
         nextText: 13.1
       },
       {
-        text: 'Estrada da floresta',
-        nextText: 13.2
+        text: 'Estrada da floresta//em construção',
+        nextText: 13
       },
       {
-        text: 'Caminho do deserto',
-        nextText: 13.3
+        text: 'Caminho do deserto//em construção',
+        nextText: 13
       },
     ]
   },
@@ -1112,7 +1112,7 @@ const textNodes = [
         nextText: -1
       },
       {
-        text: 'Seguir por este caminho ainda está em construção',
+        text: 'Este caminho ainda está em construção',
         requiredState: (currentState) => currentState.skipClargoth,
         nextText: -1,
 
