@@ -699,14 +699,17 @@ const textNodes = [
     options: [
       {
         text: 'Sou uma arqueira habilidosa, capaz de acertar facilmente alvos grande como você',
+        setState: { archer: true },
         nextText: 9.1
       },
       {
         text: 'Sou um domador de animais, inclusive de bestas selvagens como você',
+        setState: { beastMaster: true },
         nextText: 9.12
       },
       {
         text: 'Sou uma ladina esperta e ágil, posso roubar seus pertences sem você nem mesmo perceber',
+        setState: { rogue: true },
         nextText: 9.2
       }
     ]
@@ -807,7 +810,7 @@ const textNodes = [
     id: 9.5, //monkElf
     imgSrc1: "./imgs/monkElf.png",
     imgSrc2: "",
-    textLeft: `Clargoth fica intrigado ao ouvir, "Um elfo monge? Incrivel, nunca ouvi falar de um fora do monastério. Admiro a habilidade dos monges em se movimentar rapidamente e desferir golpes precisos. Imagino que você seja um guerreiro habilidoso.`,
+    textLeft: `Clargoth fica intrigado ao ouvir, "Um elfo monge? Incrível, nunca ouvi falar de um fora do monastério. Admiro a habilidade dos monges em se movimentar rapidamente e desferir golpes precisos. Imagino que você seja um guerreiro habilidoso.`,
     textRight: '"Eu conheço bem a arte da guerra.. Humm.. Mas vocês estudam filosofia e espiritualidade, né?" Clargoth coça a cabeça antes de concluir, "Err.. Estou sempre aberto a aprender novas técnicas. Seja bem vindo!"',
     options: [
       {
@@ -1109,7 +1112,7 @@ const textNodes = [
         nextText: -1
       },
       {
-        text: 'Em construção',
+        text: 'Seguir por este caminho ainda está em construção',
         requiredState: (currentState) => currentState.skipClargoth,
         nextText: -1,
 
