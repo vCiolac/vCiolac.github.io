@@ -1,0 +1,86 @@
+import React, { Fragment, useContext } from 'react';
+import CodeEditor from '../../components/CodeEditor/CodeEditor';
+import { codeString } from './codeString';
+import { LayoutContext } from '../../context/LayoutContext';
+import { LoaderContext } from '../../context/LoaderContext';
+import { Typography, Container, Box, Button, Card, CardActions, CardContent } from '@mui/material';
+
+function Certifications() {
+  const { showCodeContent } = useContext(LayoutContext);
+  const { isLoading } = useContext(LoaderContext);
+
+  if (isLoading) return null;
+
+  if (!showCodeContent) {
+    return (
+      <Fragment>
+        <CodeEditor codeString={codeString} />
+      </Fragment>
+    );
+  }
+
+  const certifications = [
+    {
+      title: " Módulo de Fundamentos do Desenvolvimento Web",
+      summary: "Esse certificado é sobre o primeiro módulo da Trybe, que aborda conteúdos relacionados a Fundamentos do Desenvolvimento Web, aplicando de forma prática conteúdos como: Unix & Bash, Git, JS Básico & DOM, HTML, CSS, JS ES6, Higher Order Functions e Testes Unitários, assim como metodologias ágeis e habilidades comportamentais..",
+      link: "https://www.credential.net/50fe063f-db3c-4d29-9a89-a36a7964d132",
+      image: "https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/75611214"
+    },
+    {
+      title: " Módulo de Front-end",
+      summary: "Durante este período, me aprofundei e apliquei de forma prática diversas competências-chave, incluindo: JavaScript, TypeScript, Testes Automatizados, React (com ênfase em Componentes de classe e funcionais. estados, eventos e estilização de componentes), React Router, Redux, Context API & Hooks, bem como Metodologias Ágeis.",
+      link: "https://www.credential.net/b026619a-4347-4fc8-8cb5-0d3235448193",
+      image: "https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/82367124"
+    },
+    {
+      title: " Módulo de Back-end",
+      summary: "Durante este período, me aprofundei e apliquei de forma prática em conteúdos como: Docker, MySQL, Node.js & Express, Testes Unitários e de Integração com Mocha, Chai e Sinon, TypeScript, Arquitetura em Camadas, REST, JWT, ORM com Sequelize, Deployment, POO e princípios SOLID, Arquitetura de Software, Banco de Dados, Autenticação, Autorização, Testes de Integração, DDD, Clean Architecture, Upload, CI/CD.",
+      link: "https://www.credential.net/89fd00be-a1b6-463d-a29a-3816bdf88bed",
+      image: "https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/92786502"
+    },
+    {
+      title: "Simplificando a IA Generativa - Colaboração AWS + Trybe",
+      summary: "Seminário sobre os princípos da Inteligência Artificial Generativa.",
+      link: "https://content.betrybe.com/assets/4478e835-91fd-4f1a-baa9-d68f80f85756?access_token=mHmd0EskDWOTi6IduXlAiXA377B4mErw",
+      image: "https://content.betrybe.com/assets/4478e835-91fd-4f1a-baa9-d68f80f85756?access_token=mHmd0EskDWOTi6IduXlAiXA377B4mErw"
+    },
+    {
+      title: "Curso Javascript do Zero",
+      summary: "Esse certificado é sobre o curso de Javascript do Zero, que aborda conteúdos relacionados a Javascript, aplicando de forma prática conteúdos como: JS Básico & DOM, JS ES6, Higher Order Functions e Testes Unitários.",
+      link: "https://content.betrybe.com/assets/d1772ce7-f14b-4326-9a4b-5b65e6a965f3?access_token=mHmd0EskDWOTi6IduXlAiXA377B4mErw",
+      image: "https://content.betrybe.com/assets/d1772ce7-f14b-4326-9a4b-5b65e6a965f3?access_token=mHmd0EskDWOTi6IduXlAiXA377B4mErw"
+    },
+  ];
+
+  return (
+    <Fragment>
+      <Container maxWidth='lg' sx={{ marginTop: 4, marginLeft: 2 }}>
+        <Typography variant="overline" sx={{ color: "tan", fontFamily: "Jost" }}>
+          Minhas certificações
+        </Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: 3 }}>
+          {certifications.map((certification, index) => (
+            <Card key={index} sx={{ maxWidth: 300 }}>
+              <img src={certification.image} alt={certification.title} style={{ maxWidth: '100%', height: 'auto' }} />
+              <CardContent>
+                <Typography variant="body1" sx={{ color: "tan", fontFamily: "Jost" }}>
+                  {certification.title}
+                </Typography>
+                <Typography variant="body2">
+                  {certification.summary}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small" href={certification.link} target="_blank" rel="noopener noreferrer">
+                  Ver certificado
+                </Button>
+              </CardActions>
+            </Card>
+          ))}
+        </Box>
+      </Container>
+    </Fragment>
+  );
+}
+
+export default Certifications;
