@@ -379,9 +379,6 @@ export default function Particle() {
                     "name": "mui"
                   },
                   {
-                    "name": "md"
-                  },
-                  {
                     "name": "mocha"
                   },
                   {
@@ -715,13 +712,6 @@ export default function Particle() {
               "gif": false,
               "height": 32,
               "name": "mui",
-              "width": 32
-            },
-            {
-              "src": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/markdown/markdown-original.svg",
-              "gif": false,
-              "height": 32,
-              "name": "mk",
               "width": 32
             },
             {
