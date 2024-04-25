@@ -10,13 +10,17 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { mainListItems, secondaryListItems } from '../DashBoard/listItems';
 import Footer from '../Footer/Footer';
 import TopMenu from '../TopMenu/TopMenu';
-import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { ListItemButton, ListItemIcon, ListItemText, ToggleButton, useMediaQuery } from '@mui/material';
 import { LayoutContext } from '../../context/LayoutContext';
 
 
 export default function Layout({ children }: any) {
   const [open, setOpen] = React.useState(false);
   const { darkMode } = React.useContext(LayoutContext);
+
+  const isMobile = useMediaQuery('(max-width: 600px)');
+
+  const [showContent, setShowContent] = React.useState(isMobile ? false : true);
 
   const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
@@ -63,23 +67,35 @@ export default function Layout({ children }: any) {
   });
 
   const toggleDrawer = () => {
-    setOpen(!open);
+    if (window.innerWidth < 600) {
+      setOpen(false);
+      setShowContent(false);
+    } else {
+      setOpen(!open);
+    }
+  };
+  
+  const iconName = !isMobile ? 'Explorer' : 'Close';
+
+  const toggleContent = () => {
+    setOpen(true);
+    setShowContent(!showContent);
   };
 
   const ref = React.useRef<HTMLDivElement>(null);
 
   return (
     <ThemeProvider theme={!darkMode ? darkTheme : lightTheme}>
-      <Box sx={{ display: 'flex' }} ref={ref}>
+      <Box sx={{ display: isMobile ? '' : 'flex' }} ref={ref}>
         <CssBaseline />
-        <Drawer variant="permanent" open={open} sx={{ width: !open ? 56 : 185 }}>
+        <Drawer variant={!showContent ? "temporary" : "permanent"} open={open} sx={{ width: !open ? 56 : 185 }}>
           <Divider />
           <List component="nav" >
             <ListItemButton onClick={toggleDrawer}>
               <ListItemIcon>
                 <ContentCopyIcon />
               </ListItemIcon>
-              <ListItemText primary="Explorer" />
+              <ListItemText primary={iconName} />
             </ListItemButton>
             {mainListItems}
           </List>
@@ -98,8 +114,8 @@ export default function Layout({ children }: any) {
             minHeight: '100vh',
           }}
         >
-          <TopMenu />
-          <Container sx={{ ml: 0, mb: 1.5, paddingLeft: { xs: 0, sm: 0 } }}>
+          <TopMenu showContent={showContent} toggleContent={toggleContent} />
+          <Container sx={{ mb: 1.5 }}>
             {children}
           </Container>
         </Box>
