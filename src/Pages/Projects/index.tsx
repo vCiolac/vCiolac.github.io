@@ -18,9 +18,29 @@ import CyoPhone from '../../assets/images/cyo-phone.png';
 import Swars from '../../assets/images/swars.png';
 import Pixel from '../../assets/images/pixel-art.png';
 import PixelPhone from '../../assets/images/pixel-phone.png';
+import pid0 from '../../assets/images/pid0.jpeg';
+import pid1 from '../../assets/images/pid1.jpeg';
+import pid2 from '../../assets/images/pid2.jpeg';
+import pid3 from '../../assets/images/pid3.jpeg';
 
 
 const projects = [
+  {
+    name: "Jogo Pigeon Adventure",
+    description: `Jogo desenvolvido tanto para desktop quanto para celular, onde o jogador controla um pombo durante sua jornada.
+    O objetivo do jogo é coletar o maior número de moedas possíveis, evitando obstáculos e inimigos.
+    O jogo foi desenvolvido com Godot 4.`,
+    images: [
+      pid0,
+      pid1,
+      pid2,
+      pid3,
+    ],
+    links: {
+      github: "https://github.com/vCiolac/first-godot-game",
+      deploy: "https://vciolac.itch.io/pigeon-adventure",
+    },
+  },
   {
     name: "Jogo Choose Your Own - Aventura em Texto",
     description: `Meu primeiro projeto de jogo, ele se baseia em uma aventura por texto desenvolvido exclusivamente em JavaScript.'
@@ -105,14 +125,14 @@ const projects = [
 
 const styles = {
   mainContainer: {
-    height: "90%",
+    display: "flex",
+    flexDirection: "column",
   },
   cardContainer: {
-    maxWidth: 345,
+    maxWidth: 360,
     margin: "2rem auto",
   },
   phoneCards: {
-    maxWidth: 310,
     margin: "0.7rem",
   },
 };

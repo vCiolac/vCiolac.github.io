@@ -3,7 +3,7 @@ import CodeEditor from '../../components/CodeEditor/CodeEditor'
 import { codeString } from './codeString'
 import { LayoutContext } from '../../context/LayoutContext';
 import { LoaderContext } from '../../context/LoaderContext';
-import { Box, Typography, Container, Avatar, Grid } from '@mui/material';
+import { Box, Typography, Container, Avatar, Grid, useMediaQuery } from '@mui/material';
 import JsIcon from '../../assets/icons/js-icon.svg';
 import HtmlIcon from '../../assets/icons/html-icon.svg';
 import CssIcon from '../../assets/icons/css-icon.svg';
@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 function About() {
   const { showCodeContent } = useContext(LayoutContext);
   const { isLoading } = useContext(LoaderContext);
+  const isMobile = useMediaQuery('(max-width: 600px)');
 
   if (isLoading) return null;
 
@@ -46,7 +47,7 @@ function About() {
     },
     typedContainer: {
       marginTop: '1rem',
-      width: "90vw",
+      width: isMobile ? "85vw" : "90vw",
       zIndex: 1,
     },
   };
@@ -58,7 +59,7 @@ function About() {
           <Typography sx={headerStyles.beforeTitle} variant="overline">
             Sobre mim
           </Typography>
-          <Grid container spacing={2} >
+          <Grid container spacing={2} sx={{marginTop: 1}} >
             <Grid item xs={12} sm={6} order={{ xs: 2, sm: 1 }}>
               <Typography sx={headerStyles.subtitle} variant="body1">
                 Eu me chamo <span style={{ color: 'tomato', fontWeight: 'bold' }}>Victor Ciolac</span>.

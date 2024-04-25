@@ -4,7 +4,7 @@ import { VictorCiolac } from 'my-profile';
 // Quem sou eu?
 const AboutMe = () => {
   const name = 'Victor Ciolac';
-  const age = 28;
+  const age = 29;
   const city = 'Rio de Janeiro';
   const experience = 'Desenvolvedor Front-end';
 
