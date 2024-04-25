@@ -6,12 +6,9 @@ import Projects from './Pages/Projects';
 import Skills from './Pages/Skills';
 import Certifications from './Pages/Certifications';
 import NotFound from './Pages/NotFound';
-import LoaderProvider from './context/LoaderProvider';
-
 
 function App() {
   return (
-    // <LoaderProvider>
       <LayoutProvider>
         <Routes>
           <Route path="/" Component={Home} />
@@ -22,7 +19,6 @@ function App() {
           <Route path="*" Component={NotFound} />
         </Routes>
       </LayoutProvider>
-    // </LoaderProvider>
   );
 }
 

@@ -44,7 +44,7 @@ function ConfigMenu() {
         <ListItemIcon>
           <SettingsIcon />
         </ListItemIcon>
-        <ListItemText primary="Configurações" />
+        <ListItemText primary="Configuration" />
       </ListItemButton>
       <Menu
         id="basic-menu"

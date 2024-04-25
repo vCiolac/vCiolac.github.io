@@ -9,6 +9,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './styles.css';
 import { LoaderContext } from '../../context/LoaderContext';
 import { LayoutContext } from '../../context/LayoutContext';
+import ViewListIcon from '@mui/icons-material/ViewList';
 
 interface CustomButtonProps {
   to: string;
@@ -50,7 +51,7 @@ function CustomButton({ to, isActive, children, sx, variant, color }: CustomButt
   );
 }
 
-function TopMenu() {
+function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleContent: () => void }) {
   const { isLoading } = useContext(LoaderContext);
   const { darkMode } = useContext(LayoutContext);
   const [buttons, setButtons] = useState([
@@ -91,13 +92,20 @@ function TopMenu() {
 
     setButtons(reorderedButtons);
   };
-  
+
   if (isLoading) return null;
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="sticky"
         sx={{ boxShadow: 'none', backgroundColor: !darkMode ? "#121212" : "#C0C0C0", backgroundImage: 'none' }} enableColorOnDark>
         <Toolbar sx={{ minHeight: { xs: 0, sm: 0 }, paddingLeft: { xs: 0, sm: 0 } }}>
+          {!showContent && (
+          <Button
+            onClick={toggleContent}
+          >
+            <ViewListIcon />
+          </Button>
+          )}
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="menu" direction="horizontal">
               {(provided) => (
