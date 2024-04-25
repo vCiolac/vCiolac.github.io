@@ -3,7 +3,7 @@ import CodeEditor from '../../components/CodeEditor/CodeEditor';
 import { codeString } from './codeString';
 import { LayoutContext } from '../../context/LayoutContext';
 import Particle from '../../components/Particles/Particles';
-import { Box, Container, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Container, Typography, useMediaQuery } from '@mui/material';
 import { LoaderContext } from '../../context/LoaderContext';
 import { motion } from 'framer-motion';
 import { styled } from '@mui/system';
@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 function Home() {
   const { showCodeContent, darkMode } = useContext(LayoutContext);
   const { isLoading } = useContext(LoaderContext);
+  const isMobile = useMediaQuery('(max-width: 600px)');
 
   if (isLoading) return null;
 
@@ -37,20 +38,14 @@ function Home() {
       textTransform: "uppercase",
     },
     typedContainer: {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%,-50%)",
-      width: "90vw",
+      mt: "16%",
       textAlign: "center",
       zIndex: 1,
     },
     mobileContainer: {
-      width: "80vw",
       textAlign: "center",
       mt: "45%",
       zIndex: 1,
-      left: '50%',
     },
   } : {
     title: {
@@ -66,20 +61,14 @@ function Home() {
       textTransform: "uppercase",
     },
     typedContainer: {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%,-50%)",
-      width: "90vw",
+      mt: "16%",
       textAlign: "center",
       zIndex: 1,
     },
     mobileContainer: {
-      width: "80vw",
       textAlign: "center",
       mt: "45%",
       zIndex: 1,
-      left: '50%',
     },
   };
 
@@ -88,8 +77,7 @@ function Home() {
     border-radius:28px;
     border:1px solid ${ darkMode === true ? 'lightBorderColor' : '#942911'};
     display:inline-block;
-  margin-top: 10px;
-  margin-right: 10px;
+    margin-top: 10px;
     color:${ darkMode === true ? 'black' : '#ffffff'};
     font-family:Arial;
     font-size:17px;
@@ -98,14 +86,21 @@ function Home() {
     text-shadow:0px 1px 0px ${ darkMode === true ? 'lightShadowColor' : '#854629'};
 `;
 
-  const isMobile = useMediaQuery('(max-width: 600px)');
+const StyledContainer = styled(Box)(({ theme }) => ({
+  textAlign: "center",
+  zIndex: 1,
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center", 
+  alignItems: "center",
+}));
 
   return (
     <Fragment>
       <Particle />
       <Box>
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4, minHeight: isMobile ? '862px' : 'auto' }}>
-          <Box sx={isMobile ? headerStyles.mobileContainer : headerStyles.typedContainer}>
+        <Container maxWidth="lg" >
+        <StyledContainer sx={isMobile ? headerStyles.mobileContainer : headerStyles.typedContainer}>
             <Typography sx={headerStyles.beforeTitle} variant="h6">
               Olá! Eu sou
             </Typography>
@@ -133,7 +128,7 @@ function Home() {
               Meus projetos
             </StyledMotionButton>
             </Link>
-          </Box>
+          </StyledContainer>
         </Container>
       </Box>
     </Fragment>
