@@ -10,14 +10,17 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { mainListItems, secondaryListItems } from '../DashBoard/listItems';
 import Footer from '../Footer/Footer';
 import TopMenu from '../TopMenu/TopMenu';
-import { ListItemButton, ListItemIcon, ListItemText, ToggleButton } from '@mui/material';
+import { ListItemButton, ListItemIcon, ListItemText, ToggleButton, useMediaQuery } from '@mui/material';
 import { LayoutContext } from '../../context/LayoutContext';
 
 
 export default function Layout({ children }: any) {
   const [open, setOpen] = React.useState(false);
   const { darkMode } = React.useContext(LayoutContext);
-  const [showContent, setShowContent] = React.useState(false);
+
+  const isMobile = useMediaQuery('(max-width: 600px)');
+
+  const [showContent, setShowContent] = React.useState(isMobile ? false : true);
 
   const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
@@ -71,8 +74,8 @@ export default function Layout({ children }: any) {
       setOpen(!open);
     }
   };
-
-  const iconName = window.innerWidth > 600 ? 'Explorer' : 'Close';
+  
+  const iconName = !isMobile ? 'Explorer' : 'Close';
 
   const toggleContent = () => {
     setOpen(true);
@@ -83,7 +86,7 @@ export default function Layout({ children }: any) {
 
   return (
     <ThemeProvider theme={!darkMode ? darkTheme : lightTheme}>
-      <Box sx={{ display: 'flex' }} ref={ref}>
+      <Box sx={{ display: isMobile ? '' : 'flex' }} ref={ref}>
         <CssBaseline />
         <Drawer variant={!showContent ? "temporary" : "permanent"} open={open} sx={{ width: !open ? 56 : 185 }}>
           <Divider />

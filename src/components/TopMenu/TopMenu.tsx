@@ -4,7 +4,7 @@ import JsIcon from '../../assets/icons/js-icon.svg';
 import htmlIcon from '../../assets/icons/html-icon.svg';
 import cssIcon from '../../assets/icons/css-icon.svg';
 import reactIcon from '../../assets/icons/react-icon.svg';
-import { AppBar, Avatar, Box, Button, Toolbar } from '@mui/material';
+import { AppBar, Avatar, Box, Button, Toolbar, useMediaQuery } from '@mui/material';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './styles.css';
 import { LoaderContext } from '../../context/LoaderContext';
@@ -39,7 +39,7 @@ function CustomButton({ to, isActive, children, sx, variant, color }: CustomButt
         borderBottomRightRadius: 0,
         borderBottomLeftRadius: 0,
         color: !darkMode ? '#fff' : '#000',
-        ...(isActive ? { // Aplica a classe 'active-button' quando isActive é verdadeiro
+        ...(isActive ? {
           backgroundColor: !darkMode ? '#1E1E1E' : "#707070",
         } : {}),
       }}
@@ -54,6 +54,7 @@ function CustomButton({ to, isActive, children, sx, variant, color }: CustomButt
 function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleContent: () => void }) {
   const { isLoading } = useContext(LoaderContext);
   const { darkMode } = useContext(LayoutContext);
+  const isMobile = useMediaQuery('(max-width: 600px)');
   const [buttons, setButtons] = useState([
     {
       id: 'home',
@@ -98,7 +99,7 @@ function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleC
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="sticky"
         sx={{ boxShadow: 'none', backgroundColor: !darkMode ? "#121212" : "#C0C0C0", backgroundImage: 'none' }} enableColorOnDark>
-        <Toolbar sx={{ minHeight: { xs: 0, sm: 0 }, paddingLeft: { xs: 0, sm: 0 } }}>
+        <Toolbar sx={!isMobile ? {minHeight: { xs: 0, sm: 0 }, paddingLeft: { xs: 0, sm: 0 }, display: '' } : {display: 'grid'}}>
           {!showContent && (
           <Button
             onClick={toggleContent}
@@ -115,6 +116,8 @@ function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleC
                   style={{
                     display: 'flex',
                     flexDirection: 'row',
+                    flexWrap: isMobile ? (showContent ? 'nowrap' : 'wrap') : 'nowrap',
+                    justifyContent: 'center',
                   }}
                 >
                   {buttons.map((button, index) => (

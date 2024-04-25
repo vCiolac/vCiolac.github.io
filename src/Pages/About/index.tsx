@@ -45,6 +45,7 @@ function About() {
       marginTop: "1rem",
     },
     typedContainer: {
+      marginTop: '1rem',
       width: "90vw",
       zIndex: 1,
     },
@@ -52,12 +53,12 @@ function About() {
 
   return (
     <Fragment>
-      <Container maxWidth='lg' sx={{ mt: 4, mb: 4 }}>
+      <Container maxWidth='lg' sx={{ mb: 4 }}>
         <Box sx={headerStyles.typedContainer}>
           <Typography sx={headerStyles.beforeTitle} variant="overline">
             Sobre mim
           </Typography>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} >
             <Grid item xs={12} sm={6} order={{ xs: 2, sm: 1 }}>
               <Typography sx={headerStyles.subtitle} variant="body1">
                 Eu me chamo <span style={{ color: 'tomato', fontWeight: 'bold' }}>Victor Ciolac</span>.
@@ -85,9 +86,9 @@ function About() {
                 fronteiras na programação.
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={6} order={{ xs: 1, sm: 2 }}>
+            <Grid item xs={12} sm={6} order={{ xs: 1, sm: 2 }} sx={{display: 'flex', justifyContent: 'center'}}>
               <Avatar alt="Victor Ciolac" src={ProfilePic}
-                sx={{ width: 280, height: 280 }} />
+                sx={{ width: 280, height: 280}} />
             </Grid>
           </Grid>
         </Box>

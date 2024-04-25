@@ -191,37 +191,21 @@ function Skills() {
     },
   ];
 
-  const styles = {
-    mainContainer: {
-      height: "90%",
-    },
-    cardContainer: {
-      maxWidth: 345,
-      margin: "2rem auto",
-    },
-    phoneCards: {
-      maxWidth: 310,
-      margin: "0.7rem",
-    },
-  };
-
   return (
-    <Box component="div" sx={styles.mainContainer}>
-      <Container maxWidth='lg'>
+    <Box component="div">
         <Typography variant="overline" sx={{ color: "tan", fontFamily: "Jost" }}>
           Minhas habilidades e stacks
         </Typography>
-        <Grid container spacing={2} >
+        <Grid container spacing={1} sx={{mt: 2}}>
           {skills.map((skill, index) => (
-            <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
-              <Typography variant="body1" sx={{ fontFamily: "Jost", marginTop: 1 }}>
+            <Grid item xs={6} sm={6} md={4} lg={3} key={index} sx={{display: 'flex', flexDirection:'column'}}>
+              <Typography variant="body1" sx={{ fontFamily: "Jost", alignSelf: 'center' }}>
                 {skill.name}
               </Typography>
-              <img src={`${skill.icon}`} alt={skill.name} width={50} />
+              <img src={`${skill.icon}`} alt={skill.name} width={50} style={{alignSelf: 'center', marginBottom: 10, marginTop: 1}} />
             </Grid>
           ))}
         </Grid>
-      </Container>
     </Box>
   );
 }
