@@ -48,9 +48,10 @@ const projects = [
   },
   {
     name: "Jogo Pigeon Adventure",
-    description: `Jogo desenvolvido tanto para desktop quanto para celular, onde o jogador controla um pombo durante sua jornada.
-    O objetivo do jogo é coletar o maior número de moedas possíveis, evitando obstáculos e inimigos.
-    O jogo foi desenvolvido com Godot 4.`,
+    description: `Em "Pigeon Adventure", os jogadores embarcam em uma emocionante jornada através de diversos mundos, assumindo o controle de um destemido pombo. 
+    Neste jogo dinâmico desenvolvido tanto para desktop quanto para dispositivos móveis, seu objetivo é simples, mas desafiador: coletar o maior número de moedas possível enquanto desvia de obstáculos e evita inimigos habilmente posicionados ao longo do caminho. 
+    Com controles intuitivos e uma jogabilidade envolvente, prepare-se para enfrentar uma variedade de plataformas móveis e desafiadoras, enquanto voa pelos céus, florestas e cavernas!
+    Desenvolvido com a poderosa engine Godot 4, "Pigeon Adventure" oferece uma experiência de jogo imersiva e divertida para jogadores de todas as idades.`,  
     images: [
       pid0,
       pid1,
@@ -67,7 +68,7 @@ const projects = [
     description: `Este projeto é uma plataforma online onde fotógrafos podem exibir seu trabalho de forma profissional. 
     Os usuários podem navegar por diferentes álbuns, favoritar e avaliar as imagens. 
     Os administradores têm acesso a um painel para fazer upload de novas fotos e gerenciar o conteúdo. 
-    Desenvolvido em fullstack, o projeto utiliza o Firebase Cloud para armazenar as imagens na nuvem.`,
+    Desenvolvido em React, o projeto utiliza o Firebase Cloud para armazenar as imagens na nuvem.`,
     images: [
       lentes,
       lentePhone,
@@ -93,25 +94,25 @@ const projects = [
   {
     name: "Jogo Choose Your Own - Aventura em Texto",
     description: `Meu primeiro projeto de jogo, ele se baseia em uma aventura por texto desenvolvido exclusivamente em JavaScript.
-    'O jogo oferece aos jogadores a oportunidade de tomar decisões que influenciam diretamente o rumo da história. 
+      O jogo oferece aos jogadores a oportunidade de tomar decisões que influenciam diretamente o rumo da história. 
       Cada escolha leva a diferentes desfechos, junto de novas imagens e sons tornando a experiência altamente interativa!`,
     images: [
-      CyoPhone,
       Cyos,
+      CyoPhone,
     ],
     links: {
-      github: "https://github.com/vCiolac/vCiolac.github.io/tree/main/cyo",
-      deploy: "https://vciolac.github.io/cyo/",
+      github: "https://github.com/vCiolac/cyo",
+      deploy: "https://cyo.vercel.app/",
     },
   },
   {
-    name: "Recipes App",
-    description: `Neste projeto, voltado para celular, a pessoa que estiver utilizando o app pode criar um login e então ter acesso a uma
-     variedade de receitas com base em diferentes critérios, é possível favoritar, fazer, salvar e compartilhar receitas,
+    name: "App de Receitas",
+    description: `Neste projeto, desenvolvido com React e Context API, a pessoa que estiver utilizando o app pode criar um login e então ter acesso a uma
+     variedade de receitas com base em diferentes critérios, é possível favoritar, acompanhar, salvar e compartilhar receitas,
      entre outras funcionalidades.`,
     images: [
-      Reci,
       Recip,
+      Reci,
       Recipe,
     ],
     links: {
@@ -120,14 +121,14 @@ const projects = [
     },
   },
   {
-    name: "Journal App",
+    name: "Termo News",
     description: `Este é um projeto React que permite aos usuários acessarem notícias mais recentes do 
     Instituto Brasileiro de Geografia e Estatística (IBGE). Os usuários podem ler as notícias completas, 
     favoritar as notícias de seu interesse, filtrar as notícias por título e tipo. 
     E também ver a informação de sua data e há quantos dias atrás cada notícia foi publicada.`,
     images: [
-      NewsPhome,
       News,
+      NewsPhome,
     ],
     links: {
       github: "https://github.com/vCiolac/journalNews",
@@ -136,8 +137,8 @@ const projects = [
   },
   {
     name: "Project Star Wars",
-    description: `Um dos meus primeiros projetos, onde foi desenvolvido uma lista com filtros de planetas do universo 
-    Star Wars usando Context API e Hooks para controlar os estados globais.`,
+    description: `Este projeto em React busca em uma API externa uma lista de planetas do universo Star Wars. 
+    A aplicação inclui filtros para facilitar a busca e utiliza Redux e Hooks para gerenciar os estados globais.`,
     images: [
       Swars,
     ],
@@ -147,15 +148,15 @@ const projects = [
   },
   {
     name: "Project Pixel Art",
-    description: `Meu primeiro projeto, é uma representação simples, 
+    description: `Meu primeiro projeto em JavaScript, é uma representação simples, 
     minimalista e divertida, oferecendo uma plataforma para pintar imagens com pixels.`,
     images: [
-      PixelPhone,
       Pixel,
+      PixelPhone,
     ],
     links: {
-      github: "https://github.com/vCiolac/vCiolac.github.io/tree/main/project-pixel-art",
-      deploy: "https://vciolac.github.io/project-pixel-art/",
+      github: "https://github.com/vCiolac/pixel_art",
+      deploy: "https://proj-pixel-art.vercel.app/",
     },
   },
 ];
