@@ -168,7 +168,6 @@ const styles = {
     flexDirection: "column",
   },
   cardContainer: {
-    maxWidth: 360,
     margin: "2rem auto",
   },
   phoneCards: {

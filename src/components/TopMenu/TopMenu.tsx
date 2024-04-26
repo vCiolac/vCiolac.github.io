@@ -94,7 +94,7 @@ function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleC
     const updatedClickCount = { ...clickCount, [id]: clickCount[id] + 1 };
     setClickCount(updatedClickCount);
     
-    if (updatedClickCount[id] % 2 === 0) {
+    if (updatedClickCount[id] % 3 === 0) {
       setShowMessage(id);
     } else {
       setShowMessage(null);
@@ -129,11 +129,10 @@ function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleC
         sx={{ boxShadow: 'none', backgroundColor: !darkMode ? "#121212" : "#C0C0C0", backgroundImage: 'none' }} enableColorOnDark>
         <Toolbar sx={!isMobile ?
           { minHeight: { xs: 0, sm: 0 }, paddingLeft: { xs: 0, sm: 0 }, display: '' }
-          : { display: 'grid', gridTemplateColumns: '1fr 4fr' }
+          : { display: 'grid', gridTemplateColumns: '1fr 1fr', padding: 0, }
         }>
           {!showContent && (
             <Button
-              sx={{}}
               onClick={toggleContent}
             >
               <ViewListIcon />
@@ -146,7 +145,8 @@ function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleC
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                   style={{
-                    display: 'flex',
+                    display: isMobile ? 'grid' : 'flex',
+                    gridTemplateColumns: '2fr 2fr',
                     flexDirection: 'row',
                     flexWrap: isMobile ? (showContent ? 'nowrap' : 'wrap') : 'nowrap',
                     justifyContent: 'center',
@@ -168,6 +168,8 @@ function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleC
                             to={button.to}
                             isActive={location.pathname === button.to}
                             sx={{
+                              display: 'flex',
+                              justifyContent: 'center',
                               borderColor: '#0047AB',
                             }}
                             variant="outlined"
