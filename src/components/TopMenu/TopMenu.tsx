@@ -1,15 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import JsIcon from '../../assets/icons/js-icon.svg';
 import htmlIcon from '../../assets/icons/html-icon.svg';
 import cssIcon from '../../assets/icons/css-icon.svg';
 import reactIcon from '../../assets/icons/react-icon.svg';
-import { AppBar, Avatar, Box, Button, Toolbar, useMediaQuery } from '@mui/material';
+import { AppBar, Avatar, Box, Button, IconButton, Toolbar, useMediaQuery } from '@mui/material';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './styles.css';
 import { LoaderContext } from '../../context/LoaderContext';
 import { LayoutContext } from '../../context/LayoutContext';
 import ViewListIcon from '@mui/icons-material/ViewList';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface CustomButtonProps {
   to: string;
@@ -81,6 +82,33 @@ function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleC
       icon: reactIcon,
     },
   ]);
+  const [clickCount, setClickCount] = useState<{ [key: string]: number }>({
+    home: 0,
+    about: 0,
+    projects: 0,
+    skills: 0,
+  });
+  const [showMessage, setShowMessage] = useState<string | null>(null);
+
+  const handleClick = (id: string) => {
+    const updatedClickCount = { ...clickCount, [id]: clickCount[id] + 1 };
+    setClickCount(updatedClickCount);
+    
+    if (updatedClickCount[id] % 3 === 0) {
+      setShowMessage(id);
+    } else {
+      setShowMessage(null);
+    }
+
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowMessage(null);
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [showMessage]);
 
   const location = useLocation();
 
@@ -99,13 +127,16 @@ function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleC
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="sticky"
         sx={{ boxShadow: 'none', backgroundColor: !darkMode ? "#121212" : "#C0C0C0", backgroundImage: 'none' }} enableColorOnDark>
-        <Toolbar sx={!isMobile ? {minHeight: { xs: 0, sm: 0 }, paddingLeft: { xs: 0, sm: 0 }, display: '' } : {display: 'grid'}}>
+        <Toolbar sx={!isMobile ?
+          { minHeight: { xs: 0, sm: 0 }, paddingLeft: { xs: 0, sm: 0 }, display: '' }
+          : { display: 'grid', gridTemplateColumns: '1fr 1fr', padding: 0, }
+        }>
           {!showContent && (
-          <Button
-            onClick={toggleContent}
-          >
-            <ViewListIcon />
-          </Button>
+            <Button
+              onClick={toggleContent}
+            >
+              <ViewListIcon />
+            </Button>
           )}
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="menu" direction="horizontal">
@@ -114,7 +145,8 @@ function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleC
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                   style={{
-                    display: 'flex',
+                    display: isMobile ? 'grid' : 'flex',
+                    gridTemplateColumns: '2fr 2fr',
                     flexDirection: 'row',
                     flexWrap: isMobile ? (showContent ? 'nowrap' : 'wrap') : 'nowrap',
                     justifyContent: 'center',
@@ -136,6 +168,8 @@ function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleC
                             to={button.to}
                             isActive={location.pathname === button.to}
                             sx={{
+                              display: 'flex',
+                              justifyContent: 'center',
                               borderColor: '#0047AB',
                             }}
                             variant="outlined"
@@ -147,6 +181,33 @@ function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleC
                               src={button.icon}
                             />
                             {button.label}
+                            <IconButton
+                              onClick={() => handleClick(button.id)}
+                              sx={{ ml: 1, padding: 0, mr: 0 }}
+                              size="small"
+                            >
+                              <CloseIcon fontSize="small" style={{ fontSize: 14 }} />
+                            </IconButton>
+                            {showMessage === button.id &&
+                              <Box
+                                sx={{
+                                  position: 'absolute',
+                                  top: '100%',
+                                  left: 0,
+                                  mt: 1,
+                                  p: 1,
+                                  bgcolor: 'background.paper',
+                                  border: '1px solid',
+                                  borderColor: 'divider',
+                                  borderRadius: 2,
+                                  fontSize: '0.8rem',
+                                  maxWidth: '200px',
+                                  textAlign: 'center',
+                                }}
+                              >
+                                Eu não vou fechar, sou só um "x" para lembrar abas de navegador.  🤓​
+                              </Box>
+                            }
                           </CustomButton>
                         </div>
                       )}
