@@ -66,9 +66,10 @@ const projects = [
   {
     name: "Lentes e Fotografia",
     description: `Este projeto é uma plataforma online onde fotógrafos podem exibir seu trabalho de forma profissional. 
-    Os usuários podem navegar por diferentes álbuns, favoritar e avaliar as imagens. 
-    Os administradores têm acesso a um painel para fazer upload de novas fotos e gerenciar o conteúdo. 
-    Desenvolvido em React, o projeto utiliza o Firebase Cloud para armazenar as imagens na nuvem.`,
+      Os usuários podem navegar por diferentes álbuns, favoritar e avaliar as imagens. 
+      Além disso, uma funcionalidade especial foi implementada para extrair os metadados das imagens, incluindo informações como data e hora em que foram tiradas, utilizando o EXIF das imagens. 
+      Os administradores têm acesso a um painel para fazer upload de novas fotos e gerenciar o conteúdo. 
+      Desenvolvido em React, o projeto utiliza o Firebase Cloud para armazenar as imagens e dados na nuvem.`,
     images: [
       lentes,
       lentePhone,
@@ -77,7 +78,7 @@ const projects = [
       github: "https://github.com/vCiolac/lentes-e-fotografia",
       deploy: "https://lentesfotografia.vercel.app/",
     },
-  },
+  },  
   {
     name: "Site Pessoal - Portfólio",
     description: `Meu incrível site pessoal, inspirado no Visual Studio Code, onde você está agora!!
@@ -209,7 +210,7 @@ function Projects() {
                           <img
                             alt={`Project ${i + 1}`}
                             src={image}
-                            style={{ maxHeight: "250px", objectFit: "contain" }}
+                            style={{ maxHeight: "11rem", objectFit: "contain" }}
                           />
                         </div>
                       </a>
