@@ -19,7 +19,12 @@ interface CustomButtonProps {
   sx: React.CSSProperties;
   variant: 'outlined' | 'contained';
   color: 'inherit' | 'primary' | 'secondary' | 'default';
-}
+};
+
+interface CloseButtonProps {
+  message: string;
+  id: string;
+};
 
 function CustomButton({ to, isActive, children, sx, variant, color }: CustomButtonProps) {
   const navigate = useNavigate();
@@ -88,23 +93,37 @@ function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleC
     projects: 0,
     skills: 0,
   });
-  const [showMessage, setShowMessage] = useState<string | null>(null);
+  const [showMessage, setShowMessage] = useState<CloseButtonProps>({ message: '', id: '' });
 
   const handleClick = (id: string) => {
     const updatedClickCount = { ...clickCount, [id]: clickCount[id] + 1 };
     setClickCount(updatedClickCount);
-    
-    if (updatedClickCount[id] % 3 === 0) {
-      setShowMessage(id);
+
+    if (updatedClickCount[id] === 2) {
+      setShowMessage({
+        message: `Eu não vou fechar, sou só um "x" para lembrar abas de navegador.  🤓​`,
+        id,
+      });
+    }
+    else if (updatedClickCount[id] === 3) {
+      setShowMessage({
+        message: `Não adianta! Eu não vou fechar! 😂​`,
+        id,
+      });
+    } else if (updatedClickCount[id] === 5) {
+      setShowMessage({
+        message: `Ei! Vai clicar em outra coisa 😡`,
+        id,
+      });
     } else {
-      setShowMessage(null);
+      setShowMessage({ message: '', id: '' });
     }
 
   };
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowMessage(null);
+      setShowMessage({ message: '', id: '' });
     }, 4000);
 
     return () => clearTimeout(timer);
@@ -188,7 +207,7 @@ function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleC
                             >
                               <CloseIcon fontSize="small" style={{ fontSize: 14 }} />
                             </IconButton>
-                            {showMessage === button.id &&
+                            {showMessage.id === button.id &&
                               <Box
                                 sx={{
                                   position: 'absolute',
@@ -205,7 +224,7 @@ function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleC
                                   textAlign: 'center',
                                 }}
                               >
-                                Eu não vou fechar, sou só um "x" para lembrar abas de navegador.  🤓​
+                                {showMessage.message}
                               </Box>
                             }
                           </CustomButton>
