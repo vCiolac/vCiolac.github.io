@@ -222,6 +222,7 @@ function TopMenu({ showContent, toggleContent }: { showContent: boolean; toggleC
                                   fontSize: '0.8rem',
                                   maxWidth: '200px',
                                   textAlign: 'center',
+                                  zIndex: '1000001',
                                 }}
                               >
                                 {showMessage.message}
