@@ -30,7 +30,7 @@ import toraMobile from '../../assets/images/tora-mobile.png';
 const projects = [
   {
     name: "Loja de Biojoias",
-    description: `E-commerce fullstack oficial da marca de biojoias, Tora Wood.
+    description: `E-commerce oficial da marca de biojoias, Tora Wood.
     Este site oferece uma experiência de compra completa, desde a navegação intuitiva até o checkout seguro e eficiente. 
     Com recursos avançados como integração de pagamento via Pix e cartões de crédito, e-mails automáticos de confirmação e atualizações de pedido, além de autenticação JWT para garantir a segurança. 
     Utilizando MongoDB como banco de dados, o site também oferece funcionalidades como avaliação de usuários, recomendações personalizadas e muito mais. É a fusão perfeita entre elegância e tecnologia, trazendo a beleza das biojoias da Tora Wood para o mundo online.`,
@@ -199,7 +199,7 @@ const projects = [
       github: "https://github.com/vCiolac/trybe-starwars",
     },
     category: "front-end",
-    technologies: ["React", "Redux"],
+    technologies: ["JavaScript", "TypeScript", "React", "Redux"],
   },
   {
     name: "Project Pixel Art",
