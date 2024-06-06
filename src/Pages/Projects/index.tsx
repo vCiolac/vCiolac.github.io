@@ -78,7 +78,7 @@ const projects = [
     ],
     links: {
       github: "https://github.com/vCiolac/first-godot-game",
-      deploy: "https://vciolac.itch.io/pigeon-adventure",
+      deploy: "https://pigeon-adventure.vercel.app/",
     },
     category: "game",
     technologies: ["Godot", "Android"],
