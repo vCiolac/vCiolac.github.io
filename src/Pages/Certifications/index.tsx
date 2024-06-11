@@ -11,6 +11,7 @@ import back from '../../assets/images/back.png';
 import iaAws from '../../assets/images/ia-aws.png';
 import csharp from '../../assets/images/csharp.png';
 import fullstack from '../../assets/images/fullstack.png';
+import { motion } from 'framer-motion';
 
 function Certifications() {
   const { showCodeContent } = useContext(LayoutContext);
@@ -27,7 +28,7 @@ function Certifications() {
   }
 
   const certifications = [
-      {
+    {
       title: "Formaçao em Desenvolvimento Full-Stack",
       summary: "Esse é o certificado de conclusão no meu curso da Trybe, com carga horária de 1.500 horas/aula. Durante esse período, aprofundei-me e apliquei de forma prática conteúdos de: Fundamentos do Desenvolvimento Web, Front-End e Back-End em Javascript; Ciência da Computação em Python; Habilidades de Soft-skills; Metodologias Ágeis e complementou sua formação com uma Certificação Eletiva em C#.",
       link: "https://www.credential.net/a8444808-309d-48e5-9d51-1d1b9c9e81b9",
@@ -72,7 +73,12 @@ function Certifications() {
   ];
 
   return (
-    <Fragment>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <Container maxWidth='lg' sx={{ marginTop: 4, marginLeft: 2 }}>
         <Typography variant="overline" sx={{ color: "tan", fontFamily: "Jost" }}>
           Minhas certificações
@@ -98,7 +104,7 @@ function Certifications() {
           ))}
         </Box>
       </Container>
-    </Fragment>
+    </motion.div>
   );
 }
 

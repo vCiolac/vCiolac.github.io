@@ -96,7 +96,12 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 }));
 
   return (
-    <Fragment>
+    <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.5 }}
+  >
       <Particle />
       <Box>
         <Container maxWidth="lg" >
@@ -131,7 +136,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
           </StyledContainer>
         </Container>
       </Box>
-    </Fragment>
+    </motion.div>
   )
 };
 

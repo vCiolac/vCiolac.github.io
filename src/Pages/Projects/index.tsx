@@ -26,6 +26,7 @@ import tora1 from '../../assets/images/tora-1.png';
 import tora2 from '../../assets/images/tora-2.png';
 import tora3 from '../../assets/images/tora-3.png';
 import toraMobile from '../../assets/images/tora-mobile.png';
+import { motion } from 'framer-motion';
 
 const projects = [
   {
@@ -233,7 +234,7 @@ const projects = [
     links: {
       github: "https://github.com/vCiolac/DataForge",
     },
-  },  
+  },
   {
     name: "Job Insights",
     description: `Projeto de análise de dados sobre empregos em Python, utilizando técnicas de manipulação de arquivos, estruturas condicionais, funções built-in, tratamento de exceções, escrita de funções, testes com Pytest e criação de módulos personalizados.`,
@@ -318,107 +319,114 @@ function Projects() {
   const isMobile = useMediaQuery('(max-width: 600px)');
 
   return (
-    <Box component="div" sx={styles.mainContainer}>
-      <Typography sx={{ color: "tan", fontFamily: "Jost", ml: 2.5 }} variant="overline">
-        Meus projetos
-      </Typography>
-      <Grid container spacing={1} sx={{ justifyContent: "center" }}>
-        {projects.map((project, index) => (
-          <Grid item xs={12} sm={8} md={4} key={index}>
-            <Card sx={!isMobile ? styles.cardContainer : styles.phoneCards}>
-              <CardActionArea>
-                {project.images ? (
-                  <Carousel showThumbs={false}>
-                    {project.images.map((image, idx) => (
-                      <div key={idx}>
-                        {project.category && (
-                          <Button
-                            size="small"
-                            color="primary"
-                            component="a"
-                            href={project.links.deploy}
-                            target="_blank"
-                          >
-                            {project.category}
-                          </Button>
-                        )}
-                        <a href={project.links.deploy} target="_blank">
-                          <div>
-                            <img
-                              alt={`Project ${index + 1}`}
-                              src={image}
-                              style={{ maxHeight: "11rem", objectFit: "contain" }}
-                            />
-                          </div>
-                        </a>
-                      </div>
-                    ))}
-                  </Carousel>
-                ) : (
-                  <Box sx={styles.category}>
-                    {project.category && (
-                      <Button
-                        size="small"
-                        color="primary"
-                        component="a"
-                        href={project.links.deploy}
-                        target="_blank"
-                      >
-                        {project.category}
-                      </Button>
-                    )}
-                  </Box>
-                )}
-                <CardContent>
-                  <Typography variant="h5" gutterBottom>
-                    {project.name}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {project.description}
-                  </Typography>
-                  <Box sx={styles.iconContainer}>
-                    {project.technologies.map((tech, idx) => (
-                      <Icon key={idx} sx={styles.icon}>
-                        <img
-                          src={`https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${tech.toLowerCase()}/${tech.toLowerCase()}-original.svg`}
-                          alt={tech}
-                          style={{ width: "24px", height: "24px" }}
-                        />
-                      </Icon>
-                    ))}
-                  </Box>
-                </CardContent>
-              </CardActionArea>
-              <CardActions sx={styles.buttons}>
-                {project.links.deploy && (
-                  <Button
-                    size="small"
-                    color="primary"
-                    component="a"
-                    href={project.links.deploy}
-                    target="_blank"
-                  >
-                    Deploy
-                  </Button>
-                )}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Box component="div" sx={styles.mainContainer}>
+        <Typography sx={{ color: "tan", fontFamily: "Jost", ml: 2.5 }} variant="overline">
+          Meus projetos
+        </Typography>
+        <Grid container spacing={1} sx={{ justifyContent: "center" }}>
+          {projects.map((project, index) => (
+            <Grid item xs={12} sm={8} md={4} key={index}>
+              <Card sx={!isMobile ? styles.cardContainer : styles.phoneCards}>
+                <CardActionArea>
+                  {project.images ? (
+                    <Carousel showThumbs={false}>
+                      {project.images.map((image, idx) => (
+                        <div key={idx}>
+                          {project.category && (
+                            <Button
+                              size="small"
+                              color="primary"
+                              component="a"
+                              href={project.links.deploy}
+                              target="_blank"
+                            >
+                              {project.category}
+                            </Button>
+                          )}
+                          <a href={project.links.deploy} target="_blank">
+                            <div>
+                              <img
+                                alt={`Project ${index + 1}`}
+                                src={image}
+                                style={{ maxHeight: "11rem", objectFit: "contain" }}
+                              />
+                            </div>
+                          </a>
+                        </div>
+                      ))}
+                    </Carousel>
+                  ) : (
+                    <Box sx={styles.category}>
+                      {project.category && (
+                        <Button
+                          size="small"
+                          color="primary"
+                          component="a"
+                          href={project.links.deploy}
+                          target="_blank"
+                        >
+                          {project.category}
+                        </Button>
+                      )}
+                    </Box>
+                  )}
+                  <CardContent>
+                    <Typography variant="h5" gutterBottom>
+                      {project.name}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      {project.description}
+                    </Typography>
+                    <Box sx={styles.iconContainer}>
+                      {project.technologies.map((tech, idx) => (
+                        <Icon key={idx} sx={styles.icon}>
+                          <img
+                            src={`https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${tech.toLowerCase()}/${tech.toLowerCase()}-original.svg`}
+                            alt={tech}
+                            style={{ width: "24px", height: "24px" }}
+                          />
+                        </Icon>
+                      ))}
+                    </Box>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions sx={styles.buttons}>
+                  {project.links.deploy && (
+                    <Button
+                      size="small"
+                      color="primary"
+                      component="a"
+                      href={project.links.deploy}
+                      target="_blank"
+                    >
+                      Deploy
+                    </Button>
+                  )}
 
-                {project.links.github && (
-                  <Button
-                    size="small"
-                    color="primary"
-                    component="a"
-                    href={project.links.github}
-                    target="_blank"
-                  >
-                    Repositório Github
-                  </Button>
-                )}
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+                  {project.links.github && (
+                    <Button
+                      size="small"
+                      color="primary"
+                      component="a"
+                      href={project.links.github}
+                      target="_blank"
+                    >
+                      Repositório Github
+                    </Button>
+                  )}
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </motion.div>
   )
 }
 

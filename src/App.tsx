@@ -1,4 +1,5 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import LayoutProvider from './context/LayoutProvider';
 import Home from './Pages/Home';
 import About from './Pages/About';
@@ -8,9 +9,12 @@ import Certifications from './Pages/Certifications';
 import NotFound from './Pages/NotFound';
 
 function App() {
+  const location = useLocation();
+  
   return (
-      <LayoutProvider>
-        <Routes>
+    <LayoutProvider>
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
           <Route path="/" Component={Home} />
           <Route path="/about" Component={About} />
           <Route path="/projects" Component={Projects} />
@@ -18,7 +22,8 @@ function App() {
           <Route path="/certifications" Component={Certifications} />
           <Route path="*" Component={NotFound} />
         </Routes>
-      </LayoutProvider>
+      </AnimatePresence>
+    </LayoutProvider>
   );
 }
 

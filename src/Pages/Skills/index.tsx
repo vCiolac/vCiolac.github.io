@@ -4,6 +4,7 @@ import { LoaderContext } from '../../context/LoaderContext';
 import { Typography, Grid, Box, Container } from '@mui/material';
 import CodeEditor from '../../components/CodeEditor/CodeEditor';
 import { codeString } from './codeString';
+import { motion } from 'framer-motion';
 
 function Skills() {
   const { showCodeContent } = useContext(LayoutContext);
@@ -191,21 +192,28 @@ function Skills() {
   ];
 
   return (
-    <Box component="div">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Box component="div">
         <Typography variant="overline" sx={{ color: "tan", fontFamily: "Jost" }}>
           Minhas habilidades e stacks
         </Typography>
-        <Grid container spacing={1} sx={{mt: 2}}>
+        <Grid container spacing={1} sx={{ mt: 2 }}>
           {skills.map((skill, index) => (
-            <Grid item xs={6} sm={6} md={4} lg={3} key={index} sx={{display: 'flex', flexDirection:'column'}}>
+            <Grid item xs={6} sm={6} md={4} lg={3} key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography variant="body1" sx={{ fontFamily: "Jost", alignSelf: 'center' }}>
                 {skill.name}
               </Typography>
-              <img src={`${skill.icon}`} alt={skill.name} width={50} style={{alignSelf: 'center', marginBottom: 10, marginTop: 1}} />
+              <img src={`${skill.icon}`} alt={skill.name} width={50} style={{ alignSelf: 'center', marginBottom: 10, marginTop: 1 }} />
             </Grid>
           ))}
         </Grid>
-    </Box>
+      </Box>
+    </motion.div>
   );
 }
 

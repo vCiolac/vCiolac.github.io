@@ -12,6 +12,7 @@ import TsIcon from '../../assets/icons/ts-logo.svg';
 import NodeIcon from '../../assets/icons/node-js.svg';
 import ProfilePic from '../../assets/images/profile-pic.png'
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 
 function About() {
@@ -53,19 +54,24 @@ function About() {
   };
 
   return (
-    <Fragment>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <Container maxWidth='lg' sx={{ mb: 4 }}>
         <Box sx={headerStyles.typedContainer}>
           <Typography sx={headerStyles.beforeTitle} variant="overline">
             Sobre mim
           </Typography>
-          <Grid container spacing={2} sx={{marginTop: 1}} >
+          <Grid container spacing={2} sx={{ marginTop: 1 }} >
             <Grid item xs={12} sm={6} order={{ xs: 2, sm: 1 }}>
               <Typography sx={headerStyles.subtitle} variant="body1">
                 Eu me chamo <span style={{ color: 'tomato', fontWeight: 'bold' }}>Victor Ciolac</span>.
                 Sou um desenvolvedor web full stack.
                 <br />
-                Atualmente, estou aprimorando minhas habilidades em ASP.NET e C# através do curso de Desenvolvimento Web da 
+                Atualmente, estou aprimorando minhas habilidades em ASP.NET e C# através do curso de Desenvolvimento Web da
                 <span style={{ color: 'green' }}> Trybe</span>
                 , além de consolidar minha expertise em JavaScript, TypeScript, React e Node.js.
                 <br />
@@ -82,19 +88,19 @@ function About() {
                 Minha jornada nos estudos me levou ao domínio de tecnologias como <br />
                 <img src={JsIcon} alt="JS" width={13} /> JavaScript, <img src={TsIcon} alt="TS" width={13} /> TypeScript,  <img src={ReactIcon} alt="React" width={13} /> React
                 , <img src={NodeIcon} alt="Node.Js" width={13} />  Node.js, entre outras. Você pode conferir todas na aba de <Link to={'/skills'} style={{ textDecoration: 'none', color: '#fff' }}>habilidades</Link> .
-                <br/>
-                Através de <Link style={{textDecoration: 'none', color: '#fff'}} to={"/projects"}>projetos</Link> práticos, pude aplicar os conceitos que aprendi e continuo explorando novas
+                <br />
+                Através de <Link style={{ textDecoration: 'none', color: '#fff' }} to={"/projects"}>projetos</Link> práticos, pude aplicar os conceitos que aprendi e continuo explorando novas
                 fronteiras na programação.
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={6} order={{ xs: 1, sm: 2 }} sx={{display: 'flex', justifyContent: 'center'}}>
+            <Grid item xs={12} sm={6} order={{ xs: 1, sm: 2 }} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Avatar alt="Victor Ciolac" src={ProfilePic}
-                sx={{ width: 280, height: 280}} />
+                sx={{ width: 280, height: 280 }} />
             </Grid>
           </Grid>
         </Box>
       </Container>
-    </Fragment>
+    </motion.div>
   )
 };
 
