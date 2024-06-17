@@ -11,6 +11,7 @@ import back from '../../assets/images/back.png';
 import iaAws from '../../assets/images/ia-aws.png';
 import csharp from '../../assets/images/csharp.png';
 import fullstack from '../../assets/images/fullstack.png';
+import devOps from '../../assets/images/devops-santander.jpg';
 import { motion } from 'framer-motion';
 
 function Certifications() {
@@ -39,6 +40,12 @@ function Certifications() {
       summary: "Durante este período, em uma carga horária de 170 horas/aula, aprofundei-me e apliquei de forma prática conteúdos como: .NET Core, Criação de APIs com ASP.NET, Testes Unitários com xUnit, Banco de Dados com SQL Server, Entity Framework, Autenticação e Autorização, Collections & LINQ, Docker, Arquitetura de Microsserviços e Deployment com Azure. Além disso, concluí 100 horas/aula de conteúdos revisionais de Carreira, incluindo revisões de Front-end e Back-end e um desafio full stack.",
       link: "https://www.credential.net/36caf0d5-3cbd-4bf5-899d-792000bc8aeb",
       image: csharp
+    },
+    {
+      title: "Santander Coders | DevOps",
+      summary: "Durante essa jornada digital de 16 horas, abordamos temas como Git e versionamentos, redes e sistemas, CI/CD, Terraform, conceitos de IaC, cloud computing, AWS, lógica de programação, Docker, e muito mais!",
+      link: "https://ada.tech/certificado?code=625ecf3b-d5fd-abfc-df53-a6103a730d2f3",
+      image: devOps
     },
     {
       title: "Módulo de Front-end",
