@@ -44,7 +44,7 @@ const projects = [
       deploy: "https://www.ifwb.com.br/",
     },
     category: "fullstack",
-    technologies: ["Next.js", "TypeScript", "JavaScript", "React", "Nodejs", "Tailwindcss", "Framermotion"],
+    technologies: ["Nextjs", "TypeScript", "JavaScript", "React", "Nodejs", "Tailwindcss", "Framermotion"],
   },
   {
     name: "Loja de Biojoias",
