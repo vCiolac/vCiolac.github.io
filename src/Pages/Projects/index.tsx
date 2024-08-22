@@ -26,9 +26,26 @@ import tora1 from '../../assets/images/tora-1.png';
 import tora2 from '../../assets/images/tora-2.png';
 import tora3 from '../../assets/images/tora-3.png';
 import toraMobile from '../../assets/images/tora-mobile.png';
+import ifwb from '../../assets/images/ifwb.png';
+import ifwbCel from '../../assets/images/ifwb-cel.png';
 import { motion } from 'framer-motion';
 
 const projects = [
+  {
+    name: "Indígena Fashion Week Brasil",
+    description: `O site oficial do Indígena Fashion Week Brasil (IFWB) foi desenvolvido com Next.js e TypeScript. 
+    Este projeto fullstack oferece uma plataforma completa para promover o evento, com funcionalidades que incluem formulários interativos para inscrição e contato, além de integração de e-mail para comunicação eficiente. 
+    O site é otimizado para uma experiência de navegação fluida, destacando a programação do evento, galerias de fotos e vídeos, e proporcionando uma vitrine digital para os estilistas indígenas.`,
+    images: [
+      ifwb,
+      ifwbCel
+    ],
+    links: {
+      deploy: "https://www.ifwb.com.br/",
+    },
+    category: "fullstack",
+    technologies: ["Next.js", "TypeScript", "JavaScript", "React", "Nodejs", "Tailwindcss", "Framermotion"],
+  },
   {
     name: "Loja de Biojoias",
     description: `E-commerce fullstack oficial da marca de biojoias, Tora Wood.
