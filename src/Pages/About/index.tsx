@@ -69,28 +69,30 @@ function About() {
             <Grid item xs={12} sm={6} order={{ xs: 2, sm: 1 }}>
               <Typography sx={headerStyles.subtitle} variant="body1">
                 Eu me chamo <span style={{ color: 'tomato', fontWeight: 'bold' }}>Victor Ciolac</span>.
-                Sou um desenvolvedor web full stack.
+                Sou um desenvolvedor web full stack e atualmente trabalho como freelancer, criando sites e soluções personalizadas para meus clientes.
                 <br />
-                Atualmente, estou aprimorando minhas habilidades em ASP.NET e C# através do curso de Desenvolvimento Web da
-                <span style={{ color: 'green' }}> Trybe</span>
-                , além de consolidar minha expertise em JavaScript, TypeScript, React e Node.js.
+                <br />
+                Estou sempre buscando novos desafios e oportunidades para aplicar minhas habilidades em projetos reais.
+                <br />
+                Se você está procurando um desenvolvedor para criar ou aprimorar seu site, estou disponível para trabalho.
                 <br />
                 <br />
                 Tenho 29 anos e moro no Rio de Janeiro.
               </Typography>
               <Typography sx={headerStyles.margin} variant="subtitle1">
-                Em minha experiência profissional anterior, como marceneiro e designer criativo, enfrentei desafios
-                complexos no mundo da marcenaria, buscando sempre soluções criativas na execução dos projetos.
-                Essa capacidade de pensar de forma criativa e solucionar problemas agora se traduzem diretamente
-                na minha abordagem de desenvolvimento web.
+                Com uma experiência anterior em marcenaria e design criativo, minha abordagem para o desenvolvimento web é fortemente influenciada por minha capacidade de resolver problemas de forma criativa e encontrar soluções inovadoras.
+                <br />
               </Typography>
               <Typography sx={[headerStyles.subtitle, headerStyles.margin]} variant="subtitle1">
-                Minha jornada nos estudos me levou ao domínio de tecnologias como <br />
-                <img src={JsIcon} alt="JS" width={13} /> JavaScript, <img src={TsIcon} alt="TS" width={13} /> TypeScript,  <img src={ReactIcon} alt="React" width={13} /> React
-                , <img src={NodeIcon} alt="Node.Js" width={13} />  Node.js, entre outras. Você pode conferir todas na aba de <Link to={'/skills'} style={{ textDecoration: 'none', color: '#fff' }}>habilidades</Link> .
+                Minha jornada me levou ao domínio de tecnologias como <br />
+                <img src={JsIcon} alt="JS" width={13} /> JavaScript, <img src={TsIcon} alt="TS" width={13} /> TypeScript, <img src={ReactIcon} alt="React" width={13} /> React
+                , <img src={NodeIcon} alt="Node.Js" width={13} /> Node.js, entre outras. Confira todas as minhas habilidades na aba de <Link to={'/skills'} style={{ textDecoration: 'none', color: '#fff' }}>habilidades</Link>.
                 <br />
-                Através de <Link style={{ textDecoration: 'none', color: '#fff' }} to={"/projects"}>projetos</Link> práticos, pude aplicar os conceitos que aprendi e continuo explorando novas
-                fronteiras na programação.
+                <br />
+                Clique <Link style={{ textDecoration: 'none', color: '#fff' }} to={"/projects"}>aqui</Link> para ver alguns dos meus <Link style={{ textDecoration: 'none', color: '#fff' }} to={"/projects"}>projetos</Link>.
+              </Typography>
+              <Typography sx={[headerStyles.subtitle, headerStyles.margin]} variant="subtitle1">
+                Se você está interessado em trabalhar comigo ou tem um projeto em mente, não hesite em entrar em contato!
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6} order={{ xs: 1, sm: 2 }} sx={{ display: 'flex', justifyContent: 'center' }}>

@@ -47,6 +47,8 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     margin: "1rem 0",
+    flexWrap: "wrap",
+    gap: "0.5rem",
   },
   categoryButton: {
     margin: "0 0.5rem",

@@ -20,6 +20,10 @@ import tora3 from '../assets/images/tora-3.png';
 import toraMobile from '../assets/images/tora-mobile.png';
 import ifwb from '../assets/images/ifwb.png';
 import ifwbCel from '../assets/images/ifwb-cel.png';
+import airbnb from '../assets/images/airbnb.png';
+import airbnb2 from '../assets/images/airbnb2.png';
+import airbnb3 from '../assets/images/airbnb3.png';
+import airbnbPhone from '../assets/images/airbnb-cel.png';
 
 export interface ProjectInterface {
   name: string;
@@ -66,6 +70,23 @@ export const projects = [
     },
     category: "fullstack",
     technologies: ["TypeScript", "JavaScript", "React", "MongoDB", "Nodejs", "Express", "Tailwindcss", "Framermotion", "googleCloud"],
+  },
+  {
+    name: "Airbnb Clone",
+    description: `Este projeto é um clone da página inicial do Airbnb, desenvolvido para interagir com minha API de reservas de hotel, 
+    HotelReservationSystem, que foi construída com ASP.NET. Embora o projeto seja um clone, ele demonstra a integração eficiente com a API para exibir dados em tempo real.`,
+    images: [
+      airbnb,
+      airbnbPhone,
+      airbnb2,
+      airbnb3,
+    ],
+    links: {
+      deploy: "https://hotelairbnb.vercel.app/",
+      github: "https://github.com/vCiolac/hotelReservation-airbnbClone",
+    },
+    category: "front-end",
+    technologies: ["TypeScript", "JavaScript", "React", "Tailwindcss"],
   },
   {
     name: "Lentes e Fotografia",

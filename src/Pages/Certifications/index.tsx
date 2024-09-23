@@ -12,6 +12,7 @@ import iaAws from '../../assets/images/ia-aws.png';
 import csharp from '../../assets/images/csharp.png';
 import fullstack from '../../assets/images/fullstack.png';
 import devOps from '../../assets/images/devops-santander.jpg';
+import dataEverywhere from '../../assets/images/data-everywhere.jpg';
 import { motion } from 'framer-motion';
 
 function Certifications() {
@@ -40,6 +41,12 @@ function Certifications() {
       summary: "Durante este período, em uma carga horária de 170 horas/aula, aprofundei-me e apliquei de forma prática conteúdos como: .NET Core, Criação de APIs com ASP.NET, Testes Unitários com xUnit, Banco de Dados com SQL Server, Entity Framework, Autenticação e Autorização, Collections & LINQ, Docker, Arquitetura de Microsserviços e Deployment com Azure. Além disso, concluí 100 horas/aula de conteúdos revisionais de Carreira, incluindo revisões de Front-end e Back-end e um desafio full stack.",
       link: "https://www.credential.net/36caf0d5-3cbd-4bf5-899d-792000bc8aeb",
       image: csharp
+    },
+    {
+      title: "Foundations: Data, Data, Everywhere | Google",
+      summary: "Este curso trata dos fundamentos da ciência de dados, incluindo: coleta de dados, limpeza de dados, análise de dados, visualização de dados e aprendizado de máquina. Ele também cobre os conceitos básicos de Python, SQL e Tableau.",
+      link: "https://www.coursera.org/account/accomplishments/verify/KAP5JLVC5WLG",
+      image: dataEverywhere
     },
     {
       title: "Santander Coders | DevOps",
